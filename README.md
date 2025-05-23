@@ -16,6 +16,12 @@ Programa hecho con python3 y SQLite3
 | FechaBaja             |  DATETIME  | NULL    |
 | Baja                  |  BIT       | 0       |
 
+
+Campos de control: UsuarioCreacionId, FechaCreacion, UsuarioModificacionId, FechaModificacion, UsuarioBajaId, FechaBaja, Baja
+
+Los campos de control los tendran todas las tablas.
+
+
 ## Tabla 2: RECURSO HUMANO
 | Columna          | Valor       |
 |------------------|-------------|
