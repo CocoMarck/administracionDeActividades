@@ -1,0 +1,3 @@
+ChatGpt me ayudo a estructurar el proyecto.
+Copilot me ayudo a usar el sqlite3, rollback.
+DeepSeek me ayudoo a estruturar el objeto modelo StandardDataBase.

@@ -1,7 +1,7 @@
 # Administración de actividades
 
 Administra las diferentes actividades realizadas por los usuarios, en base a tareas predefinidas.
-Programa hecho con python3 y SQLite3
+Programa hecho con python3 y SQLite3. Nombre del repo: administracionDeActividades
 
 ## Tabla 1: TAREA
 | Columna               |  Valor     | Default |
