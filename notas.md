@@ -4,9 +4,11 @@
 - ruta/directorio = /conjunto/de/directorios
 - file=archivo.conExtension
 
-**Usar librerio logging para mostrar mensajes debug**
+**Usar libreria logging para mostrar mensajes debug**:
+```python
 import loggin
-Este modulo/libreria, sera usado en los controller.
+# Este modulo/libreria, sera usado en los controller.
+```
 
 **Restructurar language.py a:** ```language_model.py, language_controller.py, language_service.py```
 - Model para funciones para manejar la db. 
