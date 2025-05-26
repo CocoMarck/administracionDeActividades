@@ -1,25 +1,24 @@
 import models
+import controllers
 
-data_base = models.AdministracionDeActividad()
-print( data_base.file_db )
-data_base.create_db()
 
-standard_database = models.StandardDataBase( "example" )
-print( standard_database.path_database )
-#print( standard_database.connect() )
-#standard_database.execute_statement( sql_statement="", commit=False, verbose=True)
-standard_database.create_database( verbose=True )
 
-standard_database.create_table_parameter(
-    table="prueba", sql_statement="hola TEXT NULL,\nadios TEXT NULL", commit=True, verbose=True
+database = controllers.DataBaseController( database=models.StandardDataBase( "example" ), verbose=True )
+database.create_database()
+database.execute_statement(
+    "DROP TABLE IF EXISTS prueba;", 
+    commit=False
 )
-standard_database.create_table_parameter(
-    table="prueba", sql_statement=["hola", "vatos"], commit=False, verbose=True
+database.execute_statement(
+    """
+CREATE TABLE IF NOT EXISTS prueba(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    text TEXT NULL,
+    hour FLOAT NULL
+);
+    """, 
+    commit=True
 )
-standard_database.create_table_parameter( 
-    table="prueba", sql_statement=[ 
-        ["hola", "vatos", "locos"],
-        ["hola", "vatos", "locos"],
-        ["hola", "vatos", "locos"]
-    ], commit=False, verbose=True
-)
+
+administrar_actividad = models.AdministracionDeActividad()
+print( administrar_actividad.start_database() )

@@ -1,6 +1,5 @@
-from .administrador_actividad_db import AdministracionDeActividad
+from .administrador_actividad import AdministracionDeActividad
 from .standard_database import StandardDataBase
-print("Iniciando init")
 '''
 from .tarea_model import Tarea
 from .recurso_model import RecursoHumano

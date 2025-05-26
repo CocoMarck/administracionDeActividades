@@ -1,8 +1,17 @@
 # Notas
-**Recuerda esto**:
+**Definición de conceptos relacionados con los archivos**:
 - path = /conjunto-de-directorios/archivo.conExtension
 - ruta/directorio = /conjunto/de/directorios
 - file=archivo.conExtension
+
+**Usar librerio logging para mostrar mensajes debug**
+import loggin
+Este modulo/libreria, sera usado en los controller.
+
+**Restructurar language.py a:** ```language_model.py, language_controller.py, language_service.py```
+- Model para funciones para manejar la db. 
+- Controler para manejar model de manera segura. 
+- Service unificar model y controler
 
 ## StandardDataBase
 Hacer objeto modelo para manejar sqlite db, estandar.
