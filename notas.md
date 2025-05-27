@@ -5,10 +5,10 @@
 - file=archivo.conExtension
 
 **Establecer las variables necesarias para esblecer los nombres relacionados con la base de datos. name_administracion_actividad, name_tarea, name_actividad, name_recurso_humano, name_directory**
-Poner esto en 'config/administracion_actividad_config.py'
+Poner esto en `config/administracion_actividad_config.py`
 
 **Para el StandardDataBase: name_directory** 
-Poner esto en 'config/database_config.py'
+Poner esto en `config/database_config.py`
 
 
 **Usar libreria logging para mostrar mensajes debug**:
