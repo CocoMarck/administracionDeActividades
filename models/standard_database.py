@@ -59,8 +59,8 @@ def from_list_to_string( variable: list, space="" ):
     
     
 def struct_table_statement( 
-    type_statement: str, table: str, 
-    sql_statement: str | list[str] | list[list[str]]
+    type_statement: str, table: str=str, 
+    sql_statement: str | list[str] | list[list[str]] = str
 ) -> str:
     '''
     Estructurar una Declaración para sqlite3 dependiendo de los parametros.
@@ -83,12 +83,20 @@ def struct_table_statement(
     type_statement = type_statement.lower().replace( " ", "")
     full_sql_statement = ""
     
-    # Determinar tipo de dato            
-    data_type = detect_list_datatype(sql_statement, str)
+    go = False
+    if type_statement == "tables" or type_statement == "delete-table":
+        # Forzar statement
+        go = True
+    else:
+        # Determinar tipo de dato            
+        data_type = detect_list_datatype(sql_statement, str)
+        
+        # Establecer o no statement
+        go = (data_type != None) and isinstance(table, str)
     
     # Opciones
     space = "    "
-    if (data_type != None) and isinstance(table, str):
+    if go:
         if type_statement=='create-table':
             parameter = from_list_to_string( sql_statement, space=space )
                 
@@ -126,8 +134,12 @@ def struct_table_statement(
                 f'WHERE {column} = {value};'
             )
         
+        # Los que solo necesitan "type_statement"
         elif type_statement=="delete-table":
             full_sql_statement = f"DROP TABLE IF EXISTS {table};"
+        
+        elif type_statement=="tables":
+            full_sql_statement = "SELECT name FROM sqlite_master WHERE type='table';"
         
 
     return full_sql_statement
@@ -148,9 +160,6 @@ class StandardDataBase():
         # Ruta | Declarar dir_data y path_database
         self.set_directory_data()
         self.set_database_path()
-        
-        # Ostros atributos
-        self.verbose = False
     
 
     def set_directory_data(self) -> None:
@@ -175,18 +184,16 @@ class StandardDataBase():
     
     
     def execute_statement(
-        self, sql_statement: str, commit: bool = True
-    ) -> bool:
+        self, sql_statement: str, commit: bool = True, return_type: str = "cursor"
+    ) -> None | tuple | list | object:
         '''
         Ejecutar alguna instrucción. 
         
         Returns:
-            bool: Devuelve True si la instrucción se realizo correctamente, devuelve False si no pudo.
+            list | tuple | None | cursor: 
+            Devuelve algo si la instrucción se realizo correctamente (Por defecto un objeto cursor).
+            Devuelve None si no pudo.
         '''
-        # Mostrar instrucción en terminal
-        if self.verbose:
-            print( f'[SQL]\n{sql_statement}' )
-
         # Ejecutar instrucción
         try:
             with self.connect() as conn:
@@ -196,17 +203,23 @@ class StandardDataBase():
 
                 if commit:
                     conn.commit()
-                    if self.verbose:
-                        print("[COMMIT] Changes made")
                 else:
                     conn.rollback()
-                    if self.verbose:                
-                        print("[COMMIT] Discart changes")
-            return True
 
-        except sqlite3.OperationalError as e:
-            print( f"[ERROR] {str(e)}" )
-            return False
+                if return_type == "cursor":
+                    return cursor
+                elif return_type == "fetchall":
+                    return cursor.fetchall()
+                elif return_type == "fetchone":
+                    return cursor.fetchone()
+                elif return_type == "statement":
+                    return sql_statement
+                else:
+                    return True
+
+        #except sqlite3.OperationalError as e:
+        except Exception as e:
+            return None
     
 
     def create_database(self) -> str | None:
@@ -237,3 +250,74 @@ class StandardDataBase():
             os.remove( self.path_database )
         
         return not os.path.isfile( self.path_database )
+    
+
+    def tables(self) -> list | None:
+        '''
+        Detecta todas las tablas disponibles
+        
+        Returns:
+            list | None: Lista de tablas que tiene la base de datos. O none si no se pudo.
+        '''
+        fetchall_tables = self.execute_statement( 
+            sql_statement=struct_table_statement( type_statement="tables" ), 
+            commit=False, return_type="fetchall" 
+        )
+        tables = []
+        if fetchall_tables != None:
+            for name in fetchall_tables:
+                tables.append( name[0] )
+            return tables
+        else: return None
+        
+    
+
+    def exists_table(self, table: str) -> bool:
+        '''
+        Detecta si existe una tabla
+        
+        Returns:
+            bool: True si existe, False si no existe.
+        '''
+        all_tables = self.tables()
+        exists = False
+        if all_tables != None:
+            for table_name in all_tables:
+                if table == table_name:
+                    exists = True
+                    break
+        return exists
+    
+
+    def delete_table(self, table: str) -> bool:
+        '''
+        Borra una tabla existente.
+
+        Returns:
+            bool: True si borra tabla o no existe tabla, False si existe pero no puede borrar tabla.
+        '''
+        sql_statement = struct_table_statement( type_statement="delete-table", table=table )
+        return ( self.execute_statement(sql_statement, commit=True, return_type="bool") != None )
+    
+
+    def clear_database(self) -> bool:
+        '''
+        Borra todas las tablas
+        
+        Returns:
+            bool: True borra todas las tablas. Lo contrario es un false.
+        '''
+        all_tables = self.tables()
+        if all_tables != None:
+            # Aca pasa el False
+            all_deleted = True
+            for table_name in all_tables:
+                if self.delete_table( table=table_name ) == False: 
+                    all_deleted = False
+            return all_deleted
+        else:
+            return True
+    
+
+    def get_all_column(self, table) -> list | None:
+        pass

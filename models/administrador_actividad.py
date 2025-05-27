@@ -47,6 +47,7 @@ class AdministracionDeActividad(StandardDataBase):
             for field in self.control_fields:
                 self.dict_table[ key ].append(field)
                 
+
     def create_table_instruction(self) -> list[str]:
         '''
         Lista de instrucciones para crear la tabla.
@@ -59,6 +60,7 @@ class AdministracionDeActividad(StandardDataBase):
             )
             list_instruction.append(full_sql_statement)
         return list_instruction
+    
     
     def start_database(self) -> str | None:
         '''
@@ -74,7 +76,7 @@ class AdministracionDeActividad(StandardDataBase):
         text_instruction = ""
         for sql_statement in self.create_table_instruction():
             instruction = self.execute_statement( 
-                sql_statement=sql_statement, commit=True
+                sql_statement=sql_statement, commit=True, return_type="bool"
             )
             text_instruction += sql_statement + "\n"
         
