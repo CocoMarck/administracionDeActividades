@@ -260,7 +260,7 @@ class StandardDataBase():
             list | None: Lista de tablas que tiene la base de datos. O none si no se pudo.
         '''
         fetchall_tables = self.execute_statement( 
-            sql_statement=struct_table_statement( type_statement="tables" ), 
+            sql_statement=struct_table_statement( "tables" ), 
             commit=False, return_type="fetchall" 
         )
         tables = []
@@ -296,7 +296,7 @@ class StandardDataBase():
         Returns:
             bool: True si borra tabla o no existe tabla, False si existe pero no puede borrar tabla.
         '''
-        sql_statement = struct_table_statement( type_statement="delete-table", table=table )
+        sql_statement = struct_table_statement( "delete-table", table )
         return ( self.execute_statement(sql_statement, commit=True, return_type="bool") != None )
     
 
@@ -319,5 +319,25 @@ class StandardDataBase():
             return True
     
 
-    def get_all_column(self, table) -> list | None:
-        pass
+    def get_table_all_column(self, table: str) -> list | None:
+        #sql_statement = f"SELECT * FROM {table};"
+        sql_statement = struct_table_statement( "select-column", table, "*" )
+        cursor = self.execute_statement( sql_statement, commit=False, return_type="cursor" )
+
+        if cursor != None:
+            # Establecer lista, y deveolver lista
+            return_list = []
+            for x in cursor.description:
+                return_list.append( x[0] )
+        
+            return return_list
+        else:
+            return None
+    
+    
+    def get_table_all_value(self, table: str) -> list | None:
+        sql_statement = struct_table_statement( "select-column", table, "*" )
+        #sql_statement = struct_table_statement( 
+        #    "select-column", table, self.get_table_all_column( table=table )
+        #)
+        return self.execute_statement( sql_statement=sql_statement, commit=False, return_type="fetchall" )
