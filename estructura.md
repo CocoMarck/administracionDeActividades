@@ -23,7 +23,7 @@ Controler usa las funciones de model de manera segura. Aprueba de errores. El co
 Modelo = Trabajador especializado (sabe EXACTAMENTE cómo hablar con la BD)
 Controlador = Gerente (coordina, valida, y decide CUÁNDO usar al trabajador)
 
-Logica de nombres de programación:
+### Logica de nombres de programación:
 - Modulos snake_case: modulo_chido.py
 - Clases como PascalCase: NombreDeClases
 - Metodos/funciones como snake_case: metodo_potente
@@ -35,7 +35,7 @@ Logica de nombres de programación:
 ## Arbol del proyecto
 ```bash
 data/
-    administradorDeActividad.db
+    administracionDeActividad.db
     
     # Restructurar language.py a: language_model.py, language_controller.py, language_service.py
     # model funciones para manejar la db. controler manejar model de manera segura. 
@@ -45,13 +45,19 @@ data/
 
 models/
     __init__.py
-    database.py         # Conexión y creación de tablas
-    tarea_model.py      # Modelo para tabla tarea
-    recurso_model.py    # Modelo para tabla recurso humna
-    actividad_model.py  # Modelo para tabla actividad
+    # Heredados de un standard_database
+    standard_database.py      # Modelo para crear base de datos estandar
+    administrar_actividad.py  # Modelo para crear base de datos administracionDeActividad
+
+    # Heredados de standrad_table, usando un standard_database
+    standard_table.py   # Modelo estandar para manejar una tabla, de una base de datos. Usando StandardDataBase()
+    tarea_model.py      # Modelo para manejar tabla tarea (administracionDeActividad)
+    recurso_model.py    # Modelo para manejar tabla recurso humnano (administracionDeActividad)
+    actividad_model.py  # Modelo para manejar tabla actividad (administracionDeActividad)
 
 controllers/
     __init__.py
+    database_controller.py # Controlador estandar, para controlar un modelo StandardDataBase
     tarea_controller.py
     recurso_controller.py
     actividad_controller.py
@@ -87,6 +93,6 @@ resources/
     interface_info.py # Mejor que sea algo mas general. Como paths.py, Con la ruta de todo lo que este aca.
     images/
 
-main.py
+main.py # El que inicia todo lo necesario para que ejecutar el programa.
 requirements.txt # Dependencias
 ```

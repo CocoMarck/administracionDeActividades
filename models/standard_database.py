@@ -150,8 +150,17 @@ def struct_table_statement(
 class StandardDataBase():
     '''
     Un objeto modelo estandar para manejar una base de datos sqlite3
+    
+    Crea borra y se conecta a la db. Puede ejecutar sql statement directamente al db.
+    Se puede usar para ejcutar sql statement de forma general.
+    Se recomienda manejar las tablas con un StandardTable.
+
+    Tiene metodos generales como:
+        get_table_all_column, get_table_all_value.
+    
+    No tiene funciones especificas de manejo de columnas como: get_id. Eso lo maneja el modelo tabla.
     '''
-    def __init__(self, name_database, name_dir_data="data"  ):
+    def __init__(self, name_database=str, name_dir_data: str="data"  ):
         # Ruta
         self.dir_current = os.path.dirname( os.path.abspath(sys.argv[0]) )
         self.name_dir_data = name_dir_data

@@ -51,6 +51,9 @@ class AdministracionDeActividad(StandardDataBase):
     def create_table_instruction(self) -> list[str]:
         '''
         Lista de instrucciones para crear la tabla.
+        
+        Returns:
+            list: [] | [str]
         '''
         list_instruction = []
         for key in self.dict_table.keys():
