@@ -4,20 +4,23 @@
 - ruta/directorio = /conjunto/de/directorios
 - file=archivo.conExtension
 
-**Establecer las variables necesarias para esblecer los nombres relacionados con la base de datos. name_administracion_actividad, name_tarea, name_actividad, name_recurso_humano, name_directory**
+
+## Establecer variables de nombres
+**Establecer las variables necesarias para esblecer los nombres relacionados con la base de datos AdministracionDeActividad:** `name_administracion_actividad, name_tarea, name_actividad, name_recurso_humano, name_directory`
 Poner esto en `config/administracion_actividad_config.py`
 
-**Para el StandardDataBase: name_directory** 
+**Para el StandardDataBase y StandardTable:** `name_directory`
 Poner esto en `config/database_config.py`
 
 
-**Usar libreria logging para mostrar mensajes debug**:
+## Usar libreria logging para mostrar mensajes debug
 ```python
 import loggin
 # Este modulo/libreria, sera usado en los controller.
 ```
 
-**Restructurar language.py a:** ```language_model.py, language_controller.py, language_service.py```
+## Restructurar language.py a: 
+`language_model.py, language_controller.py, language_service.py`
 - Model para funciones para manejar la db. 
 - Controler para manejar model de manera segura. 
 - Service unificar model y controler
