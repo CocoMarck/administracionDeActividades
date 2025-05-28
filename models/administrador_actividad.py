@@ -24,7 +24,7 @@ class AdministracionDeActividad(StandardDataBase):
         self.dict_table = {
             "TAREA": [
                 [ "TareaId", "INTEGER", "PRIMARY KEY AUTOINCREMENT" ],
-                [ "Decripcion", "VARCHAR", "NULL" ]
+                [ "Descripcion", "VARCHAR", "NULL" ]
             ],
             "RECURSO_HUMANO": [
                 [ "RecursoHumanoId", "INTEGER", "PRIMARY KEY AUTOINCREMENT" ],

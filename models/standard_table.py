@@ -24,3 +24,9 @@ class StandardTable():
         Mostrar todas los valores de la tabla.
         '''
         return self.database.get_table_all_value( table=self.table )
+        
+    def get_type_parameter(self):
+        '''
+        sqlite3 Obtener tipo de dato de las columnas de la tabla
+        '''
+        pass
