@@ -8,9 +8,9 @@ class StandardTable():
     Usa un StandartDataBase, para manejar una tabla. Solo una tabla.
     '''
     def __init__(
-        self, name_database=str, name_dir_data: str="data", table=str
+        self, database: StandardDataBase, table=str
     ):
-        self.database = StandardDataBase( name_database, name_dir_data )
+        self.database = database
         self.table = table
 
     def get_all_column(self):

@@ -39,7 +39,7 @@ database.delete_table( "aguacate" )
 database.delete_table( "elCacas" )
 #database.delete_database()
 
-table=models.StandardTable( name_database="example", table="prueba" )
+table=models.StandardTable( database=database, table="prueba" )
 print(
     table.get_all_column(), '\n',
     table.get_all_value()
@@ -58,6 +58,7 @@ tarea_table.get_all_value()
 
 
 
+print(qss_style)
 def main():
     app = QApplication(sys.argv)
     app.setStyleSheet( qss_style )

@@ -55,7 +55,7 @@
     <layout class="QHBoxLayout">
         
      <item>
-      <widget class="QLabel" name="label_degristation">
+      <widget class="QLabel" name="label_soft_delete">
        <property name="text">
         <string>Baja</string>
        </property>
@@ -63,7 +63,7 @@
      </item>
      
      <item>
-      <widget class="QCheckBox" name="checkbox_degristation">
+      <widget class="QCheckBox" name="checkbox_soft_delete">
       </widget>
      </item>
 
@@ -79,6 +79,14 @@
       <widget class="QPushButton" name="button_add">
        <property name="text">
         <string>Agregar</string>
+       </property>
+      </widget>
+     </item>
+     
+     <item>
+      <widget class="QPushButton" name="button_update">
+       <property name="text">
+        <string>Actualizar</string>
        </property>
       </widget>
      </item>
