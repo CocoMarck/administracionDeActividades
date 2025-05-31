@@ -46,19 +46,19 @@ print(
 )
 '''
 # Iniciar DB
-administrar_actividad = models.AdministracionDeActividad()
-administrar_actividad.start_database()
-administrar_actividad.tables()
+administrar_actividad = controllers.AdministracionDeActividadController( verbose=True, return_message=False)
+administrar_actividad.start_database(); print()
+administrar_actividad.tables(); print()
 #administrar_actividad.delete_database()
 
 tarea_table = controllers.TareaController( verbose=True, return_message=False )
-print( tarea_table.name )
-tarea_table.get_all_column()
-tarea_table.get_all_value()
+#print( tarea_table.name )
+tarea_table.get_all_column(); print()
+tarea_table.get_all_value(); print()
 
 
 
-print(qss_style)
+#print(qss_style)
 def main():
     app = QApplication(sys.argv)
     app.setStyleSheet( qss_style )

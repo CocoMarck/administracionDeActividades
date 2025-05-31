@@ -1,3 +1,4 @@
 from .database_controller import DataBaseController
+from .administrador_actividad_controller import AdministracionDeActividadController
 from .table_controller import TableController
 from .tarea_controller import TareaController
