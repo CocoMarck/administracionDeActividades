@@ -5,6 +5,23 @@
 - file=archivo.conExtension
 
 
+
+
+## Para la tarea `table` y `controller` `FechaCreacion FechaModifciacion FechaBaja`
+*La tabla tarea tiene estos campos*  
+**Todas las fechas seran estilo `00-00-00`**  
+- Cuando se inserte/agrege una tarea. `insert_tarea`, Se establecera una `FechaCreacion`.  
+- Cuando se actualice una tarea. `update_tarea`, Se establecera una `FechaModificacion`.  
+- Cuando se de baja una tarea. Se establecera una `FechaBaja`.  
+
+
+
+
+## Establecer modulo para manejar los directorios del proyecto
+
+
+
+
 ## Establecer variables de nombres
 **Establecer las variables necesarias para esblecer los nombres relacionados con la base de datos AdministracionDeActividad:** `name_administracion_actividad, name_tarea, name_actividad, name_recurso_humano, name_directory`
 Poner esto en `config/administracion_actividad_config.py`
@@ -13,19 +30,27 @@ Poner esto en `config/administracion_actividad_config.py`
 Poner esto en `config/database_config.py`
 
 
-## Usar libreria logging para mostrar mensajes debug
+
+
+## Usar libreria logging para mostrar mensajes debug (Tengo que aprender a usarlo)
 ```python
 import loggin
 # Este modulo/libreria, sera usado en los controller.
 ```
 
-## Restructurar language.py a: 
+
+
+
+## Restructurar language.py a (Esto se hara en el repo MultiIdiomaTest): 
 `language_model.py, language_controller.py, language_service.py`
 - Model para funciones para manejar la db. 
 - Controler para manejar model de manera segura. 
 - Service unificar model y controler
 
-## StandardDataBase
+
+
+
+## StandardDataBase (Esto ya esta hecho, hasta tiene mas metodos)
 Hacer objeto modelo para manejar sqlite db, estandar.
 **StandardDataBase**. Nombre de archivo **standard_database.py**
 
