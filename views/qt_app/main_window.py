@@ -48,11 +48,11 @@ class MyApp(QtWidgets.QMainWindow):
         self.entry_id.setText( ignore_text_filter(text, "1234567890")  )
         
         # Determinar que se escribio un id
+        self.entry_description.setText( "" )
         if self.entry_id.text() != '':
             id_search = int(self.entry_id.text()) 
 
             # Establecer descripcción y baja por medio del id
-            self.entry_description.setText( "" )
             for column in tarea_table.get_all_value():
                 if id_search == column[0]:
                     self.entry_description.setText( column[1] )
