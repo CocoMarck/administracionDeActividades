@@ -6,6 +6,21 @@
 
 
 
+## Documentar  
+*Documentación relacionada con la programación*  
+Aprender a documentar el programa/proyecto de manera estructurada y estandarizada.
+
+
+## Metodos para TareaTable y TareaController  
+> Hacer los mismos metodos del TareaTable para el TareaController, pero el TareaController es aprueba de errores, y sirve como debug.  
+Primero se hacen los metodos del TareaTable y despues los del TareaController.
+
+- Método para obtener una fila por el id. `get_row_by_id()`
+- Hacer una función para obtener valor de fila, por medio del nombre de la columna. `get_value_by_column()`  
+Puede ser nombre de columna, o por valor int de la columna, su index.
+
+
+
 
 ## Para la tarea `table` y `controller` `FechaCreacion FechaModifciacion FechaBaja`
 *La tabla tarea tiene estos campos*  
@@ -13,6 +28,8 @@
 - Cuando se inserte/agrege una tarea. `insert_tarea`, Se establecera una `FechaCreacion`.  
 - Cuando se actualice una tarea. `update_tarea`, Se establecera una `FechaModificacion`.  
 - Cuando se de baja una tarea. Se establecera una `FechaBaja`.  
+
+Todas los id de las fechas seran por defecto 0.
 
 
 

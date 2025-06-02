@@ -47,3 +47,19 @@ class TableController():
             return_value = message
 
         return return_value
+        
+
+    def clear_table(self) -> str | bool:
+        clear_table = self.table.clear_table()
+        if clear_table != None:
+            message = f'[SQL]\n{clear_table}\n[INFO] The table {self.name} was clear'
+            return_value = True
+        else:
+            message = f'[ERROR] {self.name}'
+            return_value = False
+        
+        if self.verbose: print(message)
+        
+        if self.return_message: return_value = message
+        
+        return return_value

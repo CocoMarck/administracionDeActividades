@@ -45,16 +45,26 @@ class MyApp(QtWidgets.QMainWindow):
     
     def on_text_changed(self, text):
         # Solo aceptar numeros en el entry
-        #if pass_text_filter(text, "12345678910"):
-        #    print("hola")
-        #else:
-        #    self.entry_id.clear()
-        self.entry_id.setText( ignore_text_filter(text, "1234567890") )
+        self.entry_id.setText( ignore_text_filter(text, "1234567890")  )
+        
+        # Determinar que se escribio un id
+        if self.entry_id.text() != '':
+            id_search = int(self.entry_id.text()) 
+
+            # Establecer descripcción y baja por medio del id
+            self.entry_description.setText( "" )
+            for column in tarea_table.get_all_value():
+                if id_search == column[0]:
+                    self.entry_description.setText( column[1] )
+                    self.checkbox_soft_delete.setChecked( bool(column[8]) )
+                    break
+                    
+                    
     
     def refresh_text(self):
         # Actualizar texto de widgets
         self.label_id.setText( "TareaId" )
-        self.label_description.setText( "Descripcción" )
+        self.label_description.setText( "Descripción" )
         self.label_soft_delete.setText( "Baja" )
         self.button_add.setText( "Agregar" )
         self.button_update.setText( "Actualizar" )

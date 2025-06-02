@@ -30,3 +30,42 @@ class StandardTable():
         sqlite3 Obtener tipo de dato de las columnas de la tabla
         '''
         pass
+    
+    def clear_table(self) -> str | None:
+        '''
+        sqlite3 Eliminar todos las filas de la tabla.
+        
+        DELETE FROM table;
+
+        Para eliminar secuencia autoincrement de tabla (si es que tiene)
+        DELETE FROM sqlite_sequence WHERE name='tabla';
+        '''
+        
+        # Instrucciones SQLite
+        sqlite_sequence = self.database.execute_statement( 
+            f"DELETE FROM sqlite_sequence WHERE name='{self.table}';", commit=True, return_type="statement"
+        )
+        clear_table = self.database.execute_statement( 
+            f'DELETE FROM "{self.table}";', commit=True, return_type="statement"
+        )
+        
+        # Determinar qeue devolver
+        sql_statement = ""
+        return_string = False
+
+        if isinstance(clear_table, str):
+            sql_statement += f"{clear_table} "
+        if isinstance(sqlite_sequence, str):
+            sql_statement += sqlite_sequence
+        if isinstance(clear_table, str) or isinstance(sqlite_sequence, str):
+            return_string = True
+        
+        # Devovler valor, ya sea None o str
+        if return_string == True:
+            return sql_statement
+        else:
+            return None
+    
+
+    def delete_table(self):
+        pass
