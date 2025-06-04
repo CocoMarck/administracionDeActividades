@@ -3,6 +3,7 @@ import controllers
 import sys
 from PyQt6.QtWidgets import QApplication
 from views.qt_app.main_window import MyApp, qss_style
+from views.qt_app.tarea_form import TareaForm
 
 
 
@@ -21,9 +22,9 @@ tarea_table.get_all_value(); print()
 
 
 
-#print(qss_style)
+print(qss_style); print()
 def main():
-    app = QApplication(sys.argv)
+    app = QApplication( sys.argv )
     app.setStyleSheet( qss_style )
     
     # Crear la ventana principal
