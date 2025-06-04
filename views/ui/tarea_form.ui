@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>TareaForm</class>
+ 
+ <!-- Ventana con centralizado -->
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QVBoxLayout" name="main_layout">
+
+
+    <!-- Id -->
+    <item>
+    <layout class="QHBoxLayout">
+        
+     <item>
+      <widget class="QLabel" name="label_id">
+       <property name="text">
+        <string>Id</string>
+       </property>
+       
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+
+      </widget>
+     </item>
+     
+     <item>
+      <widget class="QLineEdit" name="entry_id">
+
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+         <horstretch>1</horstretch>
+         <verstretch>1</verstretch>
+        </sizepolicy>
+       </property>
+
+      </widget>
+     </item>
+     
+     <!-- Espaciador addStretch-->
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+
+    </layout>
+    </item>
+    
+
+    <!-- Descripcción -->
+    <item>
+    <layout class="QHBoxLayout">
+        
+     <item>
+      <widget class="QLabel" name="label_description">
+       <property name="text">
+        <string>Descripcción</string>
+       </property>
+      </widget>
+     </item>
+     
+     <item>
+      <widget class="QLineEdit" name="entry_description">
+      </widget>
+     </item>
+
+    </layout>
+    </item>
+    
+
+    <!-- Baja Checkbox -->
+    <item>
+    <layout class="QHBoxLayout">
+        
+     <item>
+      <widget class="QLabel" name="label_soft_delete">
+       <property name="text">
+        <string>Baja</string>
+       </property>
+      </widget>
+     </item>
+     
+     <item>
+      <widget class="QCheckBox" name="checkbox_soft_delete">
+      </widget>
+     </item>
+     
+     <!-- Espaciador addStretch-->
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>1</width>
+         <height>1</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+
+    </layout>
+    </item>
+    
+    
+    <!-- Agragar y actualizar -->
+    <item>
+    <layout class="QHBoxLayout">
+        
+     <item>
+      <widget class="QPushButton" name="button_add">
+       <property name="text">
+        <string>Agregar</string>
+       </property>
+      </widget>
+     </item>
+     
+     <item>
+      <widget class="QPushButton" name="button_update">
+       <property name="text">
+        <string>Actualizar</string>
+       </property>
+      </widget>
+     </item>
+     
+     <item>
+      <widget class="QPushButton" name="button_cancel">
+       <property name="text"><string>Cancel</string></property>
+      </widget>
+     </item>
+
+    </layout>
+    </item>
+    
+
+    <!-- Tabla -->
+    <item>
+     <widget class="QTableWidget" name="table">
+     </widget>
+    </item>
+
+
+    <!-- Espacio -->
+    <!-- 
+    <item>
+     <spacer name="verticalSpacer">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>40</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    -->
+    
+   </layout>
+  </widget> <!-- Central widget para centrar todo -->
+
+ <resources/>
+ <connections/>
+</ui>

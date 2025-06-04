@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MyApp</class>
+ 
+ <!-- Ventana con centralizado -->
+ <widget class="QMainWindow" name="MyApp">
+  <widget class="QWidget" name="centralwidget">
+  
+   <layout class="QVBoxLayout" name="vbox_main">
+    <!-- tabs -->
+    <item>
+     <widget class="QTabWidget" name="tab_widget">
+
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <!--
+       <widget class="QWidget" name="tab_tarea">
+        <attribute name="title">
+         <string>Tarea</string>
+        </attribute>
+       </widget>
+       
+       <widget class="QWidget" name="tab_recurso">
+        <attribute name="title">
+         <string>Recursos humanos</string>
+        </attribute>
+       </widget>
+       
+       <widget class="QWidget" name="tab_actividad">
+        <attribute name="title">
+         <string>Actividad</string>
+        </attribute>
+       </widget>
+       -->
+
+     </widget>
+    </item>
+    
+   </layout>
+  </widget> <!-- Central widget para centrar todo -->
+ </widget>
+
+ <resources/>
+ <connections/>
+</ui>

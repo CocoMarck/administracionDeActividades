@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>RecursoForm</class>
+ 
+ <!-- Ventana con centralizado -->
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QVBoxLayout" name="main_layout">
+
+
+    <!-- Id -->
+    <item>
+    <layout class="QHBoxLayout">
+        
+     <item>
+      <widget class="QLabel" name="label_id">
+       <property name="text">
+        <string>Id</string>
+       </property>
+       
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+         <horstretch>1</horstretch>
+         <verstretch>1</verstretch>
+        </sizepolicy>
+       </property>
+
+      </widget>
+     </item>
+     
+     <item>
+      <widget class="QLineEdit" name="entry_id">
+
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+         <horstretch>1</horstretch>
+         <verstretch>1</verstretch>
+        </sizepolicy>
+       </property>
+
+      </widget>
+     </item>
+     
+     <!-- Espaciador addStretch-->
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>1</width>
+         <height>1</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+
+    </layout>
+    </item>
+    
+
+
+
+    <!-- Nombre Apellido Paterno y Materno -->
+    <item>
+    <layout class="QHBoxLayout">
+        
+     <item>
+      <widget class="QLabel" name="label_name">
+       <property name="text">
+        <string>Nombre</string>
+       </property>
+      </widget>
+     </item>
+     
+     <item>
+      <widget class="QLineEdit" name="entry_name"/>
+     </item>
+     
+     <!-- Apellido paterno -->
+     <item>
+      <widget class="QLabel" name="label_paternal_surname">
+       <property name="text">
+        <string>Apellido paterno</string>
+       </property>
+      </widget>
+     </item>
+     
+     <item>
+      <widget class="QLineEdit" name="label_paternal_surname"/>
+     </item>
+     
+     <!-- Apellido materno -->
+     <item>
+      <widget class="QLabel" name="label_maternal_surname">
+       <property name="text">
+        <string>Apellido materno</string>
+       </property>
+      </widget>
+     </item>
+     
+     <item>
+      <widget class="QLineEdit" name="label_maternal_surname"/>
+     </item>
+
+    </layout>
+    </item>
+    
+    
+    
+    
+    <!-- Puesto -->
+    <item>
+    <layout class="QHBoxLayout">
+
+     <item>
+
+      <widget class="QLabel" name="label_position">
+
+       <property name="text">
+        <string>Puesto</string>
+       </property>
+
+      </widget>
+
+     </item>
+     
+     <item>
+      <widget class="QLineEdit" name="entry_position">
+
+      </widget>
+     </item>
+     
+     <!-- Espaciador addStretch-->
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>1</width>
+         <height>1</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+
+    </layout>
+    </item>
+    
+
+
+
+    <!-- Baja Checkbox -->
+    <item>
+    <layout class="QHBoxLayout">
+        
+     <item>
+      <widget class="QLabel" name="label_soft_delete">
+       <property name="text">
+        <string>Baja</string>
+       </property>
+      </widget>
+     </item>
+     
+     <item>
+      <widget class="QCheckBox" name="checkbox_soft_delete">
+      </widget>
+     </item>
+     
+     <!-- Espaciador addStretch-->
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>1</width>
+         <height>1</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+
+    </layout>
+    </item>
+    
+    
+    
+    
+    <!-- Insertar y actualizar -->
+    <item>
+    <layout class="QHBoxLayout">
+        
+     <item>
+      <widget class="QPushButton" name="button_add">
+       <property name="text">
+        <string>Agregar</string>
+       </property>
+      </widget>
+     </item>
+     
+     <item>
+      <widget class="QPushButton" name="button_update">
+       <property name="text">
+        <string>Actualizar</string>
+       </property>
+      </widget>
+     </item>
+     
+     <item>
+      <widget class="QPushButton" name="button_cancel">
+       <property name="text"><string>Cancel</string></property>
+      </widget>
+     </item>
+
+    </layout>
+    </item>
+    
+    
+    
+    
+    <!-- Tabla -->
+    <item>
+     <widget class="QTableWidget" name="table">
+     </widget>
+    </item>
+    
+   </layout>
+  </widget> <!-- Central widget para centrar todo -->
+
+ <resources/>
+ <connections/>
+</ui>
