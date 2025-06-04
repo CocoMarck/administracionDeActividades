@@ -15,6 +15,6 @@ num_space_padding = num_font//4
 num_margin_xy = [num_font//2, num_font//4]
 
 nums_win_main = [
-    get_display_number(multipler=0.4, based='width'),
-    get_display_number(multipler=0.4, based='height')
+    get_display_number(multipler=0.8, based='width'),
+    get_display_number(multipler=0.8, based='height')
 ]

@@ -12,7 +12,8 @@ def get_list_text_widget( option='Qt' ) -> list:
             'TextEdit',
             'CheckBox',
             'TableWidget',
-            'HeaderView::section'
+            'HeaderView::section',
+            'TabWidget'
         ]
         number = 0
     elif option == 'Gtk':
