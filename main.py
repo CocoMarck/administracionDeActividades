@@ -20,9 +20,17 @@ tarea_table.get_all_column(); print()
 tarea_table.get_all_value(); print()
 #tarea_table.clear_table(); print()
 
+recurso_table = controllers.RecursoHumanoController( verbose=True, return_message=False )
+print( recurso_table.name )
+recurso_table.get_all_column(); print()
+recurso_table.get_all_value(); print()
+#recurso_table.clear_table(); print()
+#recurso_table.delete_user( 1 ); print()
 
 
-print(qss_style); print()
+
+
+#print(qss_style); print()
 def main():
     app = QApplication( sys.argv )
     app.setStyleSheet( qss_style )

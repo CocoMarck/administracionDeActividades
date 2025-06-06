@@ -12,6 +12,7 @@ class TareaTable(StandardTable):
         )
         
         #print( self.database.dict_table[ self.table ] )
+        #print( self.get_all_column() )
     
     def insert_tarea(
         self, Descripcion: str, UsuarioCreacionId: int, FechaCreacion: str, Baja: int

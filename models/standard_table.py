@@ -69,3 +69,18 @@ class StandardTable():
 
     def delete_table(self):
         pass
+    
+    
+    def delete_row_by_column_value(self, column: str, value: str) -> str | None:
+        '''
+        Eliminar una fila por el valor de una columna. Normalmente el Id.
+        '''
+        sql_statement = struct_table_statement( 
+            type_statement="delete-value", table=self.table, sql_statement=[ column, value ]
+        )
+        
+        # Ejecutar instrucción
+        delete_value = self.database.execute_statement( 
+            sql_statement, commit=True, return_type="statement"
+        )
+        return delete_value

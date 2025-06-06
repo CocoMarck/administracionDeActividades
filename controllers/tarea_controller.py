@@ -1,11 +1,5 @@
 import models
-from .table_controller import TableController
-import datetime
-
-
-
-def get_datetime():
-    return str( datetime.datetime.now().replace(microsecond=0).isoformat() )
+from .table_controller import TableController, get_datetime
 
 
 class TareaController( TableController ):

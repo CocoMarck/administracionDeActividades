@@ -1,4 +1,12 @@
 import models
+import datetime
+
+
+
+def get_datetime():
+    return str( datetime.datetime.now().replace(microsecond=0).isoformat() )
+
+
 
 
 class TableController():
@@ -61,5 +69,23 @@ class TableController():
         if self.verbose: print(message)
         
         if self.return_message: return_value = message
+        
+        return return_value
+        
+
+
+    def delete_row_by_column_value(self, column: str, value: str) -> str | bool:
+        delete_value = self.table.delete_row_by_column_value( column, value )
+        
+        if isinstance( delete_value, str ):
+            message = f'[SQL]\n{delete_value}'
+            return_value = True
+        else:
+            message = f'[ERROR] {self.name}'
+            return_value = False
+        
+        if self.return_message: return_value = message
+
+        if self.verbose: print(message)
         
         return return_value

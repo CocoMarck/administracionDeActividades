@@ -2,6 +2,7 @@ from .administrador_actividad import AdministracionDeActividad
 from .standard_database import StandardDataBase
 from .standard_table import StandardTable
 from .tarea_table import TareaTable
+from .recurso_table import RecursoHumanoTable
 '''
 from .tarea_model import Tarea
 from .recurso_model import RecursoHumano
