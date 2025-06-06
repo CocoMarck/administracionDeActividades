@@ -87,7 +87,7 @@
      </item>
      
      <item>
-      <widget class="QLineEdit" name="label_paternal_surname"/>
+      <widget class="QLineEdit" name="entry_paternal_surname"/>
      </item>
      
      <!-- Apellido materno -->
@@ -100,7 +100,7 @@
      </item>
      
      <item>
-      <widget class="QLineEdit" name="label_maternal_surname"/>
+      <widget class="QLineEdit" name="entry_maternal_surname"/>
      </item>
 
     </layout>
