@@ -3,13 +3,12 @@ from .table_controller import TableController, get_datetime
 
 
 
-def return_good_text( text: str ):
-    new_text = text.replace( " ", "" )
-    
-    if new_text == "":
-        return None
+def text_or_none( text: str ):
+    # Determinar que el texto no este vacio "". Si lo esta, devuelve None, y si no el text/string.
+    if bool( text.strip() ) == True:
+        return text
     else:
-        return new_text
+        return None
 
 
 class RecursoHumanoController( TableController ):
@@ -23,8 +22,8 @@ class RecursoHumanoController( TableController ):
         self, Nombre: str, APP: str, APM: str, Puesto: str, 
     ) -> bool | str:
         if ( 
-            isinstance( return_good_text(Nombre), str) and isinstance( return_good_text(APP), str) and 
-            isinstance( return_good_text(APM), str) and isinstance( return_good_text(Puesto), str)
+            isinstance( text_or_none(Nombre), str) and isinstance( text_or_none(APP), str) and 
+            isinstance( text_or_none(APM), str) and isinstance( text_or_none(Puesto), str)
         ):
             insert_user = self.table.insert_user( 
                 Nombre=Nombre, APP=APP, APM=APM, Puesto=Puesto, 
@@ -53,9 +52,9 @@ class RecursoHumanoController( TableController ):
         self, RecursoHumanoId: int, Nombre: str, APP: str, APM: str, Puesto: str, Baja: bool
     ) -> bool | str:
         if (
-            isinstance( RecursoHumanoId, int ) and isinstance( return_good_text(Nombre), str ) and
-            isinstance( return_good_text(APP), str ) and isinstance( return_good_text(APM), str ) and
-            isinstance( return_good_text(Nombre), str ) and isinstance(Baja, bool)
+            isinstance( RecursoHumanoId, int ) and isinstance( text_or_none(Nombre), str ) and
+            isinstance( text_or_none(APP), str ) and isinstance( text_or_none(APM), str ) and
+            isinstance( text_or_none(Nombre), str ) and isinstance(Baja, bool)
         ):
             update = self.table.update_user( 
                 RecursoHumanoId=RecursoHumanoId, Nombre=Nombre, APP=APP, APM=APM, Puesto=Puesto, 
