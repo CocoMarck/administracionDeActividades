@@ -42,6 +42,9 @@ class RecursoForm(QtWidgets.QWidget):
         self.entry_id.setText( ignore_text_filter(text, "1234567890")  )
         
         # Determinar que se escribio un id
+        self.entry_name.setText( "" )
+        self.entry_paternal_surname.setText( "" )
+        self.entry_maternal_surname.setText( "" )
         self.entry_position.setText( "" )
         self.checkbox_soft_delete.setChecked( False )
         if self.entry_id.text() != '':
@@ -50,6 +53,11 @@ class RecursoForm(QtWidgets.QWidget):
             # Establecer descripcción y baja por medio del id
             for column in self.table_controller.get_all_value():
                 if self.current_id == column[0]:
+                    self.entry_name.setText( column[1] )
+                    self.entry_paternal_surname.setText( column[2] )
+                    self.entry_maternal_surname.setText( column[3] )
+                    self.entry_position.setText( column[4] )
+                    self.checkbox_soft_delete.setChecked( bool(column[11]) )
                     break
         else:
             self.current_id = None
