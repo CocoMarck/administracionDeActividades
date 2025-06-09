@@ -5,15 +5,16 @@ from PyQt6.QtWidgets import (
 )
 from views.interface.interface_number import *
 from core.util_text import ignore_text_filter, pass_text_filter
+from utils import ResourceLoader
 import controllers
 import sys, os
 
 
 # Directorio
-dir_current = os.path.dirname( os.path.abspath(sys.argv[0]) )
-dir_views = os.path.join( dir_current, 'views')
-dir_ui = os.path.join( dir_views, 'ui')
-file_ui = os.path.join( dir_ui, 'tarea_form.ui')
+resource_loader = ResourceLoader()
+dir_views = resource_loader.get_base_path( 'views' )
+dir_ui = dir_views.joinpath( 'ui' )
+file_ui = dir_ui.joinpath( 'tarea_form.ui' )
 
 
 # Ventana
@@ -21,6 +22,7 @@ tarea_table = controllers.TareaController( verbose=True, return_message=False )
 class TareaForm(QtWidgets.QWidget):
     def __init__(self):
         super().__init__()
+        self.resize( nums_win_main[0], nums_win_main[1])
         uic.loadUi(file_ui, self)
         
         self.button_cancel.clicked.connect( self.cancel )

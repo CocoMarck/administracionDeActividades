@@ -36,6 +36,7 @@ class AdministracionDeActividad(StandardDataBase):
             "ACTIVIDAD": [
                 [ "ActividadId", "INTEGER", "PRIMARY KEY AUTOINCREMENT" ],
                 [ "TareaId", "INTEGER", "NOT NULL" ],
+                [ "RecursoHumanoId", "INTEGER", "NOT NULL" ],
                 [ "NOTA", "TEXT", "NULL" ],
                 [ "FechaInicio", "TEXT", "NOT NULL" ],
                 [ "FechaFin", "TEXT", "NOT NULL" ],

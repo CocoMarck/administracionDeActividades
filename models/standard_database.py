@@ -1,4 +1,5 @@
 import os, sys, sqlite3
+from utils.resource_loader import ResourceLoader
 
 
 
@@ -162,7 +163,7 @@ class StandardDataBase():
     '''
     def __init__(self, name_database=str, name_dir_data: str="data"  ):
         # Ruta
-        self.dir_current = os.path.dirname( os.path.abspath(sys.argv[0]) )
+        self.__resource_loader = ResourceLoader()
         self.name_dir_data = name_dir_data
         self.name_database = name_database
         
@@ -175,14 +176,15 @@ class StandardDataBase():
         '''
         Función necesaria para declarar el atrubuto: dir_data
         '''
-        self.dir_data = os.path.join( self.dir_current, self.name_dir_data )
+        self.__resource_loader.data_dir = self.__resource_loader.get_base_path( self.name_dir_data )
+        self.dir_data = self.__resource_loader.data_dir
     
     
     def set_database_path(self) -> None:
         '''
         Función necesaria para declarar el atrubuto: path_database
         '''
-        self.path_database = os.path.join( self.dir_data, f'{self.name_database}.db' )
+        self.path_database = self.__resource_loader.get_data( f'{self.name_database}.db' )
     
     
     def connect(self) -> sqlite3.Connection:
