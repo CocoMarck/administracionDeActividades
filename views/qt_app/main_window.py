@@ -9,6 +9,7 @@ from core.util_text import ignore_text_filter, pass_text_filter
 
 from .tarea_form import TareaForm
 from .recurso_form import RecursoForm
+from .actividad_form import ActividadForm
 from utils import ResourceLoader
 import sys, os
 
@@ -45,3 +46,6 @@ class MyApp(QtWidgets.QMainWindow):
         
         self.recurso_form = RecursoForm()
         self.tab_widget.addTab( self.recurso_form, "Recurso Humano" )
+        
+        self.actividad_form = ActividadForm()
+        self.tab_widget.addTab( self.actividad_form, "Actividad" )

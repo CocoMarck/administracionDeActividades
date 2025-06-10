@@ -6,7 +6,7 @@ from .administrador_actividad import AdministracionDeActividad
 
 class ActividadTable( StandardTable ):
     def __init__(self):
-        super.__init__(
+        super().__init__(
             database=AdministracionDeActividad(), table = "ACTIVIDAD"
         )
         

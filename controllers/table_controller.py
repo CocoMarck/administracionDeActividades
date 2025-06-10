@@ -5,6 +5,14 @@ import datetime
 
 def get_datetime():
     return str( datetime.datetime.now().replace(microsecond=0).isoformat() )
+    
+    
+def text_or_none( text: str ):
+    # Determinar que el texto no este vacio "". Si lo esta, devuelve None, y si no el text/string.
+    if bool( text.strip() ) == True:
+        return text
+    else:
+        return None
 
 
 

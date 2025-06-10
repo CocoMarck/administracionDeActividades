@@ -3,3 +3,4 @@ from .administrador_actividad_controller import AdministracionDeActividadControl
 from .table_controller import TableController
 from .tarea_controller import TareaController
 from .recurso_controller import RecursoHumanoController
+from .actividad_controller import ActividadController

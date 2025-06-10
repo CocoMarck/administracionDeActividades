@@ -3,6 +3,7 @@ from .standard_database import StandardDataBase
 from .standard_table import StandardTable
 from .tarea_table import TareaTable
 from .recurso_table import RecursoHumanoTable
+from .actividad_table import ActividadTable
 '''
 from .tarea_model import Tarea
 from .recurso_model import RecursoHumano

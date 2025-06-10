@@ -1,14 +1,7 @@
 import models
-from .table_controller import TableController, get_datetime
+from .table_controller import TableController, get_datetime, text_or_none
 
 
-
-def text_or_none( text: str ):
-    # Determinar que el texto no este vacio "". Si lo esta, devuelve None, y si no el text/string.
-    if bool( text.strip() ) == True:
-        return text
-    else:
-        return None
 
 
 class RecursoHumanoController( TableController ):
