@@ -19,6 +19,7 @@ database_controller = controllers.AdministracionDeActividadController()
 table_recurso = controllers.RecursoHumanoController( verbose=True, return_message=False )
 table_tarea = controllers.TareaController( verbose=True, return_message=False )
 table_actividad = controllers.ActividadController( verbose=True, return_message=False )
+#table_actividad.delete_table()
 # Ventana
 class ActividadForm(QtWidgets.QWidget):
     def __init__( self, table_controller=None ):
@@ -38,20 +39,13 @@ class ActividadForm(QtWidgets.QWidget):
         
 
     def refresh_combobox(self):
-        values = database_controller.execute_statement( 
-            "SELECT * FROM TAREA WHERE Baja=0;", commit = False, return_type ="fetchall" 
-        )
-        print(values)
-    
         self.combobox_tarea.clear()
-        for value in table_tarea.get_all_value():
-            if value[ len(value)-1 ] == 0: # Determinar baja
-                self.combobox_tarea.insertItem( value[0], value[1] ) # id, descripcción
+        for value in table_tarea.get_all_values_without_soft_delete():
+            self.combobox_tarea.insertItem( value[0], value[1] ) # id, descripcción
             
         self.combobox_recurso.clear()
-        for value in table_recurso.get_all_value():
-            if value[ len(value)-1 ] == 0: # Determinar baja
-                self.combobox_recurso.insertItem( value[0], value[1] ) # id, descripcción
+        for value in table_recurso.get_all_values_without_soft_delete():
+            self.combobox_recurso.insertItem( value[0], value[1] ) # id, descripcción
         
 
     def refresh_table(self):
@@ -68,8 +62,13 @@ class ActividadForm(QtWidgets.QWidget):
         for column in all_column:
             for row in range(0, len(all_value)):
                 final_text = str
-                if number == 11:
-                    pass
+                if number == 13:
+                    if all_value[row][number] == 1:
+                        final_text = "Si"
+                    else:
+                        final_text = "No"
+                else:
+                    final_text = str(all_value[row][number])
                     
                 self.table.setItem( row, number, QTableWidgetItem( final_text ) )
                     
@@ -77,6 +76,12 @@ class ActividadForm(QtWidgets.QWidget):
     
 
     def insert_actividad(self):
-        print( self.combobox_tarea.currentIndex() )
-        print( self.combobox_recurso.currentIndex() )
-        print( self.time_hours.time() )
+        time_qtime = self.time_hours.time()
+        time_str = time_qtime.toString("HH:mm")
+        table_actividad.insert_actividad(
+            TareaId=self.combobox_tarea.currentIndex()+1, 
+            RecursoHumanoId=self.combobox_recurso.currentIndex()+1,
+            NOTA=self.entry_note.text(), FechaInicio="00-00-00", FechaFin="00-00-00",
+            HORAS=time_str
+        )
+        self.refresh_table()

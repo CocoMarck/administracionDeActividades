@@ -14,19 +14,6 @@ administrar_actividad.start_database(); print()
 administrar_actividad.tables(); print()
 #administrar_actividad.delete_database()
 
-tarea_table = controllers.TareaController( verbose=True, return_message=False )
-#print( tarea_table.name )
-tarea_table.get_all_column(); print()
-tarea_table.get_all_value(); print()
-#tarea_table.clear_table(); print()
-
-recurso_table = controllers.RecursoHumanoController( verbose=True, return_message=False )
-print( recurso_table.name )
-recurso_table.get_all_column(); print()
-recurso_table.get_all_value(); print()
-#recurso_table.clear_table(); print()
-#recurso_table.delete_user( 1 ); print()
-
 
 
 
