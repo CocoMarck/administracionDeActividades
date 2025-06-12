@@ -11,9 +11,11 @@ class TareaTable(StandardTable):
             database=AdministracionDeActividad(), table="TAREA" 
         )
         
+        self.column_soft_delete = "Baja"
         #print( self.database.dict_table[ self.table ] )
         #print( self.get_all_column() )
     
+
     def insert_tarea(
         self, Descripcion: str, UsuarioCreacionId: int, FechaCreacion: str, Baja: int
     ) -> str | None:
@@ -32,7 +34,7 @@ class TareaTable(StandardTable):
     def update_tarea(
         self, TareaId: int, Descripcion: str, UsuarioModificacionId: int, FechaModificacion: str, 
         UsuarioBajaId: int, FechaBaja: str, Baja: int
-    ):
+    ) -> str | None:
         '''
         Actualizar de TareaID; descripcción, y fecha de modificación, y su respectiva Id
         '''

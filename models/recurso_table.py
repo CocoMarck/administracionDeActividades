@@ -10,6 +10,7 @@ class RecursoHumanoTable( StandardTable ):
         super().__init__(
             database=AdministracionDeActividad(), table="RECURSO_HUMANO"
         )
+        self.column_soft_delete = "Baja"
         
     def insert_user(
         self, Nombre: str, APP: str, APM: str, Puesto: str, 

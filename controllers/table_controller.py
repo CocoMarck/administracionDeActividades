@@ -65,6 +65,27 @@ class TableController():
         return return_value
         
 
+    def get_all_values_without_soft_delete(self) -> str | None:
+        '''
+        Mostrar todos los valores sin baja
+        '''
+        all_value = self.table.get_all_values_without_soft_delete()
+        return_value = []
+        if all_value == [] or all_value == None:
+            message = f"[INFO] {self.name}: Not have values"
+        else:
+            message = f"[INFO] {self.name}: Have values without soft delete:\n{all_value}"
+            return_value = all_value
+        
+        if self.verbose:
+            print( message )
+
+        if self.return_message:
+            return_value = message
+
+        return return_value
+        
+
     def clear_table(self) -> str | bool:
         clear_table = self.table.clear_table()
         if clear_table != None:
@@ -76,6 +97,22 @@ class TableController():
         
         if self.verbose: print(message)
         
+        if self.return_message: return_value = message
+        
+        return return_value
+        
+        
+        
+    def delete_table(self) -> str | bool:
+        delete_table = self.table.delete_table()
+        if delete_table != None:
+            message = f'[SQL]\n{delete_table}\n[INFO] The table {self.name} was deleted'
+            return_value = True
+        else:
+            message = f'[ERROR] {self.name}'
+            return_value = False
+            
+        if self.verbose: print(message)
         if self.return_message: return_value = message
         
         return return_value

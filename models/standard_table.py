@@ -12,18 +12,28 @@ class StandardTable():
     ):
         self.database = database
         self.table = table
+        self.column_soft_delete = "softDelete"
 
-    def get_all_column(self):
+    def get_all_column(self) -> list:
         '''
         Mostrar todas las columnas de la tabla.
         '''
         return self.database.get_table_all_column( table=self.table )
     
-    def get_all_value(self):
+    def get_all_value(self) -> list:
         '''
         Mostrar todas los valores de la tabla.
         '''
         return self.database.get_table_all_value( table=self.table )
+        
+    def get_all_values_without_soft_delete(self) -> str | None:
+        '''
+        Obtener datos sin baja
+        '''
+        sql_statement = (
+            f"SELECT * FROM {self.table} WHERE {self.column_soft_delete}=0;"
+        )
+        return self.database.execute_statement( sql_statement, commit=False, return_type="fetchall" )
         
     def get_type_parameter(self):
         '''
@@ -67,8 +77,19 @@ class StandardTable():
             return None
     
 
-    def delete_table(self):
-        pass
+    def delete_table(self) -> str | None:
+        full_sql_statement = self.clear_table()
+        if full_sql_statement == None:
+            full_sql_statement = ""
+        
+        sql_statement = self.database.delete_table( self.table )
+        if sql_statement == True:
+            full_sql_statement += f"\nDROP {self.table};"
+        
+        if full_sql_statement == "":
+            full_sql_statement = None
+        
+        return full_sql_statement
     
     
     def delete_row_by_column_value(self, column: str, value: str) -> str | None:
