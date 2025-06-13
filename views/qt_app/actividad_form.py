@@ -1,9 +1,12 @@
-from PyQt6 import QtWidgets, uic
-from PyQt6.QtWidgets import ( QTableWidget, QTableWidgetItem )
 from views.interface.interface_number import *
 from core.util_text import ignore_text_filter, pass_text_filter
 from utils import ResourceLoader
+from controllers.table_controller import get_datetime
 import controllers
+
+from PyQt6 import QtWidgets, uic
+from PyQt6.QtWidgets import ( QTableWidget, QTableWidgetItem )
+from PyQt6.QtCore import QDate, QTime
 
 
 
@@ -34,11 +37,53 @@ class ActividadForm(QtWidgets.QWidget):
         
         self.button_add.clicked.connect( self.insert_actividad )
         self.button_update.clicked.connect( self.update_actividad )
+        self.entry_id.textChanged.connect( self.on_text_changed )
         
         self.refresh_text()
         self.refresh_table()
         self.refresh_combobox()
-    
+        self.refresh_date()
+
+        
+    def on_text_changed(self, text):
+        # Solo aceptar numeros en el entry
+        self.entry_id.setText( ignore_text_filter(text, "1234567890")  )
+        
+        # Determinar que se escribio un id
+        self.entry_note.setText( "" )
+        self.checkbox_soft_delete.setChecked( False )
+        if self.entry_id.text() != '':
+            self.current_id = int(self.entry_id.text()) 
+
+            # Establecer descripcción y baja por medio del id
+            for column in table_actividad.get_all_value():
+                if self.current_id == column[0]:
+                    self.entry_note.setText( column[3] )
+
+                    # Combos
+                    tarea_index = self.combobox_tarea.findData( column[1] )
+                    self.combobox_tarea.setCurrentIndex( tarea_index )
+                    
+                    recurso_index = self.combobox_recurso.findData( column[2] )
+                    self.combobox_recurso.setCurrentIndex( recurso_index )
+                    
+                    # Dates
+                    qdate_start = QDate.fromString( str(column[4]), "yyyy-MM-dd" )
+                    self.start_date.setDate( qdate_start )
+                    
+                    qdate_end = QDate.fromString( column[5], "yyyy-MM-dd" )
+                    self.end_date.setDate( qdate_end )
+                    
+                    # Hora
+                    qtime = QTime.fromString( column[6], "hh:mm" )
+                    self.time_hours.setTime(qtime)
+                    print(column[6])
+
+                    # Checkbox
+                    self.checkbox_soft_delete.setChecked( bool(column[13]) )
+                    break
+        else:
+            self.current_id = None
     
 
     def refresh_text(self):
@@ -51,6 +96,13 @@ class ActividadForm(QtWidgets.QWidget):
         self.label_tarea.setText( "Tarea" )
         self.label_recurso.setText( "Recurso humano" )
         
+        
+    def refresh_date(self):
+        date_str = get_datetime( "date" )
+        qdate = QDate.fromString( date_str, "yyyy-MM-dd" )
+        self.start_date.setDate(qdate)
+        self.end_date.setDate(qdate)
+        
 
     def refresh_combobox(self):
         # Establecer combobox
@@ -61,6 +113,7 @@ class ActividadForm(QtWidgets.QWidget):
         self.combobox_recurso.clear()
         for value in table_recurso.get_all_values_without_soft_delete():
             self.combobox_recurso.addItem( value[1], userData=value[0] ) # descripcción, id
+    
         
 
     def refresh_table(self):
@@ -128,10 +181,11 @@ class ActividadForm(QtWidgets.QWidget):
         date_time = self.dict_date_time()
         
         table_actividad.update_actividad(
-            ActividadId=1, 
+            ActividadId=self.current_id, 
             TareaId=self.combobox_tarea.currentData(), 
             RecursoHumanoId=self.combobox_recurso.currentData(), 
             NOTA=self.entry_note.text(), FechaInicio=date_time["start_date"], 
-            FechaFin=date_time["end_date"], HORAS=date_time["hours"], UsuarioId=0, Baja=1
+            FechaFin=date_time["end_date"], HORAS=date_time["hours"], UsuarioId=0, 
+            Baja=int(self.checkbox_soft_delete.isChecked())
         )
         self.refresh_table()

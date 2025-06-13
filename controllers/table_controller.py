@@ -3,11 +3,20 @@ import datetime
 
 
 
-def get_datetime():
-    return str( datetime.datetime.now().replace(microsecond=0).isoformat() )
+def get_datetime( mode: str="dateTime") -> str:
+    dateTime = str( datetime.datetime.now().replace(microsecond=0).isoformat() )
+    if mode == "date" or mode == "time":
+        time_or_date = dateTime.split("T")
+        
+        if mode == "date":
+            return time_or_date[0]
+        elif mode == "time":
+            return time_or_date[1]
+    else:
+        return dateTime
     
     
-def text_or_none( text: str ):
+def text_or_none( text: str ) -> str | None:
     # Determinar que el texto no este vacio "". Si lo esta, devuelve None, y si no el text/string.
     if bool( text.strip() ) == True:
         return text
