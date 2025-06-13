@@ -3,7 +3,9 @@
 Administra las diferentes actividades realizadas por los usuarios, en base a tareas predefinidas.
 Programa hecho con python3 y SQLite3. Nombre del repo: administracionDeActividades
 
-## Tabla 1: TAREA
+
+# Tablas
+## TAREA
 | Columna               |  Valor     | Default |
 |-----------------------|------------|---------|
 | TareaId               |  INT AUTO  | NULL    |
@@ -22,7 +24,7 @@ Campos de control: UsuarioCreacionId, FechaCreacion, UsuarioModificacionId, Fech
 Los campos de control los tendran todas las tablas.
 
 
-## Tabla 2: RECURSO HUMANO
+## RECURSO HUMANO
 | Columna          | Valor       |
 |------------------|-------------|
 | RecursoHumanoId  | INT AUTO    |
@@ -33,13 +35,30 @@ Los campos de control los tendran todas las tablas.
 
 
 
-## Tabla 3: ACTIVIDAD
+## ACTIVIDAD
 | Columna        |  Valor     | Default  |
 |----------------|------------|----------|
 | ActividadId    |  INT       | AUTO     |
 | TareaId        |  INT       | NOT NULL |
+| RecursoHumanoId |  INT       | NOT NULL |
 | NOTA           |  TEXT      | NULL     |
 | FechaInicio    |  DATETIME  | NOT NULL |
 | FechaFin       |  DATETIME  | NOT NULL |
 | HORAS          |  DECIMAL   | Calculado|
 | RecursoHumanoId|  INT       |          |
+
+
+
+
+# Probar programa
+> Este programa se creo en Debian 12, pero deberia funcionar en windows.
+
+### En GNU/Linux Debian:
+```bash
+python3 ./main.py
+```
+
+### En Windows:
+```shell
+py .\main.py
+```
