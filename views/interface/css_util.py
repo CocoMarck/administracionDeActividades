@@ -13,7 +13,9 @@ def get_list_text_widget( option='Qt' ) -> list:
             'CheckBox',
             'TableWidget',
             'HeaderView::section',
-            'TabWidget'
+            'TabWidget',
+            'TimeEdit',
+            'DateTimeEdit'
         ]
         number = 0
     elif option == 'Gtk':

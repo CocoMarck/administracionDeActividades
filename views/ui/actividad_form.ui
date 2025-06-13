@@ -10,7 +10,7 @@
     <layout class="QHBoxLayout">
         
      <item>
-      <widget class="QLabel" name="label_actividad_id">
+      <widget class="QLabel" name="label_id">
        <property name="text">
         <string>ActividadId</string>
        </property>
@@ -25,7 +25,7 @@
      </item>
      
      <item>
-      <widget class="QLineEdit" name="entry_actividad_id">
+      <widget class="QLineEdit" name="entry_id">
 
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -115,7 +115,7 @@
      <!-- Nota -->
      <item>
       <widget class="QLabel" name="label_note">
-       <property name="text"> <string>Nota:</string> </property>
+       <property name="text"> <string>Nota</string> </property>
        
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -138,11 +138,62 @@
       </widget>
      </item>
      
+     <!-- Fecha inicio -->
+     <item>
+      <widget class="QLabel" name="label_start_date">
+       <property name="text"> <string>Fecha inicio</string> </property>
+       
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+         <horstretch>0</horstretch><verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+
+      </widget>
+     </item>
+     
+     <item>
+      <widget class="QDateEdit" name="start_date">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+         <horstretch>1</horstretch><verstretch>1</verstretch>
+        </sizepolicy>
+       </property>
+
+      </widget>
+     </item>
+     
+     
+     <!-- Fecha fin -->
+     <item>
+      <widget class="QLabel" name="label_end_date">
+       <property name="text"> <string>Fecha inicio</string> </property>
+       
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+         <horstretch>0</horstretch><verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+
+      </widget>
+     </item>
+     
+     <item>
+      <widget class="QDateEdit" name="end_date">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+         <horstretch>1</horstretch><verstretch>1</verstretch>
+        </sizepolicy>
+       </property>
+
+      </widget>
+     </item>
+     
      
      <!-- horas -->
      <item>
       <widget class="QLabel" name="label_hours">
-       <property name="text"> <string>Horas:</string> </property>
+       <property name="text"> <string>Horas</string> </property>
        
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">

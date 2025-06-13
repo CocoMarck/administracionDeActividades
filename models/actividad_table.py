@@ -17,13 +17,6 @@ class ActividadTable( StandardTable ):
         FechaFin: str, HORAS: str, UsuarioCreacionId: int, FechaCreacion: str, UsuarioBajaId: int
     ) -> str | None:
         '''
-        SELECT t.TareaId, r.RecursoHumanoId
-        FROM TAREA t
-        JOIN RECURSO_HUMANO r
-        WHERE t.TareaId = ? AND t.Baja = 0
-          AND r.RecursoHumanoId = ? AND r.Baja = 0;
-        
-        
         Se puede usar los modelos TareaTable y RecursoTable, para determinar si los Id elegidos existen y la fila a la que pertenecen, no esta en Baja.
         '''
         sql_statement = (
@@ -38,8 +31,22 @@ class ActividadTable( StandardTable ):
             
 
 
-    def update_actividad(self):
-        pass
+    def update_actividad(
+        self, ActividadId: int, TareaId: int, RecursoHumanoId: int, NOTA: str, FechaInicio: str, 
+        FechaFin: str, HORAS: str, UsuarioModificacionId: int,
+        FechaModificacion: str, UsuarioBajaId: int, FechaBaja: str, Baja: int
+    ):
+        sql_statement = (
+            f"UPDATE {self.table} SET "
+            f"TareaId={TareaId}, RecursoHumanoId={RecursoHumanoId}, NOTA='{NOTA}', FechaInicio='{FechaInicio}', "
+            f"FechaFin='{FechaFin}', HORAS='{HORAS}', UsuarioModificacionId={UsuarioModificacionId}, "
+            f"FechaModificacion='{FechaModificacion}', UsuarioBajaId={UsuarioBajaId}, FechaBaja='{FechaBaja}', "
+            f"Baja={Baja}\n"
+            f"WHERE ActividadId={ActividadId};"
+        )
+        
+        return self.database.execute_statement( sql_statement, commit=True, return_type="statement")
+    
     
     def delete_actividad(self):
         pass

@@ -33,19 +33,34 @@ class ActividadForm(QtWidgets.QWidget):
         self.table_controller = table_actividad
         
         self.button_add.clicked.connect( self.insert_actividad )
+        self.button_update.clicked.connect( self.update_actividad )
         
+        self.refresh_text()
         self.refresh_table()
         self.refresh_combobox()
+    
+    
+
+    def refresh_text(self):
+        # Establecer texto
+        self.label_id.setText( "ActividadId" )
+        self.label_start_date.setText( "Fecha inicio" )
+        self.label_end_date.setText( "Fecha fin" )
+        self.label_note.setText( "Nota" )
+        self.label_hours.setText( "Horas" )
+        self.label_tarea.setText( "Tarea" )
+        self.label_recurso.setText( "Recurso humano" )
         
 
     def refresh_combobox(self):
+        # Establecer combobox
         self.combobox_tarea.clear()
         for value in table_tarea.get_all_values_without_soft_delete():
-            self.combobox_tarea.insertItem( value[0], value[1] ) # id, descripcción
+            self.combobox_tarea.addItem( value[1], userData=value[0] ) # descripcción, id
             
         self.combobox_recurso.clear()
         for value in table_recurso.get_all_values_without_soft_delete():
-            self.combobox_recurso.insertItem( value[0], value[1] ) # id, descripcción
+            self.combobox_recurso.addItem( value[1], userData=value[0] ) # descripcción, id
         
 
     def refresh_table(self):
@@ -74,14 +89,49 @@ class ActividadForm(QtWidgets.QWidget):
                     
             number += 1
     
-
-    def insert_actividad(self):
+    
+    def dict_date_time(self):
+        # Obtener parametros relacionados al tiempo
         time_qtime = self.time_hours.time()
         time_str = time_qtime.toString("HH:mm")
+        
+        start_qdate = self.start_date.date()
+        start_date_str = str( start_qdate.toPyDate() )
+        
+        end_qdate = self.end_date.date()
+        end_date_str = str( end_qdate.toPyDate() )
+
+        dict_ready = {
+            "start_date" : start_date_str,
+            "end_date" : end_date_str,
+            "hours" : time_str
+        }
+        
+        return dict_ready
+    
+
+    def insert_actividad(self):
+        # Insertar actividad
+        date_time = self.dict_date_time()
+
         table_actividad.insert_actividad(
-            TareaId=self.combobox_tarea.currentIndex()+1, 
-            RecursoHumanoId=self.combobox_recurso.currentIndex()+1,
-            NOTA=self.entry_note.text(), FechaInicio="00-00-00", FechaFin="00-00-00",
-            HORAS=time_str
+            TareaId=self.combobox_tarea.currentData(), 
+            RecursoHumanoId=self.combobox_recurso.currentData(),
+            NOTA=self.entry_note.text(), FechaInicio=date_time["start_date"], FechaFin=date_time["end_date"],
+            HORAS=date_time["hours"]
+        )
+        self.refresh_table()
+    
+
+    def update_actividad(self):
+        # Actualizar actividad
+        date_time = self.dict_date_time()
+        
+        table_actividad.update_actividad(
+            ActividadId=1, 
+            TareaId=self.combobox_tarea.currentData(), 
+            RecursoHumanoId=self.combobox_recurso.currentData(), 
+            NOTA=self.entry_note.text(), FechaInicio=date_time["start_date"], 
+            FechaFin=date_time["end_date"], HORAS=date_time["hours"], UsuarioId=0, Baja=1
         )
         self.refresh_table()
