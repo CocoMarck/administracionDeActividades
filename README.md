@@ -4,6 +4,35 @@ Administra las diferentes actividades realizadas por los usuarios, en base a tar
 Programa hecho con python3 y SQLite3. Nombre del repo: administracionDeActividades
 
 
+# Instalar dependencias  
+### Con pip | Funcional en Windows y Debian
+```bash
+pip install PyQt6 screeninfo pysqlite3
+```
+
+### Con apt | Debian
+```bash
+sudo apt install python3-screeninfo python3-pyqt6 python3-pyqt-distutils
+
+# Opcionalmente
+sudo apt install python3-pyqt5
+```
+
+
+# Ejecutar programa
+> Este programa se creo en Debian 12, pero deberia funcionar en windows.
+
+### En GNU/Linux Debian:
+```bash
+python3 ./main.py
+```
+
+### En Windows:
+```shell
+py .\main.py
+```
+
+
 # Tablas
 ## TAREA
 | Columna               |  Valor     | Default |
@@ -45,20 +74,8 @@ Los campos de control los tendran todas las tablas.
 | FechaInicio    |  DATETIME  | NOT NULL |
 | FechaFin       |  DATETIME  | NOT NULL |
 | HORAS          |  DECIMAL   | Calculado|
-| RecursoHumanoId|  INT       |          |
+| HorasDeActividad | DECIMAL   | Calculado |
 
 
 
 
-# Probar programa
-> Este programa se creo en Debian 12, pero deberia funcionar en windows.
-
-### En GNU/Linux Debian:
-```bash
-python3 ./main.py
-```
-
-### En Windows:
-```shell
-py .\main.py
-```
