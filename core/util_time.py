@@ -1,6 +1,6 @@
 # Constantes
 MULTIPLER_MILLISECOND = 1
-MULTIPLER_SECOND = 60
+MULTIPLER_SECOND = 1000
 MULTIPLER_MINUTE = 60
 MULTIPLER_HOUR = 60
 MULTIPLER_DAY = 24
@@ -38,7 +38,7 @@ def get_time(
     # Función milisegundos, segundos, minutos, horas, dias
     Obtener el valor en milisegundos, segundos, minutos, horas, o dias.
     
-    Permite convertir el valor `x` de tipo `y` a tipo `z`. Donde los tipo `y` `z`, pueden ser:
+    Permite convertir el valor `x` de tipo `y` a tipo `z`. Donde los tipo `y` y `z`, pueden ser:
     - millisecond
     - second
     - minute
