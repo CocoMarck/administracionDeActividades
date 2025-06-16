@@ -1,12 +1,13 @@
 from views.interface.interface_number import *
 from core.util_text import ignore_text_filter, pass_text_filter
+from core import util_time
 from utils import ResourceLoader
 from controllers.table_controller import get_datetime
 import controllers
 
 from PyQt6 import QtWidgets, uic
 from PyQt6.QtWidgets import ( QTableWidget, QTableWidgetItem )
-from PyQt6.QtCore import QDate, QTime
+from PyQt6.QtCore import QDate, QDateTime, QTime
 
 
 
@@ -42,48 +43,31 @@ class ActividadForm(QtWidgets.QWidget):
         self.refresh_text()
         self.refresh_table()
         self.refresh_combobox()
-        self.refresh_date()
-
+        self.current_date()
         
-    def on_text_changed(self, text):
-        # Solo aceptar numeros en el entry
-        self.entry_id.setText( ignore_text_filter(text, "1234567890")  )
         
-        # Determinar que se escribio un id
-        self.entry_note.setText( "" )
-        self.checkbox_soft_delete.setChecked( False )
-        if self.entry_id.text() != '':
-            self.current_id = int(self.entry_id.text()) 
-
-            # Establecer descripcción y baja por medio del id
-            for column in table_actividad.get_all_value():
-                if self.current_id == column[0]:
-                    self.entry_note.setText( column[3] )
-
-                    # Combos
-                    tarea_index = self.combobox_tarea.findData( column[1] )
-                    self.combobox_tarea.setCurrentIndex( tarea_index )
-                    
-                    recurso_index = self.combobox_recurso.findData( column[2] )
-                    self.combobox_recurso.setCurrentIndex( recurso_index )
-                    
-                    # Dates
-                    qdate_start = QDate.fromString( str(column[4]), "yyyy-MM-dd" )
-                    self.start_date.setDate( qdate_start )
-                    
-                    qdate_end = QDate.fromString( column[5], "yyyy-MM-dd" )
-                    self.end_date.setDate( qdate_end )
-                    
-                    # Hora
-                    qtime = QTime.fromString( column[6], "hh:mm" )
-                    self.time_hours.setTime(qtime)
-                    print(column[6])
-
-                    # Checkbox
-                    self.checkbox_soft_delete.setChecked( bool(column[13]) )
-                    break
-        else:
-            self.current_id = None
+    def current_date(self):
+        '''
+        Establecer fecha y tiempo actual
+        '''
+        qdate = QDate.fromString( get_datetime( "date" ), "yyyy-MM-dd" )
+        qtime = QTime.fromString( get_datetime( "time" ), "HH:mm:ss" )
+        self.start_date.setDate(qdate)
+        self.start_date.setTime(qtime)
+        self.end_date.setDate(qdate)
+        self.end_date.setTime(qtime)
+    
+    
+    def clear_parameter(self):
+        '''
+        Dejar en parametros en default
+        '''
+        self.entry_note.clear()
+        self.entry_id.clear()
+        self.combobox_tarea.setCurrentIndex( 0 )
+        self.combobox_recurso.setCurrentIndex( 0 )
+        self.current_date()
+        self.label_time_hours.setText( "0" )
     
 
     def refresh_text(self):
@@ -95,13 +79,6 @@ class ActividadForm(QtWidgets.QWidget):
         self.label_hours.setText( "Horas" )
         self.label_tarea.setText( "Tarea" )
         self.label_recurso.setText( "Recurso humano" )
-        
-        
-    def refresh_date(self):
-        date_str = get_datetime( "date" )
-        qdate = QDate.fromString( date_str, "yyyy-MM-dd" )
-        self.start_date.setDate(qdate)
-        self.end_date.setDate(qdate)
         
 
     def refresh_combobox(self):
@@ -142,22 +119,107 @@ class ActividadForm(QtWidgets.QWidget):
                     
             number += 1
     
+            
+    def refresh_parameter(self):
+        if isinstance( self.current_id, int ):
+            # Establecer parametros por medio del id
+            for column in table_actividad.get_all_value():
+                if self.current_id == column[0]:
+                    self.entry_note.setText( column[3] )
+
+                    # Combos
+                    tarea_index = self.combobox_tarea.findData( column[1] )
+                    self.combobox_tarea.setCurrentIndex( tarea_index )
+                    
+                    recurso_index = self.combobox_recurso.findData( column[2] )
+                    self.combobox_recurso.setCurrentIndex( recurso_index )
+
+                    # Date Time
+                    start_datetime = column[4].split( "T" )
+                    self.start_date.setDate( QDate.fromString( start_datetime[0], "yyyy-MM-dd" ) )
+                    self.start_date.setTime( QTime.fromString( start_datetime[1], "HH:mm:ss") )
+                    
+                    end_datetime = column[5].split( "T" )
+                    self.end_date.setDate( QDate.fromString( end_datetime[0], "yyyy-MM-dd" ) )
+                    self.end_date.setTime( QTime.fromString( end_datetime[1], "HH:mm:ss") )
+                                       
+                    # Hora
+                    self.label_time_hours.setText( str(column[6]) )
+
+                    # Checkbox
+                    self.checkbox_soft_delete.setChecked( bool(column[13]) )
+                    break
+        else:
+            self.clear_parameter()
+    
+    
+    def on_text_changed(self, text):
+        '''
+        Detectar cambio de id. Actualizar parametros
+        '''
+        # Solo aceptar numeros en el entry
+        self.entry_id.setText( ignore_text_filter(text, "1234567890")  )
+        
+        # Determinar que se escribio un id
+        self.entry_note.setText( "" )
+        self.checkbox_soft_delete.setChecked( False )
+        if self.entry_id.text() != '':
+            self.current_id = int(self.entry_id.text()) 
+        else:
+            self.current_id = None
+        self.refresh_parameter()
+    
     
     def dict_date_time(self):
         # Obtener parametros relacionados al tiempo
-        time_qtime = self.time_hours.time()
-        time_str = time_qtime.toString("HH:mm")
+        
+        # Start `qdate` `qtime`
+        start_qdatetime = self.start_date.dateTime()
         
         start_qdate = self.start_date.date()
         start_date_str = str( start_qdate.toPyDate() )
+
+        start_qtime = self.start_date.time()
+        start_time_str = start_qtime.toString("HH:mm:ss")
         
+        start_datetime_str = f"{start_date_str}T{start_time_str}"
+        
+        # End `qdate` `qtime`
         end_qdate = self.end_date.date()
         end_date_str = str( end_qdate.toPyDate() )
+        
+        end_qtime = self.end_date.time()
+        end_time_str = end_qtime.toString("HH:mm:ss")
+        
+        end_datetime_str =  f"{end_date_str}T{end_time_str}"
+        
+        # Obtener dias qdate
+        # `dayOfYear()`, no detecta años, solo dias. 
+        # `QDate.year()`, para detectar años. (No toma en cuenta el año visiesto.
+        # `daysInYear()` Dias en un año deteminado
+        # Obtener milisegundso qtime
+        # Detrminar total de dias, y horas
+        start_end_year = [start_qdate.year(), end_qdate.year()]
+        year_day = ( max(start_end_year) - min(start_end_year) ) * 365
 
+        start_end_day = [start_qdate.dayOfYear(), end_qdate.dayOfYear()]
+        total_day = max(start_end_day) - min(start_end_day) + (year_day)
+        
+        start_end_time = [ start_qtime.msecsSinceStartOfDay(), end_qtime.msecsSinceStartOfDay() ]
+        total_time = max(start_end_time) + min(start_end_time)
+        
+        # Usando función `util_time.get_time()`
+        total_hour = (
+            util_time.get_time( total_time, "millisecond", "hour" ) +
+            util_time.get_time( total_day, "day", "hour" )
+        )
+        print( total_hour )
+
+        # Dict
         dict_ready = {
-            "start_date" : start_date_str,
-            "end_date" : end_date_str,
-            "hours" : time_str
+            "start_date" : start_datetime_str,
+            "end_date" : end_datetime_str,
+            "hours" : total_hour
         }
         
         return dict_ready
@@ -169,11 +231,12 @@ class ActividadForm(QtWidgets.QWidget):
 
         table_actividad.insert_actividad(
             TareaId=self.combobox_tarea.currentData(), 
-            RecursoHumanoId=self.combobox_recurso.currentData(),
-            NOTA=self.entry_note.text(), FechaInicio=date_time["start_date"], FechaFin=date_time["end_date"],
+            RecursoHumanoId=self.combobox_recurso.currentData(), NOTA=self.entry_note.text(), 
+            FechaInicio=date_time["start_datetime"], FechaFin=date_time["end_datetime"],
             HORAS=date_time["hours"]
         )
         self.refresh_table()
+        self.clear_parameter()
     
 
     def update_actividad(self):
@@ -189,3 +252,4 @@ class ActividadForm(QtWidgets.QWidget):
             Baja=int(self.checkbox_soft_delete.isChecked())
         )
         self.refresh_table()
+        self.refresh_parameter()
