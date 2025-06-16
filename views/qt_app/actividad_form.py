@@ -38,6 +38,7 @@ class ActividadForm(QtWidgets.QWidget):
         
         self.button_add.clicked.connect( self.insert_actividad )
         self.button_update.clicked.connect( self.update_actividad )
+        self.button_update_database.clicked.connect( self.update_database )
         self.entry_id.textChanged.connect( self.on_text_changed )
         
         self.refresh_text()
@@ -79,6 +80,7 @@ class ActividadForm(QtWidgets.QWidget):
         self.label_hours.setText( "Horas" )
         self.label_tarea.setText( "Tarea" )
         self.label_recurso.setText( "Recurso humano" )
+        self.button_update_database.setText( "Actualizar base de datos" )
         
 
     def refresh_combobox(self):
@@ -153,6 +155,13 @@ class ActividadForm(QtWidgets.QWidget):
             self.clear_parameter()
     
     
+    def refresh_all(self):
+        self.refresh_text()
+        self.refresh_table()
+        self.refresh_parameter()
+        self.refresh_combobox()
+    
+    
     def on_text_changed(self, text):
         '''
         Detectar cambio de id. Actualizar parametros
@@ -206,7 +215,10 @@ class ActividadForm(QtWidgets.QWidget):
         total_day = max(start_end_day) - min(start_end_day) + (year_day)
         
         start_end_time = [ start_qtime.msecsSinceStartOfDay(), end_qtime.msecsSinceStartOfDay() ]
-        total_time = max(start_end_time) + min(start_end_time)
+        if start_end_time[0] != start_end_time[1]:
+            total_time = max(start_end_time) - min(start_end_time)
+        else:
+            total_time = 0
         
         # Usando función `util_time.get_time()`
         total_hour = (
@@ -217,12 +229,17 @@ class ActividadForm(QtWidgets.QWidget):
 
         # Dict
         dict_ready = {
-            "start_date" : start_datetime_str,
-            "end_date" : end_datetime_str,
+            "start_datetime" : start_datetime_str,
+            "end_datetime" : end_datetime_str,
             "hours" : total_hour
         }
         
         return dict_ready
+    
+    
+    def update_database(self):
+        self.refresh_combobox()
+        self.refresh_table()
     
 
     def insert_actividad(self):
@@ -247,8 +264,8 @@ class ActividadForm(QtWidgets.QWidget):
             ActividadId=self.current_id, 
             TareaId=self.combobox_tarea.currentData(), 
             RecursoHumanoId=self.combobox_recurso.currentData(), 
-            NOTA=self.entry_note.text(), FechaInicio=date_time["start_date"], 
-            FechaFin=date_time["end_date"], HORAS=date_time["hours"], UsuarioId=0, 
+            NOTA=self.entry_note.text(), FechaInicio=date_time["start_datetime"], 
+            FechaFin=date_time["end_datetime"], HORAS=date_time["hours"], UsuarioId=0, 
             Baja=int(self.checkbox_soft_delete.isChecked())
         )
         self.refresh_table()

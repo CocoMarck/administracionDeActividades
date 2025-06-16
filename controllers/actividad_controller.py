@@ -47,7 +47,7 @@ class ActividadController( TableController ):
         if (
             isinstance(TareaId, int) and isinstance(RecursoHumanoId, int) and
             isinstance(text_or_none(NOTA), str) and isinstance(text_or_none(FechaInicio), str) and
-            isinstance(text_or_none(FechaFin), str) and isinstance(text_or_none(HORAS), str) and
+            isinstance(text_or_none(FechaFin), str) and isinstance( HORAS, float) and
             (exists_tarea_id and exists_recurso_id)
         ):
             insert = self.table.insert_actividad(
@@ -79,7 +79,7 @@ class ActividadController( TableController ):
     
     def update_actividad(
         self, ActividadId: int, TareaId: int, RecursoHumanoId: int, NOTA: str, FechaInicio: str, 
-        FechaFin: str, HORAS: str, UsuarioId: int, Baja: int
+        FechaFin: str, HORAS: float, UsuarioId:int=0, Baja: int=0
     ):
         message = ""
     
@@ -106,9 +106,9 @@ class ActividadController( TableController ):
 
         # Determinar que los parametros son correctos
         if (
-            isinstance(ActividadId, int) and exists_ids and isinstance(NOTA, str) and 
-            isinstance(FechaInicio, str) and isinstance(FechaFin, str) and isinstance(HORAS, str) and 
-            isinstance(UsuarioId, int) and good_soft_delete
+            isinstance(ActividadId, int) and exists_ids and isinstance( text_or_none(NOTA), str) and 
+            isinstance( text_or_none(FechaInicio), str) and isinstance( text_or_none(FechaFin), str) and 
+            isinstance( HORAS, float ) and isinstance(UsuarioId, int) and good_soft_delete
         ):
             update = self.table.update_actividad(
                 ActividadId=ActividadId, TareaId=TareaId, RecursoHumanoId=RecursoHumanoId, 
