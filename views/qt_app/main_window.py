@@ -42,10 +42,24 @@ class MyApp(QtWidgets.QMainWindow):
         
         # Agregar Formularios | Ventanas
         self.tarea_form = TareaForm()
-        self.tab_widget.addTab( self.tarea_form, "Tarea" )
+        self.tab_widget.addTab( self.tarea_form, "Tarea" ) # index 0
         
         self.recurso_form = RecursoForm()
-        self.tab_widget.addTab( self.recurso_form, "Recurso Humano" )
+        self.tab_widget.addTab( self.recurso_form, "Recurso Humano" ) # index 1
         
         self.actividad_form = ActividadForm()
-        self.tab_widget.addTab( self.actividad_form, "Actividad" )
+        self.tab_widget.addTab( self.actividad_form, "Actividad" ) # index 2
+        
+        # Detectar cambio de tab
+        self.tab_widget.currentChanged.connect( self.on_tab_changed )
+    
+    def on_tab_changed(self, index):
+        '''
+        Refrescar tab, dependiendo de su index
+        '''
+        if index == 0:
+            self.tarea_form.refresh_all()
+        elif index == 1:
+            self.recurso_form.refresh_all()
+        elif index == 2:
+            self.actividad_form.update_database()

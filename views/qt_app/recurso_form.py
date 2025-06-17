@@ -35,32 +35,16 @@ class RecursoForm(QtWidgets.QWidget):
         self.button_update.clicked.connect( self.update_user )
         
         self.refresh_all()
-        
-
-    def on_text_changed(self, text):
-        # Solo aceptar numeros en el entry
-        self.entry_id.setText( ignore_text_filter(text, "1234567890")  )
-        
-        # Determinar que se escribio un id
+    
+    
+    
+    def clear_parameter(self):
+        self.entry_id.setText("")
         self.entry_name.setText( "" )
         self.entry_paternal_surname.setText( "" )
         self.entry_maternal_surname.setText( "" )
         self.entry_position.setText( "" )
         self.checkbox_soft_delete.setChecked( False )
-        if self.entry_id.text() != '':
-            self.current_id = int(self.entry_id.text()) 
-
-            # Establecer descripcción y baja por medio del id
-            for column in self.table_controller.get_all_value():
-                if self.current_id == column[0]:
-                    self.entry_name.setText( column[1] )
-                    self.entry_paternal_surname.setText( column[2] )
-                    self.entry_maternal_surname.setText( column[3] )
-                    self.entry_position.setText( column[4] )
-                    self.checkbox_soft_delete.setChecked( bool(column[11]) )
-                    break
-        else:
-            self.current_id = None
     
     
     def refresh_text(self):
@@ -100,11 +84,53 @@ class RecursoForm(QtWidgets.QWidget):
                 self.table.setItem( row, number, QTableWidgetItem( final_text ) )
                     
             number += 1
+        
+        
+    def refresh_parameter(self):
+        '''
+        Establecer parametros, dependiendo del id main
+        '''
+        default_parameter = False
+        if isinstance( self.current_id, int ):
+            # Establecer descripcción y baja por medio del id
+            for column in self.table_controller.get_all_value():
+                if self.current_id == column[0]:
+                    default_parameter = False
+                
+                    self.entry_name.setText( column[1] )
+                    self.entry_paternal_surname.setText( column[2] )
+                    self.entry_maternal_surname.setText( column[3] )
+                    self.entry_position.setText( column[4] )
+                    self.checkbox_soft_delete.setChecked( bool(column[11]) )
+                    break
+                else:
+                    default_parameter = True
+        else:
+            default_parameter = True
+        
+        if default_parameter:
+            self.clear_parameter()
     
     
     def refresh_all(self):
         self.refresh_text()
         self.refresh_table()
+        self.refresh_parameter()
+        
+        
+    def on_text_changed(self, text):
+        '''
+        Establecer id main
+        '''
+        # Solo aceptar numeros en el entry
+        self.entry_id.setText( ignore_text_filter(text, "1234567890")  )
+        
+        # Determinar que se escribio un id
+        if self.entry_id.text() != '':
+            self.current_id = int(self.entry_id.text()) 
+        else:
+            self.current_id = None
+        self.refresh_parameter()
     
     
     def insert_user(self):
@@ -112,6 +138,7 @@ class RecursoForm(QtWidgets.QWidget):
             Nombre=self.entry_name.text(), APP=self.entry_paternal_surname.text(), 
             APM=self.entry_maternal_surname.text(), Puesto=self.entry_position.text()
         )
+        self.clear_parameter()
         self.refresh_table()
     
     
@@ -123,4 +150,5 @@ class RecursoForm(QtWidgets.QWidget):
                 APM=self.entry_maternal_surname.text(), Puesto=self.entry_position.text(),
                 Baja=self.checkbox_soft_delete.isChecked()
             )
+            self.clear_parameter()
             self.refresh_table()

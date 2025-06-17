@@ -30,25 +30,17 @@ class TareaForm(QtWidgets.QWidget):
         self.button_update.clicked.connect( self.update )
         self.entry_id.textChanged.connect( self.on_text_changed )
         
+        self.current_id = None
+        
         self.refresh_all()
     
-    def on_text_changed(self, text):
-        # Solo aceptar numeros en el entry
-        self.entry_id.setText( ignore_text_filter(text, "1234567890")  )
-        
-        # Determinar que se escribio un id
+    def clear_parameter(self):
+        '''
+        Limpiar parametros
+        '''
+        self.entry_id.setText( "" )
         self.entry_description.setText( "" )
         self.checkbox_soft_delete.setChecked( False )
-        if self.entry_id.text() != '':
-            id_search = int(self.entry_id.text()) 
-
-            # Establecer descripcción y baja por medio del id
-            for column in tarea_table.get_all_value():
-                if id_search == column[0]:
-                    self.entry_description.setText( column[1] )
-                    self.checkbox_soft_delete.setChecked( bool(column[8]) )
-                    break
-                    
                     
     
     def refresh_text(self):
@@ -59,6 +51,7 @@ class TareaForm(QtWidgets.QWidget):
         self.button_add.setText( "Agregar" )
         self.button_update.setText( "Actualizar" )
         self.button_cancel.setText( "Cancelar" )
+    
     
     def refresh_table(self):
         # Actualizar datos de la tabla.
@@ -86,16 +79,53 @@ class TareaForm(QtWidgets.QWidget):
                     
             number += 1
     
+    
+    def refresh_parameter(self):
+        default_parameter = False
+
+        if isinstance( self.current_id, int ):
+            # Establecer descripcción y baja por medio del id
+            for column in tarea_table.get_all_value():
+                if self.current_id == column[0]:
+                    default_parameter = False
+
+                    self.entry_description.setText( column[1] )
+                    self.checkbox_soft_delete.setChecked( bool(column[8]) )
+                    break
+                else:
+                    default_parameter = True
+        else:
+            default_parameter = True
+
+        if default_parameter:
+            self.clear_parameter()
+    
+    
     def refresh_all(self):
         # Actualizar todo lo posible
         self.refresh_table()
         self.refresh_text()
     
+    
+    def on_text_changed(self, text):
+        # Solo aceptar numeros en el entry
+        self.entry_id.setText( ignore_text_filter(text, "1234567890")  )
+        
+        # Determinar que se escribio un id
+        if self.entry_id.text() != '':
+            self.current_id = int(self.entry_id.text()) 
+        else:
+            self.current_id = None
+        self.refresh_parameter()
+    
+
     def add(self):
         # Insertar en la tabla
         if tarea_table.insert_tarea( self.entry_description.text() ):
             self.refresh_table()
+            self.clear_parameter()
     
+   
     def update(self):
         # Actualizar en la tabla
         if self.entry_id.text() != "":
@@ -104,6 +134,7 @@ class TareaForm(QtWidgets.QWidget):
                 int(self.checkbox_soft_delete.isChecked())
             ):
                 self.refresh_table()
+                self.clear_parameter()
         
     
     def cancel(self):

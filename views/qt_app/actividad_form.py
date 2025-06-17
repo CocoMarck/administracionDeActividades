@@ -40,6 +40,9 @@ class ActividadForm(QtWidgets.QWidget):
         self.button_update.clicked.connect( self.update_actividad )
         self.button_update_database.clicked.connect( self.update_database )
         self.entry_id.textChanged.connect( self.on_text_changed )
+
+        self.start_date.dateTimeChanged.connect( self.set_hours )
+        self.end_date.dateTimeChanged.connect( self.set_hours )
         
         self.refresh_text()
         self.refresh_table()
@@ -69,6 +72,7 @@ class ActividadForm(QtWidgets.QWidget):
         self.combobox_recurso.setCurrentIndex( 0 )
         self.current_date()
         self.label_time_hours.setText( "0" )
+        self.checkbox_soft_delete.setChecked( False )
     
 
     def refresh_text(self):
@@ -80,7 +84,7 @@ class ActividadForm(QtWidgets.QWidget):
         self.label_hours.setText( "Horas" )
         self.label_tarea.setText( "Tarea" )
         self.label_recurso.setText( "Recurso humano" )
-        self.button_update_database.setText( "Actualizar base de datos" )
+        self.button_update_database.setText( "Actualizar datos" )
         
 
     def refresh_combobox(self):
@@ -123,10 +127,14 @@ class ActividadForm(QtWidgets.QWidget):
     
             
     def refresh_parameter(self):
+        default_parameter = False
+        
         if isinstance( self.current_id, int ):
             # Establecer parametros por medio del id
             for column in table_actividad.get_all_value():
                 if self.current_id == column[0]:
+                    default_parameter = False
+                
                     self.entry_note.setText( column[3] )
 
                     # Combos
@@ -151,7 +159,14 @@ class ActividadForm(QtWidgets.QWidget):
                     # Checkbox
                     self.checkbox_soft_delete.setChecked( bool(column[13]) )
                     break
+
+                else:
+                    default_parameter = True
         else:
+            default_parameter = True
+        
+        if default_parameter:
+            self.current_date()
             self.clear_parameter()
     
     
@@ -170,7 +185,6 @@ class ActividadForm(QtWidgets.QWidget):
         self.entry_id.setText( ignore_text_filter(text, "1234567890")  )
         
         # Determinar que se escribio un id
-        self.entry_note.setText( "" )
         self.checkbox_soft_delete.setChecked( False )
         if self.entry_id.text() != '':
             self.current_id = int(self.entry_id.text()) 
@@ -225,7 +239,6 @@ class ActividadForm(QtWidgets.QWidget):
             util_time.get_time( total_time, "millisecond", "hour" ) +
             util_time.get_time( total_day, "day", "hour" )
         )
-        print( total_hour )
 
         # Dict
         dict_ready = {
@@ -236,10 +249,16 @@ class ActividadForm(QtWidgets.QWidget):
         
         return dict_ready
     
+
+    def set_hours(self):
+        dict_time = self.dict_date_time()
+        self.label_time_hours.setText( str(dict_time["hours"]) )
+    
     
     def update_database(self):
         self.refresh_combobox()
         self.refresh_table()
+        self.clear_parameter()
     
 
     def insert_actividad(self):
@@ -269,4 +288,5 @@ class ActividadForm(QtWidgets.QWidget):
             Baja=int(self.checkbox_soft_delete.isChecked())
         )
         self.refresh_table()
-        self.refresh_parameter()
+        #self.refresh_parameter()
+        self.clear_parameter()
