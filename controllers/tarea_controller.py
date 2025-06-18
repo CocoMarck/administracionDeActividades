@@ -3,9 +3,9 @@ from .table_controller import TableController, get_datetime
 
 
 class TareaController( TableController ):
-    def __init__(self, verbose: bool=True, return_message: bool=False):
+    def __init__(self, verbose: bool=True, return_message: bool=False, save_log: bool=True):
         super().__init__(
-            table=models.TareaTable(), verbose=verbose, return_message=return_message
+            table=models.TareaTable(), verbose=verbose, return_message=return_message, save_log=save_log
         )
     
     def insert_tarea(
@@ -32,16 +32,9 @@ class TareaController( TableController ):
         
         else:
             message = "[ERROR] Bad description"
-        
-        # Verbose Mesasge
-        if self.verbose:
-            print(message)
 
         # Return
-        if self.return_message:
-            return message
-        else:
-            return return_value
+        return self.return_value( value=return_value, message=message )
             
             
             
@@ -85,12 +78,5 @@ class TareaController( TableController ):
         else:
             message = "[ERROR] Bad description"
         
-        # Verbose Mesasge
-        if self.verbose:
-            print(message)
-
-        # Return
-        if self.return_message:
-            return message
-        else:
-            return return_value
+        # return
+        return self.return_value( value=return_value, message=message )

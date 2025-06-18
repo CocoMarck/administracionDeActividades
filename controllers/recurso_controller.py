@@ -5,9 +5,10 @@ from .table_controller import TableController, get_datetime, text_or_none
 
 
 class RecursoHumanoController( TableController ):
-    def __init__(self, verbose: bool=True, return_message: bool=False):
+    def __init__(self, verbose: bool=True, return_message: bool=False, save_log: bool=True):
         super().__init__(
-            table=models.RecursoHumanoTable(), verbose=verbose, return_message=return_message
+            table=models.RecursoHumanoTable(), verbose=verbose, return_message=return_message,
+            save_log=save_log
         )
         
 
@@ -32,11 +33,7 @@ class RecursoHumanoController( TableController ):
             message = "[ERROR] Bad parameters"
             return_value = False
         
-        if self.return_message: return_value = message
-        
-        if self.verbose: print(message)
-        
-        return return_value
+        return self.return_value( value=return_value, message=message )
     
     
 
@@ -44,6 +41,7 @@ class RecursoHumanoController( TableController ):
     def update_user(
         self, RecursoHumanoId: int, Nombre: str, APP: str, APM: str, Puesto: str, Baja: bool
     ) -> bool | str:
+        value = False
         if (
             isinstance( RecursoHumanoId, int ) and isinstance( text_or_none(Nombre), str ) and
             isinstance( text_or_none(APP), str ) and isinstance( text_or_none(APM), str ) and
@@ -54,6 +52,17 @@ class RecursoHumanoController( TableController ):
                 UsuarioModificacionId=0, FechaModificacion=get_datetime(),
                 UsuarioBajaId=0, FechaBaja=get_datetime(), Baja=int(Baja)
             )
+            
+            if isinstance( update, str ):
+                value = True
+                message = f"[INFO] Good instruction\n[SQL]\n{update}"
+            else:
+                message = f"[ERROR] Bad instruction\n[SQL]\n{update}"
+        else:
+            message = f"[ERROR] Bad parameters"
+            value = False
+        
+        return self.return_value( value=value, message=message )
     
 
 
@@ -68,8 +77,4 @@ class RecursoHumanoController( TableController ):
             message = f"[ERROR]\n{delete_user}"
             return_value = False
             
-        if self.return_message: return_value = message
-        
-        if self.verbose: print(message)
-        
-        return return_value
+        return self.return_value( value=return_value, message=message )

@@ -1,10 +1,19 @@
 import models
+from .logging_controller import LoggingController
 
-class DataBaseController():
-    def __init__(self, database: models.StandardDataBase, verbose=False, return_message=False):
+class DataBaseController( LoggingController ):
+    def __init__(
+        self, database: models.StandardDataBase, verbose=False, return_message=False,
+        log_level: str="debug", save_log: bool=True
+    ):
         self.database = database
-        self.verbose = verbose
-        self.return_message = return_message
+        self.name = self.database.name_database
+        
+        # Log
+        super().__init__(
+            name=f"database_{self.name}", verbose=verbose, 
+            return_message=return_message, log_level=log_level, save_log=save_log
+        )
     
 
     def execute_statement(
@@ -14,6 +23,7 @@ class DataBaseController():
         execute = self.database.execute_statement( sql_statement, commit, return_type )
         
         # Mensaje
+        log_type = "info"
         message = f"[SQL] Statement:\n{sql_statement}"
         if execute != None:
             if commit:
@@ -21,17 +31,11 @@ class DataBaseController():
             else:
                 message += "\n[COMMIT] Discart changes"
         else:
-            message += f"\n[ERROR] bad sqlite statement"
+            log_type = "error"
+            message += f"\nBad sqlite statement"
 
-        # Mostrar mensaje
-        if self.verbose:
-            print(message)
-        
-        # Devolver
-        if self.return_message == True:
-            return message
-        else:
-            return execute
+        # Return
+        return self.return_value( value=execute, message=message, log_type=log_type )
     
 
     def create_database(self) -> str:
@@ -40,19 +44,14 @@ class DataBaseController():
         
         # Mensaje
         if create == "database-already" or create == "database-created":
+            log_type = "info"
             message = "[SQL] Database created"
         else:
-            message = "[WARNING] The database could not be created"
+            log_type = "warning"
+            message = "The database could not be created"
 
-        # Mostrar mensaje
-        if self.verbose:
-            print(message)
-        
-        # Devolver
-        if self.return_message == True:
-            return message
-        else:
-            return create
+        # Return
+        return self.return_value( value=create, message=message, log_type=log_type )
     
 
     def delete_database(self) -> str:
@@ -60,18 +59,14 @@ class DataBaseController():
         delete = self.database.delete_database()
         
         if delete:
+            log_type = "info"
             message = "[SQL] Database deleted"
         else:
+            log_type = "warning"
             message = "[WARNING] Database not deleted"
         
-        if self.verbose:
-            print(message)
-        
-        # Devolver
-        if self.return_message == True:
-            return message
-        else:
-            return delete
+        # Return
+        return self.return_value( value=delete, message=message, log_type=log_type )
     
 
     def tables(self) -> str | list:
@@ -81,48 +76,34 @@ class DataBaseController():
         return_tables = []
         message = ""
         if tables != None:
+            log_type = "info"
             message = (
                 f"[SQL] Returning all tables\n"
                 f"Tables: {tables}"
             )
             return_tables = tables
         else:
-            message = "[WARNING] No detect tables"
+            log_type = "warning"
+            message = "No detect tables"
         
-        if self.verbose == True:
-            print(message)
-        
-        # Devolver
-        if self.return_message == True:
-            return message
-        else:
-            return return_tables
+        # Return
+        return self.return_value( value=return_tables, message=message, log_type=log_type )
     
     
     def exists_table(self, table: str) -> bool | str:
         # Función
         exists_table = self.database.exists_table( table=table )
         
-        message = ""
         if exists_table:
             message = f'[SQL] The table "{table}" exists'
         else:
             message = f'[SQL] No exists the table "{table}"'
         
-        if self.verbose:
-            print(message)
-        
-        # Devolver
-        if self.return_message:
-            return message
-        else:
-            return exists_table
+        # Return
+        return self.return_value( value=exists_table, message=message, log_type="info" )
     
     
     def delete_table(self, table: str) -> bool | str:
-        message = ""
-    
-        to_return = None
         delete = False
         if self.database.exists_table( table=table ):
             # Función
@@ -135,14 +116,8 @@ class DataBaseController():
         else:
             message = f'[SQL] The table "{table}" does not exist and will not be deleted'
         
-        if self.verbose:
-            print(message)
-        
-        # Devolver
-        if self.return_message:
-            return message
-        else:
-            return delete
+        # Return
+        return self.return_value( value=delete, message=message, log_type="info" )
     
     
     def clear_database(self) -> bool | str:
@@ -152,8 +127,5 @@ class DataBaseController():
         if clear:   message = "[SQL] All tables were cleared"
         else:       message = "[SQL] There are no tables in the database"
         
-        if self.verbose:    print(message)
-        
-        # Devolver
-        if self.return_message: return message
-        else:                   return clear
+        # Return
+        return self.return_value( value=clear, message=message, log_type="info" )

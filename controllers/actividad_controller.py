@@ -4,9 +4,10 @@ from .table_controller import TableController, get_datetime, text_or_none
 
 
 class ActividadController( TableController ):
-    def __init__( self, verbose: bool=True, return_message: bool=False ):
+    def __init__( self, verbose: bool=True, return_message: bool=False, save_log: bool=True ):
         super().__init__(
-            table=models.ActividadTable(), verbose=verbose, return_message=return_message
+            table=models.ActividadTable(), verbose=verbose, return_message=return_message,
+            save_log=save_log
         )
         self.tarea_table = models.TareaTable()
         self.recurso_table = models.RecursoHumanoTable()
@@ -65,15 +66,8 @@ class ActividadController( TableController ):
             message = "[ERROR] Bad parameters"
             return_value = False
         
-        # Mostrar
-        if self.verbose:
-            print(message)
-        
-        # Devolver
-        if self.return_message:
-            return message
-        else:
-            return return_value
+        # return
+        return self.return_value( value=return_value, message=message )
     
     
     
@@ -126,12 +120,5 @@ class ActividadController( TableController ):
             message += f"\n[ERROR] Bad parameters"
             return_value = False
         
-        # Mostrar
-        if self.verbose:
-            print(message)
-        
-        # Devolver
-        if self.return_message:
-            return message
-        else:
-            return return_value
+        # return
+        return self.return_value( value=return_value, message=message )
