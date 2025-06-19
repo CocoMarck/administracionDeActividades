@@ -8,6 +8,7 @@ class TareaController( TableController ):
             table=models.TareaTable(), verbose=verbose, return_message=return_message, save_log=save_log
         )
     
+    
     def insert_tarea(
         self, Descripcion: str
     ) -> bool | str:
@@ -28,13 +29,18 @@ class TareaController( TableController ):
                 message = f'[SQL]\n{insert_tarea}'
                 return_value = True
             else:
-                message = '[ERROR] Bad statement'
+                message = 'Bad statement'
         
         else:
-            message = "[ERROR] Bad description"
+            message = "Bad description"
+        
+        if return_value:
+            log_type = "info"
+        else:
+            log_type = "error"
 
         # Return
-        return self.return_value( value=return_value, message=message )
+        return self.return_value( value=return_value, message=message, log_type=log_type )
             
             
             
@@ -73,10 +79,16 @@ class TareaController( TableController ):
                 message = f'[SQL]\n{update_tarea}'
                 return_value = True
             else:
-                message = '[ERROR] Bad statement'
+                message = 'Bad statement'
         
         else:
-            message = "[ERROR] Bad description"
+            message = "Bad description"
+        
+        # Devolver valor
+        if return_value:
+            log_type = "info"
+        else:
+            log_type = "error"
         
         # return
-        return self.return_value( value=return_value, message=message )
+        return self.return_value( value=return_value, message=message, log_type=log_type )

@@ -60,14 +60,16 @@ class ActividadController( TableController ):
             insert = None
         
         if isinstance(insert, str):
+            log_type = "info"
             message = f"[SQL]\n{insert}"
             return_value = True
         else:
-            message = "[ERROR] Bad parameters"
+            log_type = "error"
+            message = "Bad parameters"
             return_value = False
         
         # return
-        return self.return_value( value=return_value, message=message )
+        return self.return_value( value=return_value, message=message, log_type=log_type )
     
     
     
@@ -83,20 +85,20 @@ class ActividadController( TableController ):
         
         if exists_tarea_id and exists_recurso_id:
             exists_ids = True
-            message += "[INFO] The id's exits"
+            message += "The id's exits"
         else:
             exists_ids = False
-            message += "[ERROR] Not exists de id's"
+            message += "Not exists de id's"
         
         # Determinar que baja es correcto.
         if Baja == 1 or Baja == 0:
             good_soft_delete = True
             FechaBaja = get_datetime()
-            message += "\n[INFO] Good soft delete parameter"
+            message += "\nGood soft delete parameter"
         else:
             good_soft_delete = False
             FechaBaja = None
-            message += "\n[ERROR] Bad soft delete parameter"
+            message += "\nBad soft delete parameter"
 
         # Determinar que los parametros son correctos
         if (
@@ -114,11 +116,13 @@ class ActividadController( TableController ):
             update = None
             
         if isinstance(update, str):
+            log_type = "info"
             message += f"\n[SQL]\n{update}"
             return_value = True
         else:
-            message += f"\n[ERROR] Bad parameters"
+            log_type = "error"
+            message += f"\nBad parameters"
             return_value = False
         
         # return
-        return self.return_value( value=return_value, message=message )
+        return self.return_value( value=return_value, message=message, log_type=log_type )

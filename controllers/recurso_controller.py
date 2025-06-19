@@ -24,16 +24,21 @@ class RecursoHumanoController( TableController ):
                 UsuarioCreacionId=0, FechaCreacion=get_datetime()
             )
             if isinstance( insert_user, str ):
-                message = f"[SQL]\n{insert_user}"
+                message = f"\n{insert_user}"
                 return_value = True
             else:
-                message = f"[ERROR]\nBad instruction"
+                message = "Bad instruction"
                 return_value = False
         else:
-            message = "[ERROR] Bad parameters"
+            message = "Bad parameters"
             return_value = False
+            
+        if return_value == True:
+            log_type = "info"
+        else:
+            log_type = "error"
         
-        return self.return_value( value=return_value, message=message )
+        return self.return_value( value=return_value, message=message, log_type=log_type )
     
     
 
@@ -55,14 +60,19 @@ class RecursoHumanoController( TableController ):
             
             if isinstance( update, str ):
                 value = True
-                message = f"[INFO] Good instruction\n[SQL]\n{update}"
+                message = f"Good instruction\n[SQL]\n{update}"
             else:
-                message = f"[ERROR] Bad instruction\n[SQL]\n{update}"
+                message = f"Bad instruction\n[SQL]\n{update}"
         else:
-            message = f"[ERROR] Bad parameters"
+            message = f"Bad parameters"
             value = False
         
-        return self.return_value( value=value, message=message )
+        if value:
+            log_type = "info"
+        else:
+            log_type = "error"
+        
+        return self.return_value( value=value, message=message, log_type=log_type )
     
 
 
@@ -70,11 +80,12 @@ class RecursoHumanoController( TableController ):
     def delete_user(self, RecursoHumanoId: int) -> bool | str:
         delete_user = self.table.delete_user( RecursoHumanoId )
         
+        message = f"[SQL]\n{delete_user}"
         if isinstance( delete_user, str ):
-            message = f"[SQL]\n{delete_user}"
+            log_type = "info"
             return_value = True
         else:
-            message = f"[ERROR]\n{delete_user}"
+            log_type = "error"
             return_value = False
             
-        return self.return_value( value=return_value, message=message )
+        return self.return_value( value=return_value, message=message, log_type=log_type )

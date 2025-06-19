@@ -118,6 +118,22 @@ class ActividadForm(QtWidgets.QWidget):
                         final_text = "Si"
                     else:
                         final_text = "No"
+
+                elif number == 1:
+                    fetchone = database_controller.execute_statement( 
+                        f"SELECT Descripcion FROM TAREA WHERE TareaId={all_value[row][number]}",
+                        commit=False, return_type="fetchone"
+                    )
+                    text = fetchone[0]
+                    final_text = f"{all_value[row][number]}. {text}"
+
+                elif number == 2:
+                    fetchone = database_controller.execute_statement( 
+                        f"SELECT Nombre FROM RECURSO_HUMANO WHERE RecursoHumanoId={all_value[row][number]}",
+                        commit=False, return_type="fetchone"
+                    )
+                    final_text = fetchone[0]
+
                 else:
                     final_text = str(all_value[row][number])
                     

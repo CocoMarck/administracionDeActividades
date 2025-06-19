@@ -10,6 +10,7 @@ from core.util_text import ignore_text_filter, pass_text_filter
 from .tarea_form import TareaForm
 from .recurso_form import RecursoForm
 from .actividad_form import ActividadForm
+from .actividad_query_form import ActividadQueryForm
 from utils import ResourceLoader
 import sys, os
 
@@ -49,6 +50,9 @@ class MyApp(QtWidgets.QMainWindow):
         
         self.actividad_form = ActividadForm()
         self.tab_widget.addTab( self.actividad_form, "Actividad" ) # index 2
+        
+        self.actividad_query_form = ActividadQueryForm()
+        self.tab_widget.addTab( self.actividad_query_form, "ActividadQuery" ) # index 3
         
         # Detectar cambio de tab
         self.tab_widget.currentChanged.connect( self.on_tab_changed )
