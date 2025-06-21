@@ -11,6 +11,7 @@ class ActividadTable( StandardTable ):
         super().__init__(
             database=AdministracionDeActividad(), table = "ACTIVIDAD"
         )
+        self.column_soft_delete = "Baja"
         
     def insert_actividad(
         self, TareaId: int, RecursoHumanoId: int, NOTA: str, FechaInicio: str, 
@@ -46,6 +47,51 @@ class ActividadTable( StandardTable ):
         )
         
         return self.database.execute_statement( sql_statement, commit=True, return_type="statement")
+    
+    
+    def filtered_query( 
+        self, start_datetime: str=None, end_datetime: str=None, TareaId:int=None, RecursoHumanoId:int=None,
+        Baja:int=0
+    ):
+        '''
+        Obtiene datos de la tabla ACTIVIDAD, con filtros de: 
+        TareaId, RecursoHumano, Baja=0, y eso basado en un rango de fechas.
+        Esta metodo, actualmente jala medio raro, pero funciona.
+        '''
+        search_text = ""
+        if isinstance(start_datetime, str) and isinstance(end_datetime, str):
+            search_text += f"FechaInicio BETWEEN '{start_datetime}' AND '{end_datetime}'"
+    
+        # Establecer parametros id's
+        text_ids = ""
+        
+        if search_text != "":
+            and_text = " AND "
+        else:
+            and_text = ""
+        
+        if isinstance(TareaId, int):
+            search_text += f"{and_text}TareaId={TareaId} "
+            
+        if search_text != "":
+            and_text = " AND "
+        else:
+            and_text = ""
+
+        if isinstance(RecursoHumanoId, int):
+            search_text += f"{and_text}RecursoHumanoId={RecursoHumanoId}"
+        
+        # Establecer texto de baja
+        if search_text != "":
+            search_text += " AND "
+        
+        # Instrucción
+        sql_statement = (
+            f"SELECT * FROM {self.table} WHERE {search_text}{self.column_soft_delete}={Baja};"
+        )
+        
+        #return sql_statement
+        return self.database.execute_statement( sql_statement, commit=False, return_type="fetchall" )
     
     
     def delete_actividad(self):

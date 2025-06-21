@@ -67,3 +67,5 @@ class MyApp(QtWidgets.QMainWindow):
             self.recurso_form.refresh_all()
         elif index == 2:
             self.actividad_form.update_database()
+        elif index == 3:
+            self.actividad_query_form.update_database()

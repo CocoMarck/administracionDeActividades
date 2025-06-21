@@ -21,10 +21,181 @@ file_ui = dir_ui.joinpath( 'actividad_query_form.ui' )
 
 
 
+# Controlador
+database_controller = controllers.AdministracionDeActividadController()
+actividad_controller = controllers.ActividadController()
+tarea_controller = controllers.TareaController()
+recurso_controller = controllers.RecursoHumanoController()
+
+
+
 
 class ActividadQueryForm(QtWidgets.QWidget):
-    def __init__( self, table_controller=None ):
+    def __init__( self ):
         super().__init__()
 
         self.resize( nums_win_main[0], nums_win_main[1] )
         uic.loadUi(file_ui, self)
+        
+        self.button_set_filter.clicked.connect( self.set_filter )
+        self.button_update_database.clicked.connect( self.update_database )
+        self.button_cancel.clicked.connect( self.clear_parameter )
+
+        self.combobox_tarea.activated.connect( self.set_tarea_id )
+        self.checkbox_tarea.stateChanged.connect( self.set_tarea_id )
+
+        self.combobox_recurso.activated.connect( self.set_recurso_id )
+        self.checkbox_recurso.stateChanged.connect( self.set_recurso_id )
+        
+        self.checkbox_datetime_range.stateChanged.connect( self.set_datetime_range )
+        self.start_datetime.dateTimeChanged.connect( self.set_datetime_range )
+        self.end_datetime.dateTimeChanged.connect( self.set_datetime_range )
+
+        self.dict_datetime = { "start_datetime": None, "end_datetime": None }
+
+        self.current_tarea_id = None
+        self.current_recurso_id = None
+        self.current_table_columns = []
+        
+        self.update_database()
+        
+        
+    def current_datetime(self):
+        qdate = QDate.fromString( get_datetime( "date" ), "yyyy-MM-dd" )
+        qtime = QTime.fromString( get_datetime( "time" ), "HH:mm:ss" )
+        self.start_datetime.setDate(qdate)
+        self.start_datetime.setTime(qtime)
+        self.end_datetime.setDate(qdate)
+        self.end_datetime.setTime(qtime)
+        
+        
+    def clear_parameter(self):
+        # Restablecer todos valores al default.
+        self.checkbox_tarea.setChecked( False )
+        self.checkbox_recurso.setChecked( False )
+        self.checkbox_datetime_range.setChecked( False )
+        self.checkbox_soft_delete.setChecked( False ) 
+        self.combobox_tarea.setCurrentIndex( 0 )
+        self.combobox_recurso.setCurrentIndex( 0 )
+        self.current_datetime()
+    
+    
+    def set_tarea_id(self):
+        self.current_tarea_id = None
+        if self.checkbox_tarea.isChecked():
+            current_id = self.combobox_tarea.currentData()
+            if isinstance(current_id, int):
+                self.current_tarea_id = current_id
+    
+    
+    def set_recurso_id(self):
+        self.current_recurso_id = None
+        if self.checkbox_recurso.isChecked():
+            current_id = self.combobox_recurso.currentData()
+            if isinstance(current_id, int):
+                self.current_recurso_id = current_id
+                
+                
+    def set_datetime_range(self):
+        if self.checkbox_datetime_range.isChecked():
+            # Obtener parametros relacionados al tiempo
+            # Start `qdate` `qtime`
+            start_qdatetime = self.start_datetime.dateTime()
+            
+            start_qdate = self.start_datetime.date()
+            start_date_str = str( start_qdate.toPyDate() )
+
+            start_qtime = self.start_datetime.time()
+            start_time_str = start_qtime.toString("HH:mm:ss")
+            
+            start_datetime_str = f"{start_date_str}T{start_time_str}"
+            
+            # End `qdate` `qtime`
+            end_qdate = self.end_datetime.date()
+            end_date_str = str( end_qdate.toPyDate() )
+            
+            end_qtime = self.end_datetime.time()
+            end_time_str = end_qtime.toString("HH:mm:ss")
+            
+            end_datetime_str =  f"{end_date_str}T{end_time_str}"
+
+            # Dict
+            self.dict_datetime["start_datetime"] = start_datetime_str
+            self.dict_datetime["end_datetime"] = end_datetime_str
+        else:
+            self.dict_datetime["start_datetime"] = None
+            self.dict_datetime["end_datetime"] = None
+    
+    
+    def refresh_combobox(self):
+        # Establecer combobox
+        self.combobox_tarea.clear()
+        for value in tarea_controller.get_all_values_without_soft_delete():
+            self.combobox_tarea.addItem( value[1], userData=value[0] ) # descripcción, id
+            
+        self.combobox_recurso.clear()
+        for value in recurso_controller.get_all_values_without_soft_delete():
+            self.combobox_recurso.addItem( value[1], userData=value[0] ) # descripcción, id
+    
+    
+    def refresh_table(self):
+        # Actualizar datos de la tabla.
+        all_column = actividad_controller.get_all_column()
+        self.table.clear()
+        self.table.setColumnCount( len(all_column) )
+        self.table.setHorizontalHeaderLabels( all_column )
+        self.table.resizeColumnsToContents() # Para que se acomode por el texto columna.
+        
+        all_value = self.current_table_columns
+        self.table.setRowCount( len(all_value) )
+        number = 0
+        for column in all_column:
+            for row in range(0, len(all_value)):
+                final_text = str
+                if number == 13:
+                    if all_value[row][number] == 1:
+                        final_text = "Si"
+                    else:
+                        final_text = "No"
+
+                elif number == 1:
+                    fetchone = database_controller.execute_statement( 
+                        f"SELECT Descripcion FROM TAREA WHERE TareaId={all_value[row][number]}",
+                        commit=False, return_type="fetchone"
+                    )
+                    text = fetchone[0]
+                    final_text = f"{all_value[row][number]}. {text}"
+
+                elif number == 2:
+                    fetchone = database_controller.execute_statement( 
+                        f"SELECT Nombre FROM RECURSO_HUMANO WHERE RecursoHumanoId={all_value[row][number]}",
+                        commit=False, return_type="fetchone"
+                    )
+                    final_text = fetchone[0]
+
+                else:
+                    final_text = str(all_value[row][number])
+                    
+                self.table.setItem( row, number, QTableWidgetItem( final_text ) )
+                    
+            number += 1
+    
+    
+
+    def set_filter(self):
+        self.current_table_columns = actividad_controller.filtered_query( 
+            start_datetime=self.dict_datetime["start_datetime"],
+            end_datetime=self.dict_datetime["end_datetime"],
+            TareaId=self.current_tarea_id, RecursoHumanoId=self.current_recurso_id,
+            Baja=self.checkbox_soft_delete.isChecked()
+        )
+        self.refresh_table()
+    
+    
+    def update_database(self):
+        self.clear_parameter()
+        self.refresh_combobox()
+        self.set_tarea_id()
+        self.set_recurso_id()
+        self.set_datetime_range()
+        self.set_filter()

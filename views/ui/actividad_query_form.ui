@@ -87,13 +87,13 @@
     <layout class="QHBoxLayout">
 
      <item>
-      <widget class="QCheckBox" name="checkbox_daterange">
+      <widget class="QCheckBox" name="checkbox_datetime_range">
       </widget>
      </item>
      
      <!-- Fecha inicio -->
      <item>
-      <widget class="QLabel" name="label_start_date">
+      <widget class="QLabel" name="label_start_datetime">
        <property name="text"> <string>Fecha inicio</string> </property>
        
        <property name="sizePolicy">
@@ -106,7 +106,7 @@
      </item>
      
      <item>
-      <widget class="QDateTimeEdit" name="start_date">
+      <widget class="QDateTimeEdit" name="start_datetime">
        <property name="calendarPopup"> <bool>true</bool> </property>
 
        <property name="sizePolicy">
@@ -121,7 +121,7 @@
      
      <!-- Fecha fin -->
      <item>
-      <widget class="QLabel" name="label_end_date">
+      <widget class="QLabel" name="label_end_datetime">
        <property name="text"> <string>Fecha inicio</string> </property>
        
        <property name="sizePolicy">
@@ -134,7 +134,7 @@
      </item>
      
      <item>
-      <widget class="QDateTimeEdit" name="end_date">
+      <widget class="QDateTimeEdit" name="end_datetime">
        <property name="calendarPopup"> <bool>true</bool> </property>
       
        <property name="sizePolicy">
@@ -167,9 +167,9 @@
     <layout class="QHBoxLayout">
         
      <item>
-      <widget class="QPushButton" name="button_query">
+      <widget class="QPushButton" name="button_set_filter">
        <property name="text">
-        <string>Consulta</string>
+        <string>Aplicar filtro</string>
        </property>
       </widget>
      </item>
@@ -193,6 +193,15 @@
      </item>
 
     </layout>
+    </item>
+    
+    
+    <item>
+     <widget class="QCheckBox" name="checkbox_soft_delete">
+      <property name="text">
+       <string>Baja</string>
+      </property>
+     </widget>
     </item>
     
     

@@ -126,3 +126,39 @@ class ActividadController( TableController ):
         
         # return
         return self.return_value( value=return_value, message=message, log_type=log_type )
+    
+    
+    
+    
+    def filtered_query(
+        self, start_datetime: str=None, end_datetime: str=None, TareaId:int=None, RecursoHumanoId:int=None,
+        Baja: bool=False
+    ):
+        '''
+        Permite hacer una consulta de datos filtrados. Los parametros son los filtros.
+        '''
+        value = []
+    
+        # Determinar que la baja sea un boleano
+        if isinstance( Baja, bool):
+            # Establecer lista de valores.
+            filtered_query = self.table.filtered_query(
+                start_datetime=start_datetime, end_datetime=end_datetime,
+                TareaId=TareaId, RecursoHumanoId=RecursoHumanoId, Baja=int(Baja)
+            )
+            if isinstance(filtered_query, list):
+                log_type = "info"
+                message = f"Range of datetime; {start_datetime} to {end_datetime}"
+                value = filtered_query
+            else:
+                log_type = "error"
+                message = (
+                    f"Bad parameters: `start = {start_datetime}` `end = {end_datetime}` "
+                    f"`tarea id = {TareaId}` `recurso humano id = {RecursoHumanoId}`"
+                )
+        else:
+            log_type = "error"
+            message = "Bad `Baja` parameter"
+        
+
+        return self.return_value( value=value, message=message, log_type=log_type )
