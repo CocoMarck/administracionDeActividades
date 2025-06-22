@@ -5,11 +5,10 @@
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="main_layout">
     
-    <!-- ActividadId TareaId RecursoHumanoId-->
+    <!-- Grid Fila 1:ActividadId TareaId RecursoHumanoId-->
     <item>
-    <layout class="QHBoxLayout">
-        
-     <item>
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="0" column="0">
       <widget class="QLabel" name="label_id">
        <property name="text">
         <string>ActividadId</string>
@@ -17,16 +16,16 @@
        
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-         <horstretch>0</horstretch><verstretch>0</verstretch>
+         <horstretch>1</horstretch><verstretch>1</verstretch>
         </sizepolicy>
        </property>
 
       </widget>
      </item>
      
-     <item>
+     <item row="0" column="1">
       <widget class="QLineEdit" name="entry_id">
-
+      
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
          <horstretch>1</horstretch><verstretch>1</verstretch>
@@ -37,89 +36,43 @@
      </item>
 
      <!-- TareaId-->
-     <item>
+     <item row="0" column="2">
       <widget class="QLabel" name="label_tarea">
        <property name="text">
         <string>Tarea</string>
        </property>
-       
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-         <horstretch>0</horstretch><verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-
       </widget>
      </item>
      
-     <item>
+     <item row="0" column="3">
       <widget class="QComboBox" name="combobox_tarea">
-
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-         <horstretch>1</horstretch><verstretch>1</verstretch>
-        </sizepolicy>
-       </property>
-
       </widget>
      </item>
      
      <!-- RecursoHumanoId-->
-     <item>
+     <item row="0" column="4">
       <widget class="QLabel" name="label_recurso">
        <property name="text">
         <string>RecursoHumano</string>
        </property>
-       
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-         <horstretch>0</horstretch><verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
 
       </widget>
      </item>
      
-     <item>
+     <item row="0" column="5">
       <widget class="QComboBox" name="combobox_recurso">
-
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-         <horstretch>1</horstretch><verstretch>1</verstretch>
-        </sizepolicy>
-       </property>
-
       </widget>
      </item>
-     
-     
-     <!-- Espaciador addStretch-->
-     <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation"> <enum>Qt::Horizontal</enum> </property>
-       <property name="sizeHint" stdset="0">
-        <size> <width>0</width><height>0</height> </size>
-       </property>
-      </spacer>
-     </item>
-
-    </layout>
-    </item>
     
     
-    
-
-    <!-- Nota Horas, baja -->
-    <item>
-    <layout class="QHBoxLayout">
-     
+    <!-- Fila 2: Nota Horas, baja -->
      <!-- Nota -->
-     <item>
+     <item row="1" column="0">
       <widget class="QLabel" name="label_note">
        <property name="text"> <string>Nota</string> </property>
-       
+
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch><verstretch>0</verstretch>
         </sizepolicy>
        </property>
@@ -127,122 +80,68 @@
       </widget>
      </item>
      
-     <item>
-      <widget class="QLineEdit" name="entry_note">
-
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="entry_note"/>
+      
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-         <horstretch>1</horstretch><verstretch>1</verstretch>
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch><verstretch>0</verstretch>
         </sizepolicy>
        </property>
 
-      </widget>
      </item>
      
      <!-- Fecha inicio -->
-     <item>
+     <item row="1" column="2">
       <widget class="QLabel" name="label_start_date">
        <property name="text"> <string>Fecha inicio</string> </property>
-       
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-         <horstretch>0</horstretch><verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
 
       </widget>
      </item>
      
-     <item>
+     <item row="1" column="3">
       <widget class="QDateTimeEdit" name="start_date">
        <property name="calendarPopup"> <bool>true</bool> </property>
-
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-         <horstretch>1</horstretch><verstretch>1</verstretch>
-        </sizepolicy>
-       </property>
 
       </widget>
      </item>
      
      
      <!-- Fecha fin -->
-     <item>
+     <item row="1" column="4">
       <widget class="QLabel" name="label_end_date">
        <property name="text"> <string>Fecha inicio</string> </property>
-       
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-         <horstretch>0</horstretch><verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
 
       </widget>
      </item>
      
-     <item>
+     <item row="1" column="5">
       <widget class="QDateTimeEdit" name="end_date">
        <property name="calendarPopup"> <bool>true</bool> </property>
-      
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-         <horstretch>1</horstretch><verstretch>1</verstretch>
-        </sizepolicy>
-       </property>
 
       </widget>
      </item>
      
      
      <!-- horas -->
-     <item>
+     <item row="1" column="6">
       <widget class="QLabel" name="label_hours">
        <property name="text"> <string>Horas</string> </property>
-       
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-         <horstretch>0</horstretch><verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
 
       </widget>
      </item>
      
-     <item>
-      <widget class="QLabel" name="label_time_hours">
+     <item row="1" column="7">
+      <widget class="QLineEdit" name="label_time_hours">
        <property name="text"> <string>0</string> </property>
-
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-         <horstretch>1</horstretch><verstretch>1</verstretch>
-        </sizepolicy>
-       </property>
+       <property name="readOnly"> <bool>true</bool> </property>
 
       </widget>
      </item>
-     
-     <!-- Espaciador addStretch-->
-     <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation"> <enum>Qt::Horizontal</enum> </property>
-       <property name="sizeHint" stdset="0">
-        <size> <width>0</width><height>0</height> </size>
-       </property>
-      </spacer>
-     </item>
 
-    </layout>
-    </item>
-    
-    
-    
-    
-    <!-- Baja -->
-    <item>
-    <layout class="QHBoxLayout">
-    
-     <item>
+
+    <!-- Fila 3: Baja -->
+     <item row="2" column="0">
       <widget class="QLabel" name="label_soft_delete">
        <property name="text">
         <string>Baja</string>
@@ -250,32 +149,16 @@
       </widget>
      </item>
      
-     <item>
+     <item row="2" column="1">
       <widget class="QCheckBox" name="checkbox_soft_delete">
       </widget>
-     </item>
-     
-     <!-- Espaciador addStretch-->
-     <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation"> <enum>Qt::Horizontal</enum> </property>
-       <property name="sizeHint" stdset="0">
-        <size> <width>0</width><height>0</height> </size>
-       </property>
-      </spacer>
      </item>
     
     </layout>
     </item>
-    
-    
-    
-    
 
-    
-    
-    
-    
+
+
     <!-- Agragar actualizar y cancelar-->
     <item>
     <layout class="QHBoxLayout">
@@ -320,7 +203,9 @@
     
     <!-- Tabla -->
     <item>
-     <widget class="QTableWidget" name="table"></widget>
+     <widget class="QTableWidget" name="table">
+      <!-- <property name="editTriggers"> <bool>false</bool> </property> -->
+     </widget>
     </item>
    
    </layout>

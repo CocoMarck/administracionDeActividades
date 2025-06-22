@@ -7,153 +7,85 @@
     
     <!-- TareaId RecursoHumanoId-->
     <item>
-    <layout class="QHBoxLayout">
+    <layout class="QGridLayout">
 
      <!-- TareaId-->
-     <item>
+     <item row="0" column="0">
       <widget class="QCheckBox" name="checkbox_tarea">
        <property name="text">
         <string>Tarea</string>
-       </property>
-       
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-         <horstretch>0</horstretch><verstretch>0</verstretch>
-        </sizepolicy>
        </property>
 
       </widget>
      </item>
      
-     <item>
+     <item row="0" column="1">
       <widget class="QComboBox" name="combobox_tarea">
-
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-         <horstretch>1</horstretch><verstretch>1</verstretch>
-        </sizepolicy>
-       </property>
 
       </widget>
      </item>
      
      <!-- RecursoHumanoId-->
-     <item>
+     <item row="0" column="2">
       <widget class="QCheckBox" name="checkbox_recurso">
        <property name="text">
         <string>RecursoHumano</string>
        </property>
-       
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-         <horstretch>0</horstretch><verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
 
       </widget>
      </item>
      
-     <item>
+     <item row="0" column="3">
       <widget class="QComboBox" name="combobox_recurso">
 
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-         <horstretch>1</horstretch><verstretch>1</verstretch>
-        </sizepolicy>
-       </property>
-
       </widget>
      </item>
-     
-     
-     <!-- Espaciador addStretch-->
-     <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation"> <enum>Qt::Horizontal</enum> </property>
-       <property name="sizeHint" stdset="0">
-        <size> <width>0</width><height>0</height> </size>
-       </property>
-      </spacer>
-     </item>
-
-    </layout>
-    </item>
-    
-    
     
 
-    <!-- Fecha Inicio y Fecha Fin -->
-    <item>
-    <layout class="QHBoxLayout">
-
-     <item>
+    <!-- Fila 2: Fecha Inicio y Fecha Fin -->
+     <item row="1" column="0">
       <widget class="QCheckBox" name="checkbox_datetime_range">
       </widget>
      </item>
      
      <!-- Fecha inicio -->
-     <item>
+     <item row="1" column="1">
       <widget class="QLabel" name="label_start_datetime">
        <property name="text"> <string>Fecha inicio</string> </property>
-       
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-         <horstretch>0</horstretch><verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
 
       </widget>
      </item>
      
-     <item>
+     <item row="1" column="2">
       <widget class="QDateTimeEdit" name="start_datetime">
        <property name="calendarPopup"> <bool>true</bool> </property>
-
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-         <horstretch>1</horstretch><verstretch>1</verstretch>
-        </sizepolicy>
-       </property>
 
       </widget>
      </item>
      
      
      <!-- Fecha fin -->
-     <item>
+     <item row="1" column="3">
       <widget class="QLabel" name="label_end_datetime">
-       <property name="text"> <string>Fecha inicio</string> </property>
-       
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-         <horstretch>0</horstretch><verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
+       <property name="text"> <string>Fecha fin</string> </property>
 
       </widget>
      </item>
      
-     <item>
+     <item row="1" column="4">
       <widget class="QDateTimeEdit" name="end_datetime">
        <property name="calendarPopup"> <bool>true</bool> </property>
-      
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-         <horstretch>1</horstretch><verstretch>1</verstretch>
-        </sizepolicy>
-       </property>
 
       </widget>
      </item>
      
-     <!-- Espaciador addStretch-->
-     <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation"> <enum>Qt::Horizontal</enum> </property>
-       <property name="sizeHint" stdset="0">
-        <size> <width>0</width><height>0</height> </size>
+     <!-- Fila 3: Baja -->
+     <item row="2" column="0">
+      <widget class="QCheckBox" name="checkbox_soft_delete">
+       <property name="text">
+        <string>Baja</string>
        </property>
-      </spacer>
+      </widget>
      </item>
 
     </layout>
@@ -194,17 +126,6 @@
 
     </layout>
     </item>
-    
-    
-    <item>
-     <widget class="QCheckBox" name="checkbox_soft_delete">
-      <property name="text">
-       <string>Baja</string>
-      </property>
-     </widget>
-    </item>
-    
-    
     
     
     <!-- Tabla -->

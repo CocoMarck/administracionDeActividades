@@ -7,11 +7,11 @@
    <layout class="QVBoxLayout" name="main_layout">
 
 
-    <!-- Id -->
+    <!-- Fila 1: Id -->
     <item>
-    <layout class="QHBoxLayout">
+    <layout class="QGridLayout" name="gridLayout">
         
-     <item>
+     <item row="0" column="0">
       <widget class="QLabel" name="label_id">
        <property name="text">
         <string>Id</string>
@@ -27,45 +27,12 @@
       </widget>
      </item>
      
-     <item>
-      <widget class="QLineEdit" name="entry_id">
-
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-         <horstretch>1</horstretch>
-         <verstretch>1</verstretch>
-        </sizepolicy>
-       </property>
-
-      </widget>
-     </item>
-     
-     <!-- Espaciador addStretch-->
-     <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>1</width>
-         <height>1</height>
-        </size>
-       </property>
-      </spacer>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="entry_id"/>
      </item>
 
-    </layout>
-    </item>
-    
-
-
-
-    <!-- Nombre Apellido Paterno y Materno -->
-    <item>
-    <layout class="QHBoxLayout">
-        
-     <item>
+     <!-- Fila 2: Nombre Apellido Paterno y Materno -->        
+     <item row="1" column="0">
       <widget class="QLabel" name="label_name">
        <property name="text">
         <string>Nombre</string>
@@ -73,12 +40,12 @@
       </widget>
      </item>
      
-     <item>
+     <item row="1" column="1">
       <widget class="QLineEdit" name="entry_name"/>
      </item>
      
      <!-- Apellido paterno -->
-     <item>
+     <item row="1" column="2">
       <widget class="QLabel" name="label_paternal_surname">
        <property name="text">
         <string>Apellido paterno</string>
@@ -86,12 +53,12 @@
       </widget>
      </item>
      
-     <item>
+     <item row="1" column="3">
       <widget class="QLineEdit" name="entry_paternal_surname"/>
      </item>
      
      <!-- Apellido materno -->
-     <item>
+     <item row="1" column="4">
       <widget class="QLabel" name="label_maternal_surname">
        <property name="text">
         <string>Apellido materno</string>
@@ -99,21 +66,13 @@
       </widget>
      </item>
      
-     <item>
+     <item row="1" column="5">
       <widget class="QLineEdit" name="entry_maternal_surname"/>
      </item>
-
-    </layout>
-    </item>
     
     
-    
-    
-    <!-- Puesto -->
-    <item>
-    <layout class="QHBoxLayout">
-
-     <item>
+     <!-- Fila 3: Puesto -->
+     <item row="2" column="0">
 
       <widget class="QLabel" name="label_position">
 
@@ -125,38 +84,17 @@
 
      </item>
      
-     <item>
+     <item row="2" column="1">
       <widget class="QLineEdit" name="entry_position">
 
       </widget>
      </item>
-     
-     <!-- Espaciador addStretch-->
-     <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>1</width>
-         <height>1</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-
-    </layout>
-    </item>
     
 
 
 
-    <!-- Baja Checkbox -->
-    <item>
-    <layout class="QHBoxLayout">
-        
-     <item>
+     <!-- Fila 4: Baja Checkbox -->
+     <item row="3" column="0">
       <widget class="QLabel" name="label_soft_delete">
        <property name="text">
         <string>Baja</string>
@@ -164,24 +102,9 @@
       </widget>
      </item>
      
-     <item>
+     <item row="3" column="1">
       <widget class="QCheckBox" name="checkbox_soft_delete">
       </widget>
-     </item>
-     
-     <!-- Espaciador addStretch-->
-     <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>1</width>
-         <height>1</height>
-        </size>
-       </property>
-      </spacer>
      </item>
 
     </layout>
