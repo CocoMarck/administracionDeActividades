@@ -1,6 +1,6 @@
 # Estructura del programa
 
-## Recordatorios
+# Recordatorios
 ### Archivos ```__init__.py```
 Estos archivos sirven para:
 - Marcar directorios como paquetes Python
@@ -23,16 +23,10 @@ Controler usa las funciones de model de manera segura. Aprueba de errores. El co
 Modelo = Trabajador especializado (sabe EXACTAMENTE cómo hablar con la BD)
 Controlador = Gerente (coordina, valida, y decide CUÁNDO usar al trabajador)
 
-### Logica de nombres de programación:
-- Modulos snake_case: modulo_chido.py
-- Clases como PascalCase: NombreDeClases
-- Metodos/funciones como snake_case: metodo_potente
-- Variables como snake_case: nombre_variable
 
 
 
-
-## Arbol del proyecto
+# Arbol del proyecto
 ```bash
 data/
     administracionDeActividad.db
@@ -57,7 +51,12 @@ models/
 
 controllers/
     __init__.py
-    database_controller.py # Controlador estandar, para controlar un modelo StandardDataBase
+    # Controlador estandar y heredados de este, para controlar un modelo StandardDataBase
+    database_controller.py
+    administrar_actividad_controller.py
+
+    # Controlador estandar y heredados de este, para controlar un modelo StandardTable
+    table_controller.py
     tarea_controller.py
     recurso_controller.py
     actividad_controller.py
@@ -67,6 +66,9 @@ views/
     qt_app/
         # Aplicacion
         main_window.py
+    ui/
+        # XML de los widgets y esas cosas. Qt
+        window.ui
     interface/
         # Modulos relacionados con la interfaz
         qt/
@@ -81,8 +83,8 @@ core/
     
     display_number.py
     Modulo_Files.py
-    Modulo_Text.py
-    Modulo_System.py
+    util_text.py
+    util_system.py
 
 config/
     # Archivos de texto con info para programas.
