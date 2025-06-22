@@ -4,7 +4,7 @@ from .logging_controller import LoggingController
 class DataBaseController( LoggingController ):
     def __init__(
         self, database: models.StandardDataBase, verbose=False, return_message=False,
-        log_level: str="debug", save_log: bool=True
+        log_level: str="warning", save_log: bool=True
     ):
         self.database = database
         self.name = self.database.name_database

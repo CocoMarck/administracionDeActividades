@@ -30,7 +30,7 @@ def text_or_none( text: str ) -> str | None:
 class TableController( LoggingController ):
     def __init__( 
         self, table: models.StandardTable, verbose: bool=True, return_message: bool=False,
-        log_level: str="debug", save_log: bool=True
+        log_level: str="warning", save_log: bool=True
     ):
         self.table = table
         self.name = table.table

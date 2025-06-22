@@ -19,7 +19,7 @@ class AdministracionDeActividadController( DataBaseController ):
             message = f"[SQL] Creating tables:\n{start_database}"
             return_value = True
         else:
-            log_type = "errror"
+            log_type = "error"
             message = f"Bad statement"
             return_value = False
         

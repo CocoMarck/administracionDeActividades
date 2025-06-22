@@ -2,6 +2,7 @@ from .standard_table import StandardTable
 from .tarea_table import TareaTable
 from .recurso_table import RecursoHumanoTable
 from .administrador_actividad import AdministracionDeActividad
+from .database_names import RECURSOHUMANO_TABLE_NAMES, TAREA_TABLE_NAMES, ACTIVIDAD_TABLE_NAMES
 
 
 
@@ -9,9 +10,9 @@ from .administrador_actividad import AdministracionDeActividad
 class ActividadTable( StandardTable ):
     def __init__(self):
         super().__init__(
-            database=AdministracionDeActividad(), table = "ACTIVIDAD"
+            database=AdministracionDeActividad(), table = ACTIVIDAD_TABLE_NAMES["table"]
         )
-        self.column_soft_delete = "Baja"
+        self.column_soft_delete = ACTIVIDAD_TABLE_NAMES["low"]
         
     def insert_actividad(
         self, TareaId: int, RecursoHumanoId: int, NOTA: str, FechaInicio: str, 
@@ -22,9 +23,12 @@ class ActividadTable( StandardTable ):
         '''
         sql_statement = (
             f"INSERT OR IGNORE INTO {self.table} ("
-            f"TareaId, RecursoHumanoId, NOTA, FechaInicio, FechaFin, HORAS, UsuarioCreacionId, " 
-            f"FechaCreacion, UsuarioBajaId, Baja"
-            f")\n"
+            f"{ACTIVIDAD_TABLE_NAMES['tareaid']}, {ACTIVIDAD_TABLE_NAMES['recursohumanoid']}, "
+            f"{ACTIVIDAD_TABLE_NAMES['note']}, {ACTIVIDAD_TABLE_NAMES['startdate']}, "
+            f"{ACTIVIDAD_TABLE_NAMES['enddate']}, {ACTIVIDAD_TABLE_NAMES['hours']}, "
+            f"{ACTIVIDAD_TABLE_NAMES['usercreationid']}, " 
+            f"{ACTIVIDAD_TABLE_NAMES['creationdate']}, {ACTIVIDAD_TABLE_NAMES['userlowid']}, "
+            f"{ACTIVIDAD_TABLE_NAMES['low']} \n)\n"
             f"VALUES ({TareaId}, {RecursoHumanoId}, '{NOTA}', '{FechaInicio}', '{FechaFin}', {HORAS}, "
             f"{UsuarioCreacionId}, '{FechaCreacion}', {UsuarioBajaId}, 0);"
         )
@@ -39,11 +43,15 @@ class ActividadTable( StandardTable ):
     ):
         sql_statement = (
             f"UPDATE {self.table} SET "
-            f"TareaId={TareaId}, RecursoHumanoId={RecursoHumanoId}, NOTA='{NOTA}', FechaInicio='{FechaInicio}', "
-            f"FechaFin='{FechaFin}', HORAS={HORAS}, UsuarioModificacionId={UsuarioModificacionId}, "
-            f"FechaModificacion='{FechaModificacion}', UsuarioBajaId={UsuarioBajaId}, FechaBaja='{FechaBaja}', "
-            f"Baja={Baja}\n"
-            f"WHERE ActividadId={ActividadId};"
+            f"{ACTIVIDAD_TABLE_NAMES['tareaid']}={TareaId}, "
+            f"{ACTIVIDAD_TABLE_NAMES['recursohumanoid']}={RecursoHumanoId}, "
+            f"{ACTIVIDAD_TABLE_NAMES['note']}='{NOTA}', {ACTIVIDAD_TABLE_NAMES['startdate']}='{FechaInicio}', "
+            f"{ACTIVIDAD_TABLE_NAMES['enddate']}='{FechaFin}', {ACTIVIDAD_TABLE_NAMES['hours']}={HORAS}, "
+            f"{ACTIVIDAD_TABLE_NAMES['usermodificationid']}={UsuarioModificacionId}, "
+            f"{ACTIVIDAD_TABLE_NAMES['modificationdate']}='{FechaModificacion}', "
+            f"{ACTIVIDAD_TABLE_NAMES['userlowid']}={UsuarioBajaId}, "
+            f"{ACTIVIDAD_TABLE_NAMES['lowdate']}='{FechaBaja}', {ACTIVIDAD_TABLE_NAMES['low']}={Baja}\n"
+            f"WHERE {ACTIVIDAD_TABLE_NAMES['id']}={ActividadId};"
         )
         
         return self.database.execute_statement( sql_statement, commit=True, return_type="statement")
@@ -60,7 +68,9 @@ class ActividadTable( StandardTable ):
         '''
         search_text = ""
         if isinstance(start_datetime, str) and isinstance(end_datetime, str):
-            search_text += f"FechaInicio BETWEEN '{start_datetime}' AND '{end_datetime}'"
+            search_text += (
+                f"{ACTIVIDAD_TABLE_NAMES['startdate']} BETWEEN '{start_datetime}' AND '{end_datetime}'"
+            )
     
         # Establecer parametros id's
         text_ids = ""
@@ -71,7 +81,7 @@ class ActividadTable( StandardTable ):
             and_text = ""
         
         if isinstance(TareaId, int):
-            search_text += f"{and_text}TareaId={TareaId} "
+            search_text += f"{and_text}{ACTIVIDAD_TABLE_NAMES['tareaid']}={TareaId} "
             
         if search_text != "":
             and_text = " AND "
@@ -79,7 +89,7 @@ class ActividadTable( StandardTable ):
             and_text = ""
 
         if isinstance(RecursoHumanoId, int):
-            search_text += f"{and_text}RecursoHumanoId={RecursoHumanoId}"
+            search_text += f"{and_text}{ACTIVIDAD_TABLE_NAMES['recursohumanoid']}={RecursoHumanoId}"
         
         # Establecer texto de baja
         if search_text != "":

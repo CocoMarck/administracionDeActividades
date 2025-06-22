@@ -1,5 +1,6 @@
 from .standard_table import StandardTable
 from .administrador_actividad import AdministracionDeActividad
+from .database_names import RECURSOHUMANO_TABLE_NAMES as TABLE_NAMES
 
 
 class RecursoHumanoTable( StandardTable ):
@@ -8,9 +9,9 @@ class RecursoHumanoTable( StandardTable ):
     '''
     def __init__(self):
         super().__init__(
-            database=AdministracionDeActividad(), table="RECURSO_HUMANO"
+            database=AdministracionDeActividad(), table=TABLE_NAMES['table']
         )
-        self.column_soft_delete = "Baja"
+        self.column_soft_delete = TABLE_NAMES['low']
         
     def insert_user(
         self, Nombre: str, APP: str, APM: str, Puesto: str, 
@@ -18,7 +19,9 @@ class RecursoHumanoTable( StandardTable ):
     ):
         sql_statement = (
             f"INSERT OR IGNORE INTO {self.table} "
-            f"(Nombre, APP, APM, Puesto, UsuarioCreacionId, FechaCreacion)\n"
+            f"({TABLE_NAMES['name']}, {TABLE_NAMES['paternal_surname']}, "
+            f"{TABLE_NAMES['maternal_surname']}, {TABLE_NAMES['position']}, "
+            f"{TABLE_NAMES['usercreationid']}, {TABLE_NAMES['creationdate']})\n"
             f"VALUES( '{Nombre}', '{APP}', '{APM}', '{Puesto}', {UsuarioCreacionId}, '{FechaCreacion}' );"
         )
         
@@ -31,10 +34,14 @@ class RecursoHumanoTable( StandardTable ):
         UsuarioBajaId: int, FechaBaja: str, Baja: int
     ):
         sql_statement = (
-            f"UPDATE {self.table} SET Nombre='{Nombre}', APP='{APP}', APM='{APM}', Puesto='{Puesto}', "
-            f"UsuarioModificacionId={UsuarioModificacionId}, FechaModificacion='{FechaModificacion}', "
-            f"UsuarioBajaId={UsuarioBajaId}, FechaBaja='{FechaBaja}', Baja={Baja}\n"
-            f"WHERE RecursoHumanoId={RecursoHumanoId};"
+            f"UPDATE {self.table} SET {TABLE_NAMES['name']}='{Nombre}', "
+            f"{TABLE_NAMES['paternal_surname']}='{APP}', {TABLE_NAMES['maternal_surname']}='{APM}', "
+            f"{TABLE_NAMES['position']}='{Puesto}', "
+            f"{TABLE_NAMES['usermodificationid']}={UsuarioModificacionId}, "
+            f"{TABLE_NAMES['modificationdate']}='{FechaModificacion}', "
+            f"{TABLE_NAMES['userlowid']}={UsuarioBajaId}, {TABLE_NAMES['lowdate']}='{FechaBaja}', "
+            f"{TABLE_NAMES['low']}={Baja}\n"
+            f"WHERE {TABLE_NAMES['id']}={RecursoHumanoId};"
         )
         
         return self.database.execute_statement( sql_statement, commit=True, return_type="statement" )
@@ -42,5 +49,5 @@ class RecursoHumanoTable( StandardTable ):
 
     def delete_user(self, RecursoHumanoId: int) -> str | None:
         return self.delete_row_by_column_value(
-            column = "RecursoHumanoId", value = f"{RecursoHumanoId}"
+            column = TABLE_NAMES['id'], value = f"{RecursoHumanoId}"
         )

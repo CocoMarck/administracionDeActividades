@@ -2,6 +2,8 @@ from views.interface.interface_number import *
 from core.util_text import ignore_text_filter, pass_text_filter
 from core import util_time
 from utils import ResourceLoader
+
+from models.database_names import RECURSOHUMANO_TABLE_NAMES, TAREA_TABLE_NAMES, ACTIVIDAD_TABLE_NAMES
 from controllers.table_controller import get_datetime
 import controllers
 
@@ -121,7 +123,10 @@ class ActividadForm(QtWidgets.QWidget):
 
                 elif number == 1:
                     fetchone = database_controller.execute_statement( 
-                        f"SELECT Descripcion FROM TAREA WHERE TareaId={all_value[row][number]}",
+                        (
+                        f"SELECT {TAREA_TABLE_NAMES['description']} FROM {TAREA_TABLE_NAMES['table']} "
+                        f"WHERE {TAREA_TABLE_NAMES['id']}={all_value[row][number]}"
+                        ),
                         commit=False, return_type="fetchone"
                     )
                     text = fetchone[0]
@@ -129,7 +134,10 @@ class ActividadForm(QtWidgets.QWidget):
 
                 elif number == 2:
                     fetchone = database_controller.execute_statement( 
-                        f"SELECT Nombre FROM RECURSO_HUMANO WHERE RecursoHumanoId={all_value[row][number]}",
+                        (
+                        f"SELECT {RECURSOHUMANO_TABLE_NAMES['name']} FROM {RECURSOHUMANO_TABLE_NAMES['table']} "
+                        f"WHERE {RECURSOHUMANO_TABLE_NAMES['id']}={all_value[row][number]}"
+                        ),
                         commit=False, return_type="fetchone"
                     )
                     final_text = fetchone[0]
