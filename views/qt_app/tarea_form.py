@@ -55,13 +55,13 @@ class TareaForm(QtWidgets.QWidget):
     
     def refresh_table(self):
         # Actualizar datos de la tabla.
-        all_column = tarea_table.get_all_column()
+        all_column = tarea_table.get_all_columns()
         self.table.clear()
         self.table.setColumnCount( len(all_column) )
         self.table.setHorizontalHeaderLabels( all_column )
         self.table.resizeColumnsToContents() # Para que se acomode por el texto columna.
         
-        all_value = tarea_table.get_all_value()
+        all_value = tarea_table.get_all_values()
         self.table.setRowCount( len(all_value) )
         number = 0
         for column in all_column:
@@ -85,7 +85,7 @@ class TareaForm(QtWidgets.QWidget):
 
         if isinstance( self.current_id, int ):
             # Establecer descripcción y baja por medio del id
-            for column in tarea_table.get_all_value():
+            for column in tarea_table.get_all_values():
                 if self.current_id == column[0]:
                     default_parameter = False
 

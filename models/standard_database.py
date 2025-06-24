@@ -330,7 +330,7 @@ class StandardDataBase():
             return True
     
 
-    def get_table_all_column(self, table: str) -> list | None:
+    def get_table_all_columns(self, table: str) -> list | None:
         #sql_statement = f"SELECT * FROM {table};"
         sql_statement = struct_table_statement( "select-column", table, "*" )
         cursor = self.execute_statement( sql_statement, commit=False, return_type="cursor" )
@@ -346,9 +346,9 @@ class StandardDataBase():
             return None
     
     
-    def get_table_all_value(self, table: str) -> list | None:
+    def get_table_all_values(self, table: str) -> list | None:
         sql_statement = struct_table_statement( "select-column", table, "*" )
         #sql_statement = struct_table_statement( 
-        #    "select-column", table, self.get_table_all_column( table=table )
+        #    "select-column", table, self.get_table_all_columns( table=table )
         #)
         return self.execute_statement( sql_statement=sql_statement, commit=False, return_type="fetchall" )

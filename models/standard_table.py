@@ -6,6 +6,8 @@ class StandardTable():
     Para manejar una tabla de una base de datos.
     No crea tablas, no crea la base de datos. No tiene funcion para ejecutar sql statements
     Usa un StandartDataBase, para manejar una tabla. Solo una tabla.
+    
+    Constante, alias, permite obtener los alias de la tabla y tambien las tablas relacionadas con esta tabla
     '''
     def __init__(
         self, database: StandardDataBase, table=str
@@ -13,18 +15,34 @@ class StandardTable():
         self.database = database
         self.table = table
         self.column_soft_delete = "softDelete"
+        
+        self.ALIAS = {
+            "table": "a"
+        }
+    
+    def get_alias(self, alias="table", point: bool=False) -> str:
+        '''
+        Obtener alias
+        '''
+        if alias in self.ALIAS.keys():
+            if point == True:
+                return f"{self.ALIAS[alias]}."
+            else:
+                return self.ALIAS[alias]
+        else:
+            return ""
 
-    def get_all_column(self) -> list:
+    def get_all_columns(self) -> list:
         '''
         Mostrar todas las columnas de la tabla.
         '''
-        return self.database.get_table_all_column( table=self.table )
+        return self.database.get_table_all_columns( table=self.table )
     
-    def get_all_value(self) -> list:
+    def get_all_values(self) -> list:
         '''
         Mostrar todas los valores de la tabla.
         '''
-        return self.database.get_table_all_value( table=self.table )
+        return self.database.get_table_all_values( table=self.table )
         
     def get_all_values_without_soft_delete(self) -> str | None:
         '''

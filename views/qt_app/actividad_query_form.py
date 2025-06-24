@@ -142,7 +142,7 @@ class ActividadQueryForm(QtWidgets.QWidget):
     
     def refresh_table(self):
         # Actualizar datos de la tabla.
-        all_column = actividad_controller.get_all_column()
+        all_column = actividad_controller.get_columns_for_the_view()
         self.table.clear()
         self.table.setColumnCount( len(all_column) )
         self.table.setHorizontalHeaderLabels( all_column )
@@ -154,33 +154,11 @@ class ActividadQueryForm(QtWidgets.QWidget):
         for column in all_column:
             for row in range(0, len(all_value)):
                 final_text = str
-                if number == 13:
+                if number == len(all_column)-1:
                     if all_value[row][number] == 1:
                         final_text = "Si"
                     else:
                         final_text = "No"
-
-                elif number == 1:
-                    fetchone = database_controller.execute_statement( 
-                        (
-                        f"SELECT {TAREA_TABLE_NAMES['description']} FROM {TAREA_TABLE_NAMES['table']} "
-                        f"WHERE {TAREA_TABLE_NAMES['id']}={all_value[row][number]}"
-                        ),
-                        commit=False, return_type="fetchone"
-                    )
-                    text = fetchone[0]
-                    final_text = f"{all_value[row][number]}. {text}"
-
-                elif number == 2:
-                    fetchone = database_controller.execute_statement( 
-                        (
-                        f"SELECT {RECURSOHUMANO_TABLE_NAMES['name']} FROM {RECURSOHUMANO_TABLE_NAMES['table']} "
-                        f"WHERE {RECURSOHUMANO_TABLE_NAMES['id']}={all_value[row][number]}"
-                        ),
-                        commit=False, return_type="fetchone"
-                    )
-                    final_text = fetchone[0]
-
                 else:
                     final_text = str(all_value[row][number])
                     
@@ -191,7 +169,7 @@ class ActividadQueryForm(QtWidgets.QWidget):
     
 
     def set_filter(self):
-        self.current_table_columns = actividad_controller.filtered_query( 
+        self.current_table_columns = actividad_controller.filtered_query_for_the_view( 
             start_datetime=self.dict_datetime["start_datetime"],
             end_datetime=self.dict_datetime["end_datetime"],
             TareaId=self.current_tarea_id, RecursoHumanoId=self.current_recurso_id,

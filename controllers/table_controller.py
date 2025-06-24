@@ -42,11 +42,11 @@ class TableController( LoggingController ):
         )
     
         
-    def get_all_column(self):
+    def get_all_columns(self):
         '''
         Mostrar todas las columnas de la tabla.
         '''
-        all_column = self.table.get_all_column( )
+        all_column = self.table.get_all_columns( )
         return_value = []
         if all_column == [] or all_column == None:
             message = f"{self.name}: Not have columns"
@@ -57,11 +57,11 @@ class TableController( LoggingController ):
         return self.return_value( value=return_value, message=message, log_type="info" )
     
 
-    def get_all_value(self):
+    def get_all_values(self):
         '''
         Mostrar todas los valores de la tabla.
         '''
-        all_value = self.table.get_all_value( )
+        all_value = self.table.get_all_values( )
         return_value = []
         if all_value == [] or all_value == None:
             message = f"{self.name}: Not have values"

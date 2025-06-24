@@ -61,13 +61,13 @@ class RecursoForm(QtWidgets.QWidget):
 
     def refresh_table(self):
         # Actualizar datos de la tabla.
-        all_column = self.table_controller.get_all_column()
+        all_column = self.table_controller.get_all_columns()
         self.table.clear()
         self.table.setColumnCount( len(all_column) )
         self.table.setHorizontalHeaderLabels( all_column )
         self.table.resizeColumnsToContents() # Para que se acomode por el texto columna.
         
-        all_value = self.table_controller.get_all_value()
+        all_value = self.table_controller.get_all_values()
         self.table.setRowCount( len(all_value) )
         number = 0
         for column in all_column:
@@ -93,7 +93,7 @@ class RecursoForm(QtWidgets.QWidget):
         default_parameter = False
         if isinstance( self.current_id, int ):
             # Establecer descripcción y baja por medio del id
-            for column in self.table_controller.get_all_value():
+            for column in self.table_controller.get_all_values():
                 if self.current_id == column[0]:
                     default_parameter = False
                 

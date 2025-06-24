@@ -162,3 +162,62 @@ class ActividadController( TableController ):
         
 
         return self.return_value( value=value, message=message, log_type=log_type )
+        
+
+    def get_columns_for_the_view(self):
+        columns_dict = self.table.get_columns_for_the_view()
+        columns_list = []
+        if isinstance(columns_dict, dict):
+            log_type = "info"
+            message = "Columns\n{columns}"
+            for key in columns_dict.keys():
+                columns_list.append( columns_dict[key] )
+        else:
+            log_type = "error"
+            message = "Bad instructions `get_columns_for_the_view`"
+        
+        return self.return_value( value=columns_list, message=message, log_type=log_type )
+    
+    
+    def get_values_for_the_view(self):
+        values = self.table.get_values_for_the_view()
+        if isinstance(values, list):
+            log_type = "info"
+            message = "Values:\n{values}"
+        else:
+            values = []
+            log_type = "error"
+            message = "Bad instruction `get_values_for_the_view`"
+        
+        return self.return_value( value=values, message=message, log_type=log_type )
+        
+        
+    def filtered_query_for_the_view(
+        self, start_datetime: str=None, end_datetime: str=None, TareaId:int=None, RecursoHumanoId:int=None,
+        Baja: bool=False
+    ):
+        value = []
+    
+        # Determinar que la baja sea un boleano
+        if isinstance( Baja, bool):
+            # Establecer lista de valores.
+            filtered_query = self.table.filtered_query_for_the_view(
+                start_datetime=start_datetime, end_datetime=end_datetime,
+                TareaId=TareaId, RecursoHumanoId=RecursoHumanoId, Baja=int(Baja)
+            )
+            if isinstance(filtered_query, list):
+                log_type = "info"
+                message = f"Range of datetime; {start_datetime} to {end_datetime}"
+                value = filtered_query
+            else:
+                log_type = "error"
+                message = (
+                    f"Bad parameters: `start = {start_datetime}` `end = {end_datetime}` "
+                    f"`tarea id = {TareaId}` `recurso humano id = {RecursoHumanoId}`"
+                )
+        else:
+            log_type = "error"
+            message = "Bad `Baja` parameter"
+        
+
+        return self.return_value( value=value, message=message, log_type=log_type )
