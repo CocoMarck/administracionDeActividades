@@ -1,7 +1,14 @@
 from pathlib import Path as pathlib
 
 
-def Text_Read(
+
+
+PREFIX_ABC = 'abcdefghijklmnñopqrstuvwxyz'
+PREFIX_NUMBER = '1234567890'
+PREFIX_SPACE = ' \n'
+
+
+def read_text(
         file_and_path='',
         option='ModeList',
         encoding="utf-8"
@@ -29,7 +36,7 @@ def Text_Read(
         
         elif option == 'ModeDict':
             text_final = {}
-            text_read = Text_Read(
+            text_read = read_text(
                 file_and_path=file_and_path, 
                 option='ModeText'
             )
@@ -53,7 +60,7 @@ def Text_Read(
         return None
 
 
-def Ignore_Comment(
+def ignore_comment(
     text='Hola #Comentario',
     comment='#'
 ):
@@ -66,7 +73,7 @@ def Ignore_Comment(
         
         text_ready = ''
         for line in text.split('\n'):
-            line = Ignore_Comment(text=line, comment=comment)
+            line = ignore_comment(text=line, comment=comment)
             text_ready += f'{line}\n'
             
         text = text_ready[:-1]
@@ -84,7 +91,7 @@ def Ignore_Comment(
     return text
 
 
-def Text_Separe(
+def separe_text(
     text='variable=Valor',
     text_separe='='
 ):
@@ -97,7 +104,7 @@ def Text_Separe(
     ):
         # Cuando hay saltos de linea y separador
         for line in text.split('\n'):
-            line = Text_Separe(text=line, text_separe=text_separe)
+            line = separe_text(text=line, text_separe=text_separe)
             for key in line.keys():
                 text_dict.update( {key : line[key]} )
 
@@ -113,7 +120,7 @@ def Text_Separe(
 
 
 
-def Only_Comment(
+def only_the_comment(
     text=None,
     comment='#'
 ):
@@ -126,7 +133,7 @@ def Only_Comment(
         
         text_ready = ''
         for line in text.split('\n'):
-            line = Only_Comment(text=line, comment=comment)
+            line = only_the_comment(text=line, comment=comment)
             if not line == None:
                 text_ready += f'{line}\n'
             
@@ -243,7 +250,7 @@ def ignore_text_filter(text=None, filter=None) -> str:
 
 def abc_list(list=None):
     # Ordenar cada letra del abecedario en un dicionario
-    abc = 'abcdefghijklmnñopqrstuvwxyz'
+    abc = PREFIX_ABC
     dict_abc = {}
     number = 0
     for character in abc:
@@ -309,3 +316,11 @@ def not_repeat_item( list=None ) -> list:
             new_list.append( item )
 
     return new_list
+    
+    
+def text_or_none( text: str ) -> str | None:
+    # Determinar que el texto no este vacio "". Si lo esta, devuelve None, y si no el text/string.
+    if bool( text.strip() ) == True:
+        return text
+    else:
+        return None

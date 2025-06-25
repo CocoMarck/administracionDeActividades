@@ -16,10 +16,14 @@ class StandardTable():
         self.table = table
         self.column_soft_delete = "softDelete"
         
+        # Alias
         self.ALIAS = {
             "table": "a"
         }
+        # Columnas relacionadas con la vista. Columnas para la vista.
+        self.COLUMNS_FOR_THE_VIEW = {}
     
+
     def get_alias(self, alias="table", point: bool=False) -> str:
         '''
         Obtener alias
@@ -123,3 +127,27 @@ class StandardTable():
             sql_statement, commit=True, return_type="statement"
         )
         return delete_value
+    
+    
+    
+    
+    def get_values_for_the_view(self) -> list | None:
+        '''
+        Obtener valores de la vista.
+        '''
+        columns_text = ""
+        for key in self.COLUMNS_FOR_THE_VIEW.keys():
+            columns_text += f"{self.COLUMNS_FOR_THE_VIEW[key]}, "
+        
+        # Retornar valores de columnas vista.
+        if columns_text != "":
+            columns_text = columns_text[:-2]
+        
+            sql_statement = (
+                f"SELECT {columns_text} FROM {self.table}"
+            )
+            return self.database.execute_statement( sql_statement, commit=False, return_type="fetchall" )
+
+        # Retornar valores de todosa las columnas
+        else:
+            return self.get_all_values()

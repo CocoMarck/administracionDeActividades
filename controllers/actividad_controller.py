@@ -83,12 +83,16 @@ class ActividadController( TableController ):
         exists_tarea_id = self.exists_tarea_id( TareaId )
         exists_recurso_id = self.exists_recurso_id( RecursoHumanoId )
         
-        if exists_tarea_id and exists_recurso_id:
+        exists_ids = False
+        if exists_tarea_id == False:
+            message += "Not exists the TareaId"
+        
+        if exists_recurso_id == False:
+            message += "Not exists the RecursoHumanoId"
+
+        if exists_recurso_id == True and exists_recurso_id  == True: 
             exists_ids = True
-            message += "The id's exits"
-        else:
-            exists_ids = False
-            message += "Not exists de id's"
+            message += "The id's exists"
         
         # Determinar que baja es correcto.
         if Baja == 1 or Baja == 0:
@@ -162,21 +166,6 @@ class ActividadController( TableController ):
         
 
         return self.return_value( value=value, message=message, log_type=log_type )
-        
-
-    def get_columns_for_the_view(self):
-        columns_dict = self.table.get_columns_for_the_view()
-        columns_list = []
-        if isinstance(columns_dict, dict):
-            log_type = "info"
-            message = "Columns\n{columns}"
-            for key in columns_dict.keys():
-                columns_list.append( columns_dict[key] )
-        else:
-            log_type = "error"
-            message = "Bad instructions `get_columns_for_the_view`"
-        
-        return self.return_value( value=columns_list, message=message, log_type=log_type )
     
     
     def get_values_for_the_view(self):

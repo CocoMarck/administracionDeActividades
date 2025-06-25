@@ -1,6 +1,6 @@
 from views.interface.interface_number import *
-from core.util_text import ignore_text_filter, pass_text_filter
-from core import util_time
+from core.text_util import ignore_text_filter, pass_text_filter
+from core import time_util
 from utils import ResourceLoader
 
 from models.database_names import RECURSOHUMANO_TABLE_NAMES, TAREA_TABLE_NAMES, ACTIVIDAD_TABLE_NAMES
@@ -150,6 +150,8 @@ class ActividadQueryForm(QtWidgets.QWidget):
         
         all_value = self.current_table_columns
         self.table.setRowCount( len(all_value) )
+
+        total_hours = 0
         number = 0
         for column in all_column:
             for row in range(0, len(all_value)):
@@ -161,10 +163,17 @@ class ActividadQueryForm(QtWidgets.QWidget):
                         final_text = "No"
                 else:
                     final_text = str(all_value[row][number])
-                    
+                
+                # Determinar horas
+                if number == 8:
+                    total_hours += all_value[row][number]
+                
+                # Agregar item
                 self.table.setItem( row, number, QTableWidgetItem( final_text ) )
                     
             number += 1
+        
+        self.entry_total_hours.setText( str(total_hours) )
     
     
 

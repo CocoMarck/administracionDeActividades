@@ -1,6 +1,6 @@
 from views.interface.interface_number import *
-from core.util_text import ignore_text_filter, pass_text_filter
-from core import util_time
+from core.text_util import ignore_text_filter, pass_text_filter
+from core import time_util
 from utils import ResourceLoader
 
 from models.database_names import RECURSOHUMANO_TABLE_NAMES, TAREA_TABLE_NAMES, ACTIVIDAD_TABLE_NAMES
@@ -236,10 +236,10 @@ class ActividadForm(QtWidgets.QWidget):
         else:
             total_time = 0
         
-        # Usando función `util_time.get_time()`
+        # Usando función `time_util.get_time()`
         total_hour = (
-            util_time.get_time( total_time, "millisecond", "hour" ) +
-            util_time.get_time( total_day, "day", "hour" )
+            time_util.get_time( total_time, "millisecond", "hour" ) +
+            time_util.get_time( total_day, "day", "hour" )
         )
 
         # Dict

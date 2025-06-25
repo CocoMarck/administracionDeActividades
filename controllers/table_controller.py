@@ -1,28 +1,7 @@
 import models
-import datetime
+from core.time_util import get_datetime
+from core.text_util import text_or_none
 from .logging_controller import LoggingController
-
-
-
-def get_datetime( mode: str="dateTime") -> str:
-    dateTime = str( datetime.datetime.now().replace(microsecond=0).isoformat() )
-    if mode == "date" or mode == "time":
-        time_or_date = dateTime.split("T")
-        
-        if mode == "date":
-            return time_or_date[0]
-        elif mode == "time":
-            return time_or_date[1]
-    else:
-        return dateTime
-    
-    
-def text_or_none( text: str ) -> str | None:
-    # Determinar que el texto no este vacio "". Si lo esta, devuelve None, y si no el text/string.
-    if bool( text.strip() ) == True:
-        return text
-    else:
-        return None
 
 
 
@@ -130,3 +109,35 @@ class TableController( LoggingController ):
             return_value = False
         
         return self.return_value( value=return_value, message=message, log_type=log_type )
+    
+    
+    
+    
+    def get_columns_for_the_view(self) -> list:
+        '''Obtener columnas para la vista'''
+        COLUMNS = self.table.COLUMNS_FOR_THE_VIEW
+        list_ready = []
+        for key in COLUMNS.keys():
+            list_ready.append( COLUMNS[key] )
+        if list_ready == []:
+            log_type = "error"
+            message = "No columns"
+        else:
+            log_type = "info"
+            message = f"Columns:\n{list_ready}"
+
+        return self.return_value( value=list_ready, message=message, log_type=log_type )
+    
+    
+    def get_values_for_the_view(self) -> list:
+        '''Obtener valores para la vista'''
+        values = self.table.get_values_for_the_view()
+        if isinstance(values, list):
+            log_type = "info"
+            message = f"Values:\n{values}"
+        else:
+            values = []
+            log_type = "error"
+            message = f"No values"
+        
+        return self.return_value( value=values, message=message, log_type=log_type )

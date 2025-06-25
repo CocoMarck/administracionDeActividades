@@ -13,6 +13,13 @@ class RecursoHumanoTable( StandardTable ):
         )
         self.column_soft_delete = TABLE_NAMES['low']
         
+        # Columnas para la vista
+        keys_for_the_view = ['id', 'name', 'paternal_surname', 'maternal_surname', 'position', 'low']
+        self.COLUMNS_FOR_THE_VIEW = {}
+        for key in keys_for_the_view:
+            self.COLUMNS_FOR_THE_VIEW.update( {key: TABLE_NAMES[key]} )
+        
+
     def insert_user(
         self, Nombre: str, APP: str, APM: str, Puesto: str, 
         UsuarioCreacionId: int, FechaCreacion: str

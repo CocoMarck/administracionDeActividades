@@ -22,6 +22,29 @@ class ActividadTable( StandardTable ):
             }
         )
         
+        # Columnas para la vista
+        keys = [
+            'id', 'tareaid', 'description', 'recursohumanoid','name','note', 'startdate', 'enddate', 
+            'hours', 'low'
+        ]
+
+        self.COLUMNS_FOR_THE_VIEW = {
+            keys[0]: ACTIVIDAD_TABLE_NAMES[keys[0]],
+
+            keys[1]: ACTIVIDAD_TABLE_NAMES[keys[1]],
+            keys[2]: TAREA_TABLE_NAMES[keys[2]],
+
+            keys[3]: ACTIVIDAD_TABLE_NAMES[keys[3]],
+            keys[4]: RECURSOHUMANO_TABLE_NAMES[keys[4]],
+
+            keys[5]: ACTIVIDAD_TABLE_NAMES[keys[5]],
+            keys[6]: ACTIVIDAD_TABLE_NAMES[keys[6]],
+            keys[7]: ACTIVIDAD_TABLE_NAMES[keys[7]],
+            keys[8]: ACTIVIDAD_TABLE_NAMES[keys[8]],
+            keys[9]: ACTIVIDAD_TABLE_NAMES[keys[9]],
+        }
+        
+        
     def insert_actividad(
         self, TareaId: int, RecursoHumanoId: int, NOTA: str, FechaInicio: str, 
         FechaFin: str, HORAS: float, UsuarioCreacionId: int, FechaCreacion: str, UsuarioBajaId: int
@@ -79,8 +102,8 @@ class ActividadTable( StandardTable ):
         search_text = ""
         if isinstance(start_datetime, str) and isinstance(end_datetime, str):
             search_text += (
-                f"{and_text}{alias}{ACTIVIDAD_TABLE_NAMES['startdate']} BETWEEN '{alias}{start_datetime}'"
-                f"{and_text}'{alias}{end_datetime}'"
+                f"{and_text}{alias}{ACTIVIDAD_TABLE_NAMES['startdate']} BETWEEN '{start_datetime}'"
+                f"{and_text}'{end_datetime}'"
             )
     
         # Establecer parametros id's
@@ -115,35 +138,6 @@ class ActividadTable( StandardTable ):
         
         #return sql_statement
         return self.database.execute_statement( sql_statement, commit=False, return_type="fetchall" )
-        
-        
-        
-    
-    def get_columns_for_the_view(self):
-        '''
-        Obtener columnas para la vista. Solo info relevanta para el usuario final.
-        '''
-        keys = [
-            'id', 'tareaid', 'description', 'recursohumanoid','name','note', 'startdate', 'enddate', 
-            'hours', 'low'
-        ]
-
-        COLUMNS = {
-            keys[0]: ACTIVIDAD_TABLE_NAMES[keys[0]],
-
-            keys[1]: ACTIVIDAD_TABLE_NAMES[keys[1]],
-            keys[2]: TAREA_TABLE_NAMES[keys[2]],
-
-            keys[3]: ACTIVIDAD_TABLE_NAMES[keys[3]],
-            keys[4]: RECURSOHUMANO_TABLE_NAMES[keys[4]],
-
-            keys[5]: ACTIVIDAD_TABLE_NAMES[keys[5]],
-            keys[6]: ACTIVIDAD_TABLE_NAMES[keys[6]],
-            keys[7]: ACTIVIDAD_TABLE_NAMES[keys[7]],
-            keys[8]: ACTIVIDAD_TABLE_NAMES[keys[8]],
-            keys[9]: ACTIVIDAD_TABLE_NAMES[keys[9]],
-        }
-        return COLUMNS
     
     
     
@@ -153,7 +147,7 @@ class ActividadTable( StandardTable ):
         Obtener instruccion para obtener los valores para la vista
         '''
         # Obtener columnas para la vista.
-        COLUMNS = self.get_columns_for_the_view()
+        COLUMNS = self.COLUMNS_FOR_THE_VIEW
         
         # Para determinar baja o no
         text_where = "WHERE "
@@ -186,9 +180,7 @@ class ActividadTable( StandardTable ):
         Obtener una tabla así:
         0, 1, Texto, 0, Nombre, Texto, 0000-00-00, 0000-00-00, 0.0, False
         '''
-        COLUMNS = self.get_columns_for_the_view()
         sql_statement = self.get_instruction_for_the_view() + ";"
-        
         
         #return sql_statement
         return self.database.execute_statement( sql_statement, commit=False, return_type="fetchall" )
@@ -211,12 +203,13 @@ class ActividadTable( StandardTable ):
         )
         
         # Instrucción
-        COLUMNS = self.get_columns_for_the_view()
+        COLUMNS = self.COLUMNS_FOR_THE_VIEW
         sql_statement = (
             f"{self.get_instruction_for_the_view(Baja=Baja)}"
             f"{search_text};"
         )
         
+        #return sql_statement
         return self.database.execute_statement( sql_statement, commit=False, return_type="fetchall" )
     
     

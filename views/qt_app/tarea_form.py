@@ -4,7 +4,7 @@ from PyQt6.QtWidgets import (
     QTableWidgetItem
 )
 from views.interface.interface_number import *
-from core.util_text import ignore_text_filter, pass_text_filter
+from core.text_util import ignore_text_filter, pass_text_filter
 from utils import ResourceLoader
 import controllers
 import sys, os
@@ -55,19 +55,19 @@ class TareaForm(QtWidgets.QWidget):
     
     def refresh_table(self):
         # Actualizar datos de la tabla.
-        all_column = tarea_table.get_all_columns()
+        all_column = tarea_table.get_columns_for_the_view()
         self.table.clear()
         self.table.setColumnCount( len(all_column) )
         self.table.setHorizontalHeaderLabels( all_column )
         self.table.resizeColumnsToContents() # Para que se acomode por el texto columna.
         
-        all_value = tarea_table.get_all_values()
+        all_value = tarea_table.get_values_for_the_view()
         self.table.setRowCount( len(all_value) )
         number = 0
         for column in all_column:
             for row in range(0, len(all_value)):
                 final_text = str
-                if number == 8:
+                if number == len(all_column)-1:
                     if all_value[row][number] == 1:
                         final_text = "Si"
                     else:

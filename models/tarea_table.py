@@ -13,6 +13,10 @@ class TareaTable(StandardTable):
         )
         
         self.column_soft_delete = TABLE_NAMES["low"]
+        
+        keys_for_the_columns = [ 'id', 'description', 'low' ]
+        for key in keys_for_the_columns:
+            self.COLUMNS_FOR_THE_VIEW.update( {key : TABLE_NAMES[key]} )
     
 
     def insert_tarea(

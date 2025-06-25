@@ -5,7 +5,7 @@ from PyQt6.QtWidgets import (
 )
 from views.interface.interface_number import *
 from views.interface.css_util import text_widget_style, get_list_text_widget
-from core.util_text import ignore_text_filter, pass_text_filter
+from core.text_util import ignore_text_filter, pass_text_filter
 
 from .tarea_form import TareaForm
 from .recurso_form import RecursoForm

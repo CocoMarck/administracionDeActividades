@@ -1,13 +1,13 @@
 import os
 import platform
 import subprocess
-from .util_text import (
-    Text_Read,
-    Ignore_Comment,
-    Text_Separe
+from .text_util import (
+    read_text,
+    ignore_comment,
+    separe_text
 )
 # Importar ruta de archivo de comando de ejecucion
-from config.util_system_config import terminal_run
+from .config.system_util_config import terminal_run
 
 
 def get_system():
@@ -25,7 +25,7 @@ def get_system():
 system=get_system()
 
 
-def CleanScreen():
+def clean_screen():
     '''Limpiar la texto de la terminal'''
 
     if system == 'linux':
@@ -36,46 +36,9 @@ def CleanScreen():
         os.system('clear')
 
 
-def ShowArchive(glob=None):
-    '''Muestra los archivos existentes.'''
-
-    if type(glob) is str:
-        glob = f' {glob}'
-    else:
-        glob = ''
-
-    if system == 'linux':
-        os.system(f'ls{glob}')
-    elif system == 'win':
-        os.system(f'dir{glob}')
-    else:
-        os.system(f'ls{glob}')
-        
-
-def View_echo(text=None):
-    '''Para obtener las funciones de echo, sirve para obtener el resultado de las variables existentes del sistema operativo'''
-    if (
-        system == 'linux' or
-        system == 'win'
-    ):
-        if type(text) is str:
-            text = subprocess.check_output(
-                f'echo {text}',
-                shell=True,
-                text=True
-            ).replace('\n', '')
-        else:
-            pass
-        
-    else:
-        pass
-
-    return text
-
-
-def Command_Run(
+def run_command(
     cmd='echo', open_new_terminal=True,
-    text_input='Press ENTER for continue'
+    text_input='Press ENTER to continue'
 ):
     '''Se encarga de abrir una consola/terminal y ejecutar un comando especificado'''
     # Establecer que el comando solicitado, no tenga saltos de linea.
@@ -101,22 +64,22 @@ def Command_Run(
         # Abrir una terminal nueva
         if system == 'linux':            
             cmd = (
-                cmd + ' && '
-                f'read -rsp $"{text_input}..." -n 1 key'
+                cmd + '; '
+                f'read -rsp $"{text_input}..." -n 1 key; exit'
             )
         elif system == 'win':
             cmd = (
                 cmd + " & pause"
             )
 
-        text_terminal = Ignore_Comment(
-            text=Text_Read(
+        text_terminal = ignore_comment(
+            text=read_text(
                 terminal_run,
                 'ModeText'
             ),
             comment='#'
         )
-        text_terminal = Text_Separe(
+        text_terminal = separe_text(
             text=text_terminal,
             text_separe='='
         )
@@ -130,6 +93,52 @@ def Command_Run(
         # Hacer todo desde la misma terminal/programa
         os.system(cmd)
         input(f'{text_input}...')
+
+
+
+
+def command_output( command: str ):
+    '''
+    Devuelve la salida de un comando.
+    '''
+    return subprocess.getoutput( command )
+    
+    
+    
+
+def show_file(glob=None):
+    '''Muestra los archivos existentes.'''
+
+    if type(glob) is str:
+        glob = f' {glob}'
+    else:
+        glob = ''
+
+    if system == 'win':
+        return command_output(f'dir{glob}')
+    else:
+        return command_output(f'ls{glob}')
+
+
+
+    
+def view_echo(text=None):
+    '''
+    Para obtener las funciones de echo, sirve para obtener el resultado de las variables existentes del sistema operativo
+    '''
+    if (
+        system == 'linux' or
+        system == 'win'
+    ):
+        if type(text) is str:
+            text = command_output( f'echo {text}' ).replace('\n', '')
+        else:
+            pass
+        
+    else:
+        pass
+
+    return text
 
 
 

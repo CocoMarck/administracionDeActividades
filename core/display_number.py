@@ -1,7 +1,7 @@
 '''
 Este modulo, es para funciones relacionadas con la los valores xy de la resolucion de pantalla.
 '''
-from .util_system import *
+from .system_util import get_display_resolution
 
 display=get_display_resolution()
 

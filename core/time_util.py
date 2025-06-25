@@ -1,3 +1,5 @@
+import datetime
+
 # Constantes
 MULTIPLER_MILLISECOND = 1
 MULTIPLER_SECOND = 1000
@@ -72,3 +74,16 @@ def get_time(
 
     else:
         return value
+        
+        
+def get_datetime( mode: str="dateTime") -> str:
+    dateTime = str( datetime.datetime.now().replace(microsecond=0).isoformat() )
+    if mode == "date" or mode == "time":
+        time_or_date = dateTime.split("T")
+        
+        if mode == "date":
+            return time_or_date[0]
+        elif mode == "time":
+            return time_or_date[1]
+    else:
+        return dateTime
