@@ -31,8 +31,8 @@ class RecursoForm(QtWidgets.QWidget):
         self.table_controller = table_controller
         
         self.entry_id.textChanged.connect( self.on_text_changed )
-        self.button_add.clicked.connect( self.insert_user )
-        self.button_update.clicked.connect( self.update_user )
+        self.button_save.clicked.connect( self.save_user )
+        self.button_cancel.clicked.connect( self.update_database )
         
         self.refresh_all()
     
@@ -54,8 +54,7 @@ class RecursoForm(QtWidgets.QWidget):
         self.label_maternal_surname.setText( "Apellido materno" )
         self.label_position.setText( "Puesto" )
         self.label_soft_delete.setText( "Baja" )
-        self.button_add.setText( "Agregar" )
-        self.button_update.setText( "Actualizar" )
+        self.button_save.setText( "Guardar" )
         self.button_cancel.setText( "Cancelar" )
 
 
@@ -152,3 +151,14 @@ class RecursoForm(QtWidgets.QWidget):
             )
             self.clear_parameter()
             self.refresh_table()
+    
+    def save_user(self):
+        if isinstance( self.current_id, int ):
+            self.update_user()
+        else:
+            self.insert_user()
+            
+            
+    def update_database(self):
+        self.refresh_table()
+        self.clear_parameter()

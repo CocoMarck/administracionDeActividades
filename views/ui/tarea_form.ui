@@ -78,19 +78,11 @@
     <!-- Agragar y actualizar -->
     <item>
     <layout class="QHBoxLayout">
-        
-     <item>
-      <widget class="QPushButton" name="button_add">
-       <property name="text">
-        <string>Agregar</string>
-       </property>
-      </widget>
-     </item>
      
      <item>
-      <widget class="QPushButton" name="button_update">
+      <widget class="QPushButton" name="button_save">
        <property name="text">
-        <string>Actualizar</string>
+        <string>Guardar</string>
        </property>
       </widget>
      </item>

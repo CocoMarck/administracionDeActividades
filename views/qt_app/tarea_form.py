@@ -25,9 +25,8 @@ class TareaForm(QtWidgets.QWidget):
         self.resize( nums_win_main[0], nums_win_main[1])
         uic.loadUi(file_ui, self)
         
-        self.button_cancel.clicked.connect( self.cancel )
-        self.button_add.clicked.connect( self.add )
-        self.button_update.clicked.connect( self.update )
+        self.button_save.clicked.connect( self.save )
+        self.button_cancel.clicked.connect( self.update_database )
         self.entry_id.textChanged.connect( self.on_text_changed )
         
         self.current_id = None
@@ -48,8 +47,7 @@ class TareaForm(QtWidgets.QWidget):
         self.label_id.setText( "TareaId" )
         self.label_description.setText( "Descripción" )
         self.label_soft_delete.setText( "Baja" )
-        self.button_add.setText( "Agregar" )
-        self.button_update.setText( "Actualizar" )
+        self.button_save.setText( "Guardar" )
         self.button_cancel.setText( "Cancelar" )
     
     
@@ -128,16 +126,24 @@ class TareaForm(QtWidgets.QWidget):
    
     def update(self):
         # Actualizar en la tabla
-        if self.entry_id.text() != "":
+        if isinstance(self.current_id, int):
             if tarea_table.update_tarea(
                 int(self.entry_id.text()), self.entry_description.text(), 
                 int(self.checkbox_soft_delete.isChecked())
             ):
                 self.refresh_table()
                 self.clear_parameter()
-        
     
-    def cancel(self):
-        # Borrat todo el texto
-        self.entry_id.clear()
-        self.entry_description.clear()
+
+    def save(self):
+        # Actualizar o insertar dato.
+        if isinstance(self.current_id, int):
+            self.update()
+        else:
+            self.add()
+    
+    
+    
+    def update_database( self ):
+        self.refresh_table()
+        self.clear_parameter()

@@ -107,20 +107,10 @@
      </item>
      
      <item>
-      <widget class="QPushButton" name="button_cancel">
+      <widget class="QPushButton" name="button_default_filter">
        <property name="text">
-        <string>Cancelar</string>
+        <string>Filtro por defecto</string>
        </property>
-      </widget>
-     </item>     
-     
-     <!-- Boton para actualizar base de datos-->
-     <item>
-      <widget class="QPushButton" name="button_update_database">
-       <property name="text">
-        <string>Actualizar datos</string>
-       </property>
-
       </widget>
      </item>
 

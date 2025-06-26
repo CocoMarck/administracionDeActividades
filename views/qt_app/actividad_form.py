@@ -9,7 +9,7 @@ import controllers
 
 from PyQt6 import QtWidgets, uic
 from PyQt6.QtWidgets import ( QTableWidget, QTableWidgetItem )
-from PyQt6.QtCore import QDate, QDateTime, QTime
+from PyQt6.QtCore import QDate, QDateTime, QTime, QSize
 
 
 
@@ -38,9 +38,9 @@ class ActividadForm(QtWidgets.QWidget):
         
         self.table_controller = table_actividad
         
-        self.button_add.clicked.connect( self.insert_actividad )
-        self.button_update.clicked.connect( self.update_actividad )
-        self.button_update_database.clicked.connect( self.update_database )
+        # Eventos
+        self.button_save.clicked.connect( self.save_actividad )
+        self.button_cancel.clicked.connect( self.update_database )
         self.entry_id.textChanged.connect( self.on_text_changed )
 
         self.start_date.dateTimeChanged.connect( self.set_hours )
@@ -86,7 +86,7 @@ class ActividadForm(QtWidgets.QWidget):
         self.label_hours.setText( "Horas" )
         self.label_tarea.setText( "Tarea" )
         self.label_recurso.setText( "Recurso humano" )
-        self.button_update_database.setText( "Actualizar datos" )
+        self.button_save.setText( "Guardar" )
         
 
     def refresh_combobox(self):
@@ -228,9 +228,26 @@ class ActividadForm(QtWidgets.QWidget):
         year_day = ( max(start_end_year) - min(start_end_year) ) * 365
 
         start_end_day = [start_qdate.dayOfYear(), end_qdate.dayOfYear()]
-        total_day = max(start_end_day) - min(start_end_day) + (year_day)
+        total_day = max(start_end_day) - min(start_end_day) + (year_day)        
         
-        start_end_time = [ start_qtime.msecsSinceStartOfDay(), end_qtime.msecsSinceStartOfDay() ]
+        
+        # Determinar cual fecha es mayor.
+        start_qtime_msecs = start_qtime.msecsSinceStartOfDay() 
+        end_qtime_msecs = end_qtime.msecsSinceStartOfDay()
+
+        start_end_time = [ end_qtime_msecs, start_qtime_msecs ]
+        
+        if start_qtime_msecs < end_qtime_msecs:
+            # Start < End
+            start_ready_datetime = start_datetime_str
+            end_ready_datetime = end_datetime_str
+
+        else:
+            # Start > End, or Start==End
+            start_ready_datetime = end_datetime_str
+            end_ready_datetime = start_datetime_str
+        
+        # Diferencia entre fechas en horas.
         if start_end_time[0] != start_end_time[1]:
             total_time = max(start_end_time) - min(start_end_time)
         else:
@@ -244,9 +261,9 @@ class ActividadForm(QtWidgets.QWidget):
 
         # Dict
         dict_ready = {
-            "start_datetime" : start_datetime_str,
-            "end_datetime" : end_datetime_str,
-            "hours" : total_hour
+            "start_datetime" : start_ready_datetime,
+            "end_datetime" : end_ready_datetime,
+            "hours" : float(total_hour)
         }
         
         return dict_ready
@@ -292,3 +309,10 @@ class ActividadForm(QtWidgets.QWidget):
         self.refresh_table()
         #self.refresh_parameter()
         self.clear_parameter()
+    
+    
+    def save_actividad(self):
+        if isinstance( self.current_id, int):
+            self.update_actividad()
+        else:
+            self.insert_actividad()

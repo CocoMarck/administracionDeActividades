@@ -10,9 +10,11 @@ from core.display_number import *
 
 # Establecer dimenciones de windegts y ventana
 # Limite de resolucion: Anchura y altura de 480px como minimo.
-num_font = get_display_number(divisor=120)
+num_font = get_display_number(based="width", divisor=120)
 num_space_padding = num_font//4
 num_margin_xy = [num_font//2, num_font//4]
+
+num_combobox_width = get_display_number(multipler=0.25, based='height')
 
 nums_win_main = [
     get_display_number(multipler=0.8, based='width'),

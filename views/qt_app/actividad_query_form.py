@@ -40,8 +40,7 @@ class ActividadQueryForm(QtWidgets.QWidget):
         uic.loadUi(file_ui, self)
         
         self.button_set_filter.clicked.connect( self.set_filter )
-        self.button_update_database.clicked.connect( self.update_database )
-        self.button_cancel.clicked.connect( self.clear_parameter )
+        self.button_default_filter.clicked.connect( self.update_database )
 
         self.combobox_tarea.activated.connect( self.set_tarea_id )
         self.checkbox_tarea.stateChanged.connect( self.set_tarea_id )

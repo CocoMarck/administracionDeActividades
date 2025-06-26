@@ -31,6 +31,15 @@ for widget in get_list_text_widget( 'Qt' ):
         margin_based_font=False, padding=num_space_padding, idented=4,
         margin_xy=num_margin_xy
     )
+# Agregar limite de ancho de combobox.
+#'''
+qss_style += (
+    "\nQComboBox{\n"
+    f"    min-width: {num_combobox_width}px;\n"
+    f"    max-width: {num_combobox_width}px;\n"
+    "}"
+)
+#'''
 
 
 # Ventana
@@ -62,9 +71,9 @@ class MyApp(QtWidgets.QMainWindow):
         Refrescar tab, dependiendo de su index
         '''
         if index == 0:
-            self.tarea_form.refresh_all()
+            self.tarea_form.update_database()
         elif index == 1:
-            self.recurso_form.refresh_all()
+            self.recurso_form.update_database()
         elif index == 2:
             self.actividad_form.update_database()
         elif index == 3:
