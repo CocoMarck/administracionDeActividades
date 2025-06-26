@@ -100,10 +100,15 @@ class ActividadTable( StandardTable ):
             
         and_text = " AND "
         search_text = ""
+        # Con BETWEEN
+        # a.FechaInicio BETWEEN '0000-00-00T00:00:00' and '0000-00-00T00:00:00'
+
+        # Con operador >=
+        # a.FechaInicio >= '0000-00-00T00:00:00' and a.FechaFin <= '0000-00-00T00:00:00'
         if isinstance(start_datetime, str) and isinstance(end_datetime, str):
             search_text += (
-                f"{and_text}{alias}{ACTIVIDAD_TABLE_NAMES['startdate']} BETWEEN '{start_datetime}'"
-                f"{and_text}'{end_datetime}'"
+                f"{and_text}{alias}{ACTIVIDAD_TABLE_NAMES['startdate']} >= '{start_datetime}'"
+                f"{and_text}{alias}{ACTIVIDAD_TABLE_NAMES['enddate']} <= '{end_datetime}'"
             )
     
         # Establecer parametros id's

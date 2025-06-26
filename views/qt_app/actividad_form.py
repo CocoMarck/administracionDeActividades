@@ -199,8 +199,6 @@ class ActividadForm(QtWidgets.QWidget):
         # Obtener parametros relacionados al tiempo
         
         # Start `qdate` `qtime`
-        start_qdatetime = self.start_date.dateTime()
-        
         start_qdate = self.start_date.date()
         start_date_str = str( start_qdate.toPyDate() )
 
@@ -218,6 +216,7 @@ class ActividadForm(QtWidgets.QWidget):
         
         end_datetime_str =  f"{end_date_str}T{end_time_str}"
         
+        
         # Obtener dias qdate
         # `dayOfYear()`, no detecta años, solo dias. 
         # `QDate.year()`, para detectar años. (No toma en cuenta el año visiesto.
@@ -234,31 +233,34 @@ class ActividadForm(QtWidgets.QWidget):
         # Determinar cual fecha es mayor.
         start_qtime_msecs = start_qtime.msecsSinceStartOfDay() 
         end_qtime_msecs = end_qtime.msecsSinceStartOfDay()
-
-        start_end_time = [ end_qtime_msecs, start_qtime_msecs ]
         
         if start_qtime_msecs < end_qtime_msecs:
             # Start < End
+            start_end_time = [ end_qtime_msecs, start_qtime_msecs ]
+    
             start_ready_datetime = start_datetime_str
             end_ready_datetime = end_datetime_str
 
         else:
             # Start > End, or Start==End
+            start_end_time = [ start_qtime_msecs, end_qtime_msecs ]
+
             start_ready_datetime = end_datetime_str
             end_ready_datetime = start_datetime_str
         
-        # Diferencia entre fechas en horas.
-        if start_end_time[0] != start_end_time[1]:
-            total_time = max(start_end_time) - min(start_end_time)
-        else:
-            total_time = 0
+        
+        # Diferencia entre fechas en milisegundos.
+        # Se podria usar `max() -min()`, pero mejor directo. Menos procesamiento.
+        total_time = start_end_time[0] - start_end_time[1]
+        
         
         # Usando función `time_util.get_time()`
         total_hour = (
             time_util.get_time( total_time, "millisecond", "hour" ) +
             time_util.get_time( total_day, "day", "hour" )
         )
-
+        
+        
         # Dict
         dict_ready = {
             "start_datetime" : start_ready_datetime,
