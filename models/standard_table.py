@@ -1,16 +1,16 @@
-from .standard_database import StandardDataBase, struct_table_statement
+from .standard_database import StandardDatabase, struct_table_statement
 
 
 class StandardTable():
     '''
     Para manejar una tabla de una base de datos.
     No crea tablas, no crea la base de datos. No tiene funcion para ejecutar sql statements
-    Usa un StandartDataBase, para manejar una tabla. Solo una tabla.
+    Usa un StandartDatabase, para manejar una tabla. Solo una tabla.
     
     Constante, alias, permite obtener los alias de la tabla y tambien las tablas relacionadas con esta tabla
     '''
     def __init__(
-        self, database: StandardDataBase, table=str
+        self, database: StandardDatabase, table=str
     ):
         self.database = database
         self.table = table

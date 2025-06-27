@@ -4,7 +4,7 @@ from core.sqlite_util import detect_list_datatype, from_list_to_string, struct_t
 
 
 
-class StandardDataBase():
+class StandardDatabase():
     '''
     Un objeto modelo estandar para manejar una base de datos sqlite3
     

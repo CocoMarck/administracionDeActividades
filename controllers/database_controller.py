@@ -1,9 +1,9 @@
 import models
 from .logging_controller import LoggingController
 
-class DataBaseController( LoggingController ):
+class DatabaseController( LoggingController ):
     def __init__(
-        self, database: models.StandardDataBase, verbose=False, return_message=False,
+        self, database: models.StandardDatabase, verbose=False, return_message=False,
         log_level: str="warning", save_log: bool=True
     ):
         self.database = database

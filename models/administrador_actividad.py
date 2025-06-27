@@ -1,11 +1,11 @@
 import sqlite3, os, sys
-from .standard_database import StandardDataBase, struct_table_statement
+from .standard_database import StandardDatabase, struct_table_statement
 from .database_names import (
     TABLE_CONTROL_FIELDS, ADA_DATABASE_NAMES, TAREA_TABLE_NAMES, RECURSOHUMANO_TABLE_NAMES,
     ACTIVIDAD_TABLE_NAMES
 )
 
-class AdministracionDeActividad(StandardDataBase):
+class AdministracionDeActividad(StandardDatabase):
     def __init__(self, name_database=ADA_DATABASE_NAMES["name"] ):
     
         super().__init__( name_database=name_database, name_dir_data="data" )

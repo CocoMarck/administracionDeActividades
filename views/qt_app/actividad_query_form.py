@@ -1,10 +1,12 @@
 from views.interface.interface_number import *
 from core.text_util import ignore_text_filter, pass_text_filter
-from core import time_util
+from core.time_util import (
+    get_datetime, get_first_day_of_the_month, get_end_day_of_the_month,
+    get_date_from_formatted_datetime, get_time_from_formatted_datetime
+)
 from utils import ResourceLoader
 
 from models.database_names import RECURSOHUMANO_TABLE_NAMES, TAREA_TABLE_NAMES, ACTIVIDAD_TABLE_NAMES
-from controllers.table_controller import get_datetime
 import controllers
 
 from PyQt6 import QtWidgets, uic
@@ -62,10 +64,31 @@ class ActividadQueryForm(QtWidgets.QWidget):
         
         
     def current_datetime(self):
-        qdate = QDate.fromString( get_datetime( "date" ), "yyyy-MM-dd" )
-        qtime = QTime.fromString( get_datetime( "time" ), "HH:mm:ss" )
+        # Primer dia del mes
+        datetime_formatted = get_first_day_of_the_month()
+
+        qdate = QDate.fromString(
+            get_date_from_formatted_datetime( datetime_formatted ), 
+            "yyyy-MM-dd" 
+        )
+        qtime = QTime.fromString( 
+            get_time_from_formatted_datetime( datetime_formatted ), 
+            "HH:mm:ss" 
+        )
+
         self.start_datetime.setDate(qdate)
         self.start_datetime.setTime(qtime)
+        
+        # Ultimo dia del mes
+        datetime_formatted = get_end_day_of_the_month()
+        qdate = QDate.fromString(
+            get_date_from_formatted_datetime( datetime_formatted ), 
+            "yyyy-MM-dd" 
+        )
+        qtime = QTime.fromString( 
+            get_time_from_formatted_datetime( datetime_formatted ), 
+            "HH:mm:ss" 
+        )
         self.end_datetime.setDate(qdate)
         self.end_datetime.setTime(qtime)
         
@@ -74,7 +97,7 @@ class ActividadQueryForm(QtWidgets.QWidget):
         # Restablecer todos valores al default.
         self.checkbox_tarea.setChecked( False )
         self.checkbox_recurso.setChecked( False )
-        self.checkbox_datetime_range.setChecked( False )
+        self.checkbox_datetime_range.setChecked( True )
         self.checkbox_soft_delete.setChecked( False ) 
         self.combobox_tarea.setCurrentIndex( 0 )
         self.combobox_recurso.setCurrentIndex( 0 )

@@ -1,9 +1,9 @@
 import sqlite3, os, sys
 import models
-from .database_controller import DataBaseController
+from .database_controller import DatabaseController
 
 
-class AdministracionDeActividadController( DataBaseController ):
+class AdministracionDeActividadController( DatabaseController ):
     def __init__(self, verbose=True, return_message=False, save_log: bool=True ):
         super().__init__( 
             database=models.AdministracionDeActividad(), 
