@@ -194,9 +194,10 @@
     
     <!-- Tabla -->
     <item>
-     <widget class="QTableWidget" name="table">
-      <!-- <property name="editTriggers"> <bool>false</bool> </property> -->
-     </widget>
+     <widget class="QTableWidget" name="table"></widget>
+      <property name="wordWrap">
+       <bool>true</bool>
+      </property>
     </item>
    
    </layout>

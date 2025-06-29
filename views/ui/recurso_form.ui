@@ -138,8 +138,10 @@
     
     <!-- Tabla -->
     <item>
-     <widget class="QTableWidget" name="table">
-     </widget>
+     <widget class="QTableWidget" name="table"></widget>
+      <property name="wordWrap">
+       <bool>true</bool>
+      </property>
     </item>
     
    </layout>

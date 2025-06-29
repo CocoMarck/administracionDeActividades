@@ -61,7 +61,7 @@ class MyApp(QtWidgets.QMainWindow):
         self.tab_widget.addTab( self.actividad_form, "Actividad" ) # index 2
         
         self.actividad_query_form = ActividadQueryForm()
-        self.tab_widget.addTab( self.actividad_query_form, "ActividadQuery" ) # index 3
+        self.tab_widget.addTab( self.actividad_query_form, "Consulta Actividad" ) # index 3
         
         # Detectar cambio de tab
         self.tab_widget.currentChanged.connect( self.on_tab_changed )

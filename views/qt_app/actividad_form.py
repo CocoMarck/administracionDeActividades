@@ -124,6 +124,10 @@ class ActividadForm(QtWidgets.QWidget):
                     final_text = str(all_value[row][number])
                     
                 self.table.setItem( row, number, QTableWidgetItem( final_text ) )
+                
+                # Establecer ancho de filas tipo string.
+                if isinstance( all_value[row][number], str ):
+                    self.table.setColumnWidth(number, num_text_column_width)
                     
             number += 1
     

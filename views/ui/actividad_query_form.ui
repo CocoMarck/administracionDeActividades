@@ -127,8 +127,12 @@
     <!-- Tabla -->
     <item>
      <widget class="QTableWidget" name="table"></widget>
+      <property name="wordWrap">
+       <bool>true</bool>
+      </property>
     </item>
     
+    <!-- Horas totales -->
     <item>
      <layout class="QFormLayout">
       <item row="0" column="0">
@@ -140,7 +144,7 @@
       <item row="0" column="1">
        <widget class="QLineEdit" name="entry_total_hours">
         <property name="text"> <string>0</string> </property>
-        <property name="readOnly"> <bool>true</bool> </property>s
+        <property name="readOnly"> <bool>true</bool> </property>
        </widget>
       </item>
 

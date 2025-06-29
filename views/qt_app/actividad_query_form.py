@@ -168,7 +168,7 @@ class ActividadQueryForm(QtWidgets.QWidget):
         self.table.clear()
         self.table.setColumnCount( len(all_column) )
         self.table.setHorizontalHeaderLabels( all_column )
-        self.table.resizeColumnsToContents() # Para que se acomode por el texto columna.
+        self.table.resizeColumnsToContents() # Establecer tamaño de columnas basado en sus nombres.
         
         all_value = self.current_table_columns
         self.table.setRowCount( len(all_value) )
@@ -192,9 +192,14 @@ class ActividadQueryForm(QtWidgets.QWidget):
                 
                 # Agregar item
                 self.table.setItem( row, number, QTableWidgetItem( final_text ) )
+
+                # Establecer ancho y alto de filas tipo string.
+                if isinstance( all_value[row][number], str ):
+                    self.table.setColumnWidth(number, num_text_column_width)
                     
             number += 1
         
+        # Establecer horas.
         self.entry_total_hours.setText( str(total_hours) )
     
     
