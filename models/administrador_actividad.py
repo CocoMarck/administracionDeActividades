@@ -25,7 +25,7 @@ class AdministracionDeActividad(StandardDatabase):
             [ TABLE_CONTROL_FIELDS["low"], "INTEGER", "DEFAULT 0" ]
         ]
 
-        self.dict_table = {
+        self.dictionary_of_tables = {
             TAREA_TABLE_NAMES["table"]: [
                 [ TAREA_TABLE_NAMES["id"], "INTEGER", "PRIMARY KEY AUTOINCREMENT" ],
                 [ TAREA_TABLE_NAMES["description"], "VARCHAR", "NULL" ]
@@ -49,9 +49,9 @@ class AdministracionDeActividad(StandardDatabase):
             ]
         }
 
-        for key in self.dict_table.keys():
+        for key in self.dictionary_of_tables.keys():
             for field in self.control_fields:
-                self.dict_table[ key ].append(field)
+                self.dictionary_of_tables[ key ].append(field)
         
         # El FOREIGN KEY va al ultimo.
         for x in [
@@ -64,53 +64,9 @@ class AdministracionDeActividad(StandardDatabase):
                 f"{RECURSOHUMANO_TABLE_NAMES['table']}({RECURSOHUMANO_TABLE_NAMES['id']})" 
             ]
         ]:
-            self.dict_table[ ACTIVIDAD_TABLE_NAMES["table"] ].append(x)
-                
-
-    def create_table_instruction(self) -> list[str]:
-        '''
-        Lista de instrucciones para crear la tabla.
+            self.dictionary_of_tables[ ACTIVIDAD_TABLE_NAMES["table"] ].append(x)
         
-        Returns:
-            list: [] | [str]
-        '''
-        list_instruction = []
-        for key in self.dict_table.keys():
-            full_sql_statement = struct_table_statement(
-                type_statement = "create-table", table = key,
-                sql_statement = self.dict_table[key]
-            )
-            list_instruction.append(full_sql_statement)
-        return list_instruction
-    
-    
-    def start_database(self) -> str | None:
-        '''
-        Crear base de datos
-        
-        Returns:
-            str | None: 
-                string si se creo la base de datos (texto de instrucciones).
-                None si no se pudo crear la base de datos de manera correcta.
-        '''
-        create = self.create_database()
-
-        # Necesario para los foreign keys
-        foreign_keys = self.execute_statement( 
-            "PRAGMA foreign_keys = ON;", commit=True, return_type="statement" 
-        )
-        if isinstance(foreign_keys, str):
-            text_instruction = foreign_keys + "\n"
-        else:
-            text_instruction = ""
-
-        for sql_statement in self.create_table_instruction():
-            instruction = self.execute_statement( 
-                sql_statement=sql_statement, commit=True, return_type="bool"
-            )
-            text_instruction += sql_statement + "\n"
-        
-        if create and instruction:
-            return text_instruction[:-1]
-        else:
-            return None
+        # Para que jale el `foreign_keys`
+        self.additional_instructions_for_tables = [
+            "PRAGMA foreign_keys = ON;"
+        ]

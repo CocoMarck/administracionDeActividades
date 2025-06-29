@@ -16,6 +16,13 @@ class StandardDatabase():
         get_table_all_column, get_table_all_value.
     
     No tiene funciones especificas de manejo de columnas como: get_id. Eso lo maneja el modelo tabla.
+    
+    Para funcion `start_database`
+    Atributo `self.dictionary_of_tables = {}`
+    Es un diciconario asi: `{ "table" : [ "column difinition" ] }`
+    
+    Atributo `self.additional_instructions_for_tables = []`
+    Una lista así: `[ "instruction" ]`
     '''
     def __init__(self, name_database=str, name_dir_data: str="data"  ):
         # Ruta
@@ -26,7 +33,63 @@ class StandardDatabase():
         # Ruta | Declarar dir_data y path_database
         self.set_directory_data()
         self.set_database_path()
+        
+        # Tablas a generar
+        self.dictionary_of_tables = {}
+        self.additional_instructions_for_tables = []
+        
     
+    def instruction_to_create_tables(self) -> list[str]:
+        '''
+        Lista de instrucciones para crear tabla
+        '''
+        list_instruction = []
+        for key in self.dictionary_of_tables.keys():
+            list_instruction.append( 
+                struct_table_statement(
+                    type_statement = "create-table", table = key,
+                    sql_statement = self.dictionary_of_tables[key]
+                )
+            )
+        return list_instruction
+        
+
+    def start_database(self) -> str | None:
+        # Crear base de datos
+        create = self.create_database()
+        
+        # Texto final
+        instruction_text = ""
+        
+        # Instrucciones adicionales
+        if (
+            isinstance(self.additional_instructions_for_tables, list) and
+            self.additional_instructions_for_tables != []
+        ):
+            additional_instruction = False
+
+            for sql_statement in self.additional_instructions_for_tables:
+                additional_instruction = self.execute_statement(
+                    sql_statement=sql_statement, commit=True, return_type="bool"
+                )        
+                instruction_text += sql_statement + "\n"
+        else:
+            additional_instruction = True
+
+        # Crear tablas
+        instruction = False
+        for sql_statement in self.instruction_to_create_tables():
+            instruction = self.execute_statement(
+                sql_statement=sql_statement, commit=True, return_type="bool"
+            )
+            instruction_text += sql_statement + "\n"
+        
+        # Deveolver o no instruccion
+        if create and additional_instruction and instruction:
+            return instruction_text[:-1]
+        else:
+            return None
+
 
     def set_directory_data(self) -> None:
         '''

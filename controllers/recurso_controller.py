@@ -5,10 +5,10 @@ from .table_controller import TableController, get_datetime, text_or_none
 
 
 class RecursoHumanoController( TableController ):
-    def __init__(self, verbose: bool=True, return_message: bool=False, save_log: bool=True):
+    def __init__(self, verbose: bool=True, return_message: bool=False, log_level="warning", save_log: bool=True):
         super().__init__(
             table=models.RecursoHumanoTable(), verbose=verbose, return_message=return_message,
-            save_log=save_log
+            log_level=log_level, save_log=save_log
         )
         
 

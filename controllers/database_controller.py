@@ -15,6 +15,21 @@ class DatabaseController( LoggingController ):
             return_message=return_message, log_level=log_level, save_log=save_log
         )
     
+    
+    def start_database(self) -> bool | str:
+        start_database = self.database.start_database()
+        
+        if start_database != None:
+            log_type = "info"
+            message = f"[SQL] Create tables:\n{start_database}"
+            value = True
+        else:
+            log_type = "error"
+            message = f"Bad statement"
+            value = False
+        
+        return self.return_value( value=value, message=message, log_type=log_type )
+    
 
     def execute_statement(
         self, sql_statement: str, commit: bool = False, return_type: str="cursor"
