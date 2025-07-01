@@ -122,7 +122,7 @@ def get_end_day_of_the_month( obj: datetime.datetime = datetime.datetime.now() )
     '''
     final_day = calendar.monthrange( obj.year, obj.month )
     obj_ready = obj.replace( 
-        day = int(final_day[1]), hour = 0, minute = 0, second = 0
+        day = int(final_day[1]), hour = 23, minute = 59, second = 59
     )
     
     return set_datetime_formatted(obj_ready)

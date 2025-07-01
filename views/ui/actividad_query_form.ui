@@ -119,6 +119,12 @@
        </property>
       </widget>
      </item>
+     
+     <item>
+      <widget class="QPushButton" name="button_gen_report">
+       <property name="text"> <string>Generar reporte</string> </property>
+      </widget>
+     </item>
 
     </layout>
     </item>

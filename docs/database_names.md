@@ -2,9 +2,9 @@
 Nombre de base de datos, nombre de tablas, nombre de columnas.
 Usar nombres, en los `models`, y `controllers` de la base de datos relacionada. Tanto los `db` como los `tables`
 
-Este modulo se llamara, `database_names.py` y estara en la carpeta: `data`
+Este modulo se llamara, `database_names.py` y estara en la carpeta: `models`
 
-> Estara en data, porque esta relacionado unicamente con la base de datos.
+> Estara en `models`, porque esta relacionado unicamente con la base de datos.
 
 Los nompres a pesar de ser usado para `nombre.db`, o con cualquier extención, no se pondran con extención, solo `nombre`. La extención sera puesta en otro lado, generalmente en en `model` del `database`.
 
@@ -25,20 +25,15 @@ Seran textos en minusculas, sin espacios, lo que se podra usar como espacio sera
 
 # ¿Que nombres contendra?
 ```python
-DATABASE_NAME = "administradorDeActividad"
-TAREA_TABLE_NAME = "TAREA"
-RECURSOHUMANO_TABLE_NAME = "RECURSOHUMANO"
-ACTIVIDAD_TABLE_NAME = "ACTIVIDAD"
-
-TAREA_COLUMN_NAMES = [
-    "TareaId", "NOTA"
-]
-RECURSOHUMANO_COLUMN_NAMES = [
-    "RecursoHumanoId", "Nombre"
-]
-ACTIVIDAD_TABLE_NAME = [
-    "ActividadId", "TareaId", "RecursoHumanoId"
-]
+TABLE_CONTROL_FIELDS = {
+    "usercreationid":       "UsuarioCreacionId",
+    "creationdate":         "FechaCreacion",
+    "usermodificationid":   "UsuarioModificacionId",
+    "modificationdate":     "FechaModificacion",
+    "userlowid":            "UsuarioBajaId",
+    "lowdate":              "FechaBaja",
+    "low":                  "Baja"
+}
 ```
 
 ### Es posible que sea adecuado hacer un entity. Pero la verdad ni se me ocurre como, es posible que no lo necesite, pero puede que si, es bueno recordarlo.

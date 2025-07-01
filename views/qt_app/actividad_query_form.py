@@ -1,17 +1,22 @@
 from views.interface.interface_number import *
+
 from core.text_util import ignore_text_filter, pass_text_filter
 from core.time_util import (
     get_datetime, get_first_day_of_the_month, get_end_day_of_the_month,
     get_date_from_formatted_datetime, get_time_from_formatted_datetime
 )
+from core.reportlab_util import create_report, REPORT_DIR
+
 from utils import ResourceLoader
 
 from models.database_names import RECURSOHUMANO_TABLE_NAMES, TAREA_TABLE_NAMES, ACTIVIDAD_TABLE_NAMES
 import controllers
 
 from PyQt6 import QtWidgets, uic
-from PyQt6.QtWidgets import ( QTableWidget, QTableWidgetItem )
+from PyQt6.QtWidgets import ( QTableWidget, QTableWidgetItem, QMessageBox )
 from PyQt6.QtCore import QDate, QDateTime, QTime
+
+import webbrowser
 
 
 
@@ -21,6 +26,7 @@ resource_loader = ResourceLoader()
 dir_views = resource_loader.get_base_path( 'views' )
 dir_ui = dir_views.joinpath( 'ui' )
 file_ui = dir_ui.joinpath( 'actividad_query_form.ui' )
+REPORT_NAME = "ada_report"
 
 
 
@@ -53,6 +59,8 @@ class ActividadQueryForm(QtWidgets.QWidget):
         self.checkbox_datetime_range.stateChanged.connect( self.set_datetime_range )
         self.start_datetime.dateTimeChanged.connect( self.set_datetime_range )
         self.end_datetime.dateTimeChanged.connect( self.set_datetime_range )
+        
+        self.button_gen_report.clicked.connect( self.generate_report )
 
         self.dict_datetime = { "start_datetime": None, "end_datetime": None }
 
@@ -221,3 +229,75 @@ class ActividadQueryForm(QtWidgets.QWidget):
         self.set_recurso_id()
         self.set_datetime_range()
         self.set_filter()
+    
+    
+    def generate_report(self):
+        # Información para tabla
+        index_to_ignore = [1, 3]
+        table_data = []
+
+        index = 0
+        new_list = []
+        for column in actividad_controller.get_columns_for_the_view():
+            if not (index in index_to_ignore):
+                new_list.append( column )
+            index += 1
+        table_data.append( new_list )
+        
+        for row in self.current_table_columns:
+            index = 0
+            new_list = []
+            for column in row:
+                if not (index in index_to_ignore):
+                    new_list.append(column)
+                index += 1
+            table_data.append( new_list )
+
+        if self.current_table_columns == [] or actividad_controller.get_columns_for_the_view() == []:
+            paragraph_table = ["Normal", "No existe la tablilla"]
+        else:
+            paragraph_table = [ "Table", table_data ]
+        
+
+        # Crear reporte
+        create, report_file = create_report(
+            name = REPORT_NAME,
+            reportlab_paragraph_list = [
+                [ "Heading1", "ACTIVIDAD DIARIA" ],
+                [ "Heading2", "Reporte de actividades" ],
+                [ "Heading3", "Filtrado por:" ],
+                [ 
+                  "Normal",
+                  (
+                  f"Tarea: {self.combobox_tarea.currentText()}\n"
+                  f"Recurso humano: {self.combobox_recurso.currentText()}\n"
+                  f"De: `{self.dict_datetime['start_datetime']}` a `{self.dict_datetime['end_datetime']}`\n"
+                  f"Baja: {self.checkbox_soft_delete.isChecked()}\n"
+                  )
+                ],
+                [ "Heading3", "Tabla"],
+                paragraph_table
+            ]
+        )
+        
+        
+        # Mensajes informativos
+        if create:
+            '''
+            QMessageBox.information(
+                self,
+                "Reporte creado",
+                (
+                "El reporte se a creado esta en: \n"
+                f"`{report_file}`"
+                ),
+                
+                QMessageBox.StandardButton.Ok
+            )
+            '''
+            #webbrowser.open_new( f'file://{report_file}' )
+            webbrowser.open_new( str(report_file) )
+        else:
+            QMessageBox.critcal(
+                self, "ERROR", "No se creo nadota"
+            )

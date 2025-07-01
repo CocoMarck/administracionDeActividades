@@ -125,6 +125,7 @@ def only_the_comment(
     comment='#'
 ):
     '''Obtener solo los comentarios de un texto'''
+    text_to_return = None
     if (
         '\n' in text and
         comment in text
@@ -137,13 +138,17 @@ def only_the_comment(
             if not line == None:
                 text_ready += f'{line}\n'
             
-        return text_ready[:-1]
+        text_to_return = text_ready[:-1]
         
     elif comment in text:
         # Cuando hay comentarios pero no saltos de linea
         text = text.split(comment)
-        return text[1]
-        
+        text_to_return = text[1]
+
+    # Retornar str o None
+    if isinstance(text_to_return, str):
+        # Retornar solo el texto sin salto de linea.
+        return only_one_char( " ", text_to_return )
     else:
         # No hay nada de comenarios
         return None
@@ -324,3 +329,41 @@ def text_or_none( text: str ) -> str | None:
         return text
     else:
         return None
+
+
+
+
+def comment_and_content( text: str, comment: str="#") -> dict:
+    '''
+    Comentario y contenido
+    
+    Si hay mas de un `comment`, no se detecta como [0,0], sino como un [0,0,0] si son dos `comment`.
+    Por ejemplo:
+    ```python
+    comment = "#"; text = "## Hola"; text.split( comment )
+    ['', '', ' Hola']
+    ```
+    '''
+    # Diccionario a devolver
+    dict_to_return = {}
+
+    # Establecer comentarios y contenido dependiendo del salto de linea.
+    if ("\n" in text):
+        key_index = -1    
+        for line in text.split("\n"):
+            if (comment in line):
+                split_line = line.split(comment)
+                dict_to_return.update( {split_line[1] : split_line[0]} )
+                key_index += 1
+            else:
+                if key_index >= 0:
+                    dict_to_return[ list(dict_to_return)[key_index] ] += f"{line}\n"
+    
+    # Establecer comentario.
+    elif (comment in text):
+        # Cuando hay comentarios pero no saltos de linea
+        text = text.split(comment)
+        dict_to_return.update( {text[1] : ""} )
+    
+    # Devolver diccionario de comentarios y contenidos.
+    return dict_to_return
