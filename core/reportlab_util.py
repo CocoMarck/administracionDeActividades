@@ -1,8 +1,10 @@
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4, LETTER
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, PageTemplate
+from reportlab.platypus.frames import Frame
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib import colors
+from functools import partial
 
 from core import text_util
 import os
@@ -49,21 +51,55 @@ REPORTLAB_STYLES = getSampleStyleSheet()
 
 
 
+def draw_header_footer( 
+        header_text: str, footer_text: str, multipler:int=0.95, page_number:bool=True
+    ):
+    '''
+    Para objetos tipo SimpleDocTemplate
+    '''
+    def _inner(canvas, doc):
+        width, height = doc.pagesize
+        canvas.saveState()
+
+        # Margen
+        diferrence_xy = [width -width*multipler, height -height*multipler]
+        
+        # Establecer header, footer y numero de pagina en footer.
+        if header_text:
+            canvas.drawString( diferrence_xy[0], height*multipler, f"{header_text}")
+        if footer_text:
+            final_text = footer_text
+            canvas.drawString( diferrence_xy[0], diferrence_xy[1], final_text)
+        if page_number:
+            canvas.drawRightString(width -diferrence_xy[0], diferrence_xy[1], f"{doc.page}")
+        canvas.restoreState()
+    return _inner
+
+
+
+
+
 def create_report(
-    name: str=DEFAULT_REPORT_NAME, 
-    reportlab_paragraph_list: dict=REPORTLAB_PARAGRAPH_LIST
+    name: str=DEFAULT_REPORT_NAME, size: str=LETTER, ninety_degree_turn: bool=False, 
+    header: str=None, footer: str=None, page_number:bool=False,
+    reportlab_paragraph_list: list=REPORTLAB_PARAGRAPH_LIST
 ) -> bool:
     # Establecer archivo
     # Establecer tamaños de todo
     report_file = REPORT_DIR.joinpath( f"{name}.pdf" )
     
-    size=LETTER
+    if ninety_degree_turn:
+        size=( size[1], size[0] )
     width, height = size
-
+    
+    
     # Inicializar canvas | Contenido
-    # Establecer contenido.
     doc = SimpleDocTemplate( str(report_file), pagesize=size )
+    
+    # Header y footer
+    header_footer = draw_header_footer(header, footer, page_number=page_number)
 
+    # Establecer contenido.
     content = []
     for style, value in reportlab_paragraph_list:
         if style in REPORTLAB_STYLES:
@@ -94,7 +130,7 @@ def create_report(
     
     # Devolver
     try:
-        doc.build(content)
+        doc.build(content, onFirstPage=header_footer, onLaterPages=header_footer)
         return True, report_file
     except:
         return False, report_file

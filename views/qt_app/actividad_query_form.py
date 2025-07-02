@@ -67,6 +67,13 @@ class ActividadQueryForm(QtWidgets.QWidget):
         self.current_tarea_id = None
         self.current_recurso_id = None
         self.current_table_columns = []
+
+        # Para saber los filtros aplicados
+        self.dict_current_filters = {
+            'start_datetime': None, 'end_datetime': None,
+            'tarea_id': None, 'recurso_id': None,
+            'baja' : None
+        }
         
         self.update_database()
         
@@ -220,6 +227,14 @@ class ActividadQueryForm(QtWidgets.QWidget):
             Baja=self.checkbox_soft_delete.isChecked()
         )
         self.refresh_table()
+
+        # Filtros aplicados
+        #if self.current_table_columns != []:
+        self.dict_current_filters['start_datetime'] = self.dict_datetime["start_datetime"]
+        self.dict_current_filters['end_datetime'] = self.dict_datetime["end_datetime"]
+        self.dict_current_filters['tarea_id'] = self.current_tarea_id
+        self.dict_current_filters['recurso_id'] = self.current_recurso_id
+        self.dict_current_filters['baja'] = self.checkbox_soft_delete.isChecked()
     
     
     def update_database(self):
@@ -258,25 +273,46 @@ class ActividadQueryForm(QtWidgets.QWidget):
         else:
             paragraph_table = [ "Table", table_data ]
         
+        
+        # Establecer filtros puestos
+        text_filters = ""
+        if self.dict_current_filters['tarea_id'] != None:
+            index = self.combobox_tarea.findData( self.dict_current_filters['tarea_id'] )
+            text = self.combobox_tarea.itemText(index)
+            text_filters += f"Tarea: {self.dict_current_filters['tarea_id']}. {text}\n"
+
+        if self.dict_current_filters['recurso_id'] != None:
+            index = self.combobox_recurso.findData( self.dict_current_filters['recurso_id'] )
+            text = self.combobox_recurso.itemText(index)
+            text_filters += f"Recurso humano: {self.dict_current_filters['recurso_id']}. {text}\n"
+        
+        if (
+            self.dict_current_filters['start_datetime'] != None 
+            and self.dict_current_filters['end_datetime'] != None
+        ):
+            text_filters += (
+                f"De: `{self.dict_current_filters['start_datetime']}` a "
+                f"`{self.dict_current_filters['end_datetime']}`\n"
+            )
+        
+        text_filters += f"Baja: {self.dict_current_filters['baja']}"
+            
+        
 
         # Crear reporte
         create, report_file = create_report(
             name = REPORT_NAME,
+            ninety_degree_turn = True,
+            header="ACTIVIDAD DIARIA",
+            footer="Numero de pagina",
+            page_number=True,
             reportlab_paragraph_list = [
-                [ "Heading1", "ACTIVIDAD DIARIA" ],
-                [ "Heading2", "Reporte de actividades" ],
+                [ "Heading1", "Reporte de actividades" ],
                 [ "Heading3", "Filtrado por:" ],
-                [ 
-                  "Normal",
-                  (
-                  f"Tarea: {self.combobox_tarea.currentText()}\n"
-                  f"Recurso humano: {self.combobox_recurso.currentText()}\n"
-                  f"De: `{self.dict_datetime['start_datetime']}` a `{self.dict_datetime['end_datetime']}`\n"
-                  f"Baja: {self.checkbox_soft_delete.isChecked()}\n"
-                  )
-                ],
+                [ "Normal", text_filters ],
                 [ "Heading3", "Tabla"],
-                paragraph_table
+                paragraph_table,
+                [ "Heading3", f"Horas totales: {self.entry_total_hours.text()}" ]
             ]
         )
         
@@ -298,6 +334,6 @@ class ActividadQueryForm(QtWidgets.QWidget):
             #webbrowser.open_new( f'file://{report_file}' )
             webbrowser.open_new( str(report_file) )
         else:
-            QMessageBox.critcal(
+            QMessageBox.critical(
                 self, "ERROR", "No se creo nadota"
             )
