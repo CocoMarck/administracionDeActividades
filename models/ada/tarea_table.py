@@ -1,6 +1,6 @@
-from .standard_table import StandardTable
+from models.standard_table import StandardTable
 from .administrador_actividad import AdministracionDeActividad
-from .database_names import TAREA_TABLE_NAMES as TABLE_NAMES
+from models.model_names.ada_names import TAREA_TABLE_NAMES as TABLE_NAMES
 
 
 class TareaTable(StandardTable):

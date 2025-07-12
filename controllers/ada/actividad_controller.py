@@ -1,15 +1,14 @@
 import models
-from .table_controller import TableController, get_datetime, text_or_none
+from controllers.table_controller import TableController, get_datetime, text_or_none
 
 
 
 class ActividadController( TableController ):
     def __init__( 
-        self, verbose: bool=True, return_message: bool=False, log_level="warning", save_log: bool=True 
+        self, verbose: bool=True, log_level="warning", save_log: bool=True 
     ):
         super().__init__(
-            table=models.ActividadTable(), verbose=verbose, return_message=return_message,
-            log_level=log_level, save_log=save_log
+            table=models.ActividadTable(), verbose=verbose, log_level=log_level, save_log=save_log
         )
         self.tarea_table = models.TareaTable()
         self.recurso_table = models.RecursoHumanoTable()

@@ -9,7 +9,7 @@ from views.qt_app.tarea_form import TareaForm
 
 
 # Iniciar DB
-administrar_actividad = controllers.AdministracionDeActividadController( verbose=True, return_message=False)
+administrar_actividad = controllers.AdministracionDeActividadController( verbose=True )
 administrar_actividad.start_database(); print()
 administrar_actividad.tables(); print()
 #administrar_actividad.delete_database()

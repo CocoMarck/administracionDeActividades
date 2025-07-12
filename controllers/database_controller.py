@@ -3,16 +3,16 @@ from .logging_controller import LoggingController
 
 class DatabaseController( LoggingController ):
     def __init__(
-        self, database: models.StandardDatabase, verbose=False, return_message=False,
-        log_level: str="warning", save_log: bool=True
+        self, database: models.StandardDatabase, verbose=False, log_level: str="warning", save_log: bool=True,
+        only_the_value: bool=True
     ):
         self.database = database
         self.name = self.database.name_database
         
         # Log
         super().__init__(
-            name=f"database_{self.name}", verbose=verbose, 
-            return_message=return_message, log_level=log_level, save_log=save_log
+            name=f"database_{self.name}", verbose=verbose, log_level=log_level, save_log=save_log,
+            only_the_value=only_the_value
         )
     
     

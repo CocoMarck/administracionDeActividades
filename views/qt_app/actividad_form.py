@@ -3,13 +3,15 @@ from core.text_util import ignore_text_filter, pass_text_filter
 from core import time_util
 from utils import ResourceLoader
 
-from models.database_names import RECURSOHUMANO_TABLE_NAMES, TAREA_TABLE_NAMES, ACTIVIDAD_TABLE_NAMES
+from models.model_names.ada_names import RECURSOHUMANO_TABLE_NAMES, TAREA_TABLE_NAMES, ACTIVIDAD_TABLE_NAMES
 from controllers.table_controller import get_datetime
 import controllers
 
 from PyQt6 import QtWidgets, uic
 from PyQt6.QtWidgets import ( QTableWidget, QTableWidgetItem )
 from PyQt6.QtCore import QDate, QDateTime, QTime, QSize
+
+from utils.wrappers.language_wrapper import get_text
 
 
 
@@ -22,9 +24,9 @@ file_ui = dir_ui.joinpath( 'actividad_form.ui' )
 
 
 database_controller = controllers.AdministracionDeActividadController()
-table_recurso = controllers.RecursoHumanoController( verbose=True, return_message=False )
-table_tarea = controllers.TareaController( verbose=True, return_message=False )
-table_actividad = controllers.ActividadController( verbose=True, return_message=False )
+table_recurso = controllers.RecursoHumanoController( verbose=True )
+table_tarea = controllers.TareaController( verbose=True )
+table_actividad = controllers.ActividadController( verbose=True )
 #table_actividad.delete_table()
 # Ventana
 class ActividadForm(QtWidgets.QWidget):
@@ -79,14 +81,16 @@ class ActividadForm(QtWidgets.QWidget):
 
     def refresh_text(self):
         # Establecer texto
-        self.label_id.setText( "ActividadId" )
-        self.label_start_date.setText( "Fecha inicio" )
-        self.label_end_date.setText( "Fecha fin" )
-        self.label_note.setText( "Nota" )
-        self.label_hours.setText( "Horas" )
-        self.label_tarea.setText( "Tarea" )
-        self.label_recurso.setText( "Recurso humano" )
-        self.button_save.setText( "Guardar" )
+        self.label_id.setText( get_text("id") )
+        self.label_start_date.setText( get_text("start-datetime") )
+        self.label_end_date.setText( get_text("end-datetime") )
+        self.label_note.setText( get_text("note") )
+        self.label_hours.setText( get_text("hours") )
+        self.label_tarea.setText( get_text("task") )
+        self.label_recurso.setText( get_text("human-resource") )
+        self.button_save.setText( get_text("save") )
+        self.button_cancel.setText( get_text("cancel") )
+        self.label_soft_delete.setText( get_text("low") )
         
 
     def refresh_combobox(self):
@@ -117,9 +121,9 @@ class ActividadForm(QtWidgets.QWidget):
                 final_text = str
                 if number == len(all_column) -1 :
                     if all_value[row][number] == 1:
-                        final_text = "Si"
+                        final_text = get_text("yes")
                     else:
-                        final_text = "No"
+                        final_text = get_text("no")
                 else:
                     final_text = str(all_value[row][number])
                     

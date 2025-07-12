@@ -6,6 +6,9 @@ from PyQt6.QtWidgets import (
 from views.interface.interface_number import *
 from core.text_util import ignore_text_filter, pass_text_filter
 from utils import ResourceLoader
+
+from utils.wrappers.language_wrapper import get_text
+
 import controllers
 import sys, os
 
@@ -18,7 +21,7 @@ file_ui = dir_ui.joinpath( 'tarea_form.ui' )
 
 
 # Ventana
-tarea_table = controllers.TareaController( verbose=True, return_message=False )
+tarea_table = controllers.TareaController( verbose=True )
 class TareaForm(QtWidgets.QWidget):
     def __init__(self):
         super().__init__()
@@ -44,11 +47,11 @@ class TareaForm(QtWidgets.QWidget):
     
     def refresh_text(self):
         # Actualizar texto de widgets
-        self.label_id.setText( "TareaId" )
-        self.label_description.setText( "Descripción" )
-        self.label_soft_delete.setText( "Baja" )
-        self.button_save.setText( "Guardar" )
-        self.button_cancel.setText( "Cancelar" )
+        self.label_id.setText( get_text("id") )
+        self.label_description.setText( get_text("description") )
+        self.label_soft_delete.setText( get_text("low") )
+        self.button_save.setText( get_text("save") )
+        self.button_cancel.setText( get_text("cancel") )
     
     
     def refresh_table(self):
@@ -67,9 +70,9 @@ class TareaForm(QtWidgets.QWidget):
                 final_text = str
                 if number == len(all_column)-1:
                     if all_value[row][number] == 1:
-                        final_text = "Si"
+                        final_text = get_text("yes")
                     else:
-                        final_text = "No"
+                        final_text = get_text("no")
                 else:    
                     final_text = str(all_value[row][number])
                     

@@ -125,7 +125,6 @@ def only_the_comment(
     comment='#'
 ):
     '''Obtener solo los comentarios de un texto'''
-    text_to_return = None
     if (
         '\n' in text and
         comment in text
@@ -138,17 +137,13 @@ def only_the_comment(
             if not line == None:
                 text_ready += f'{line}\n'
             
-        text_to_return = text_ready[:-1]
+        return text_ready[:-1]
         
     elif comment in text:
         # Cuando hay comentarios pero no saltos de linea
         text = text.split(comment)
-        text_to_return = text[1]
-
-    # Retornar str o None
-    if isinstance(text_to_return, str):
-        # Retornar solo el texto sin salto de linea.
-        return only_one_char( " ", text_to_return )
+        return text[1]
+        
     else:
         # No hay nada de comenarios
         return None
@@ -325,45 +320,9 @@ def not_repeat_item( list=None ) -> list:
     
 def text_or_none( text: str ) -> str | None:
     # Determinar que el texto no este vacio "". Si lo esta, devuelve None, y si no el text/string.
-    if bool( text.strip() ) == True:
-        return text
-    else:
-        return None
+    return_value = None
+    if isinstance(text, str):
+        if bool( text.strip() ) == True:
+            return_value = text
 
-
-
-
-def comment_and_content( text: str, comment: str="#") -> dict:
-    '''
-    Comentario y contenido
-    
-    Si hay mas de un `comment`, no se detecta como [0,0], sino como un [0,0,0] si son dos `comment`.
-    Por ejemplo:
-    ```python
-    comment = "#"; text = "## Hola"; text.split( comment )
-    ['', '', ' Hola']
-    ```
-    '''
-    # Diccionario a devolver
-    dict_to_return = {}
-
-    # Establecer comentarios y contenido dependiendo del salto de linea.
-    if ("\n" in text):
-        key_index = -1    
-        for line in text.split("\n"):
-            if (comment in line):
-                split_line = line.split(comment)
-                dict_to_return.update( {split_line[1] : split_line[0]} )
-                key_index += 1
-            else:
-                if key_index >= 0:
-                    dict_to_return[ list(dict_to_return)[key_index] ] += f"{line}\n"
-    
-    # Establecer comentario.
-    elif (comment in text):
-        # Cuando hay comentarios pero no saltos de linea
-        text = text.split(comment)
-        dict_to_return.update( {text[1] : ""} )
-    
-    # Devolver diccionario de comentarios y contenidos.
-    return dict_to_return
+    return return_value

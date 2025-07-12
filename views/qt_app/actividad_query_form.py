@@ -9,12 +9,14 @@ from core.reportlab_util import create_report, REPORT_DIR
 
 from utils import ResourceLoader
 
-from models.database_names import RECURSOHUMANO_TABLE_NAMES, TAREA_TABLE_NAMES, ACTIVIDAD_TABLE_NAMES
+from models.model_names.ada_names import RECURSOHUMANO_TABLE_NAMES, TAREA_TABLE_NAMES, ACTIVIDAD_TABLE_NAMES
 import controllers
 
 from PyQt6 import QtWidgets, uic
 from PyQt6.QtWidgets import ( QTableWidget, QTableWidgetItem, QMessageBox )
 from PyQt6.QtCore import QDate, QDateTime, QTime
+
+from utils.wrappers.language_wrapper import get_text
 
 import webbrowser
 
@@ -76,6 +78,19 @@ class ActividadQueryForm(QtWidgets.QWidget):
         }
         
         self.update_database()
+        self.refresh_text()
+    
+    
+    def refresh_text(self):
+        self.checkbox_tarea.setText( get_text("task") )
+        self.checkbox_recurso.setText( get_text("human-resource") )
+        self.checkbox_datetime_range.setText( get_text("datetime-range") )
+        self.label_start_datetime.setText( get_text("start-datetime") )
+        self.label_end_datetime.setText( get_text("end-datetime") )
+        self.button_set_filter.setText( get_text("set-filter") )
+        self.button_default_filter.setText( get_text("default-filter") )
+        self.button_gen_report.setText( get_text("gen-report") )
+        self.label_total_hours.setText( get_text("total-hours") )
         
         
     def current_datetime(self):
@@ -195,9 +210,9 @@ class ActividadQueryForm(QtWidgets.QWidget):
                 final_text = str
                 if number == len(all_column)-1:
                     if all_value[row][number] == 1:
-                        final_text = "Si"
+                        final_text = get_text("yes")
                     else:
-                        final_text = "No"
+                        final_text = get_text("no")
                 else:
                     final_text = str(all_value[row][number])
                 
@@ -234,7 +249,7 @@ class ActividadQueryForm(QtWidgets.QWidget):
         self.dict_current_filters['end_datetime'] = self.dict_datetime["end_datetime"]
         self.dict_current_filters['tarea_id'] = self.current_tarea_id
         self.dict_current_filters['recurso_id'] = self.current_recurso_id
-        self.dict_current_filters['baja'] = self.checkbox_soft_delete.isChecked()
+        self.dict_current_filters['baja'] = bool(self.checkbox_soft_delete.isChecked())
     
     
     def update_database(self):
@@ -269,7 +284,7 @@ class ActividadQueryForm(QtWidgets.QWidget):
             table_data.append( new_list )
 
         if self.current_table_columns == [] or actividad_controller.get_columns_for_the_view() == []:
-            paragraph_table = ["Normal", "No existe la tablilla"]
+            paragraph_table = ["Normal", get_text("the-table-does-not-exist")]
         else:
             paragraph_table = [ "Table", table_data ]
         
@@ -279,23 +294,23 @@ class ActividadQueryForm(QtWidgets.QWidget):
         if self.dict_current_filters['tarea_id'] != None:
             index = self.combobox_tarea.findData( self.dict_current_filters['tarea_id'] )
             text = self.combobox_tarea.itemText(index)
-            text_filters += f"Tarea: {self.dict_current_filters['tarea_id']}. {text}\n"
+            text_filters += f"{get_text('task')}: {self.dict_current_filters['tarea_id']}. {text}\n"
 
         if self.dict_current_filters['recurso_id'] != None:
             index = self.combobox_recurso.findData( self.dict_current_filters['recurso_id'] )
             text = self.combobox_recurso.itemText(index)
-            text_filters += f"Recurso humano: {self.dict_current_filters['recurso_id']}. {text}\n"
+            text_filters += f"{get_text('human-resource')}: {self.dict_current_filters['recurso_id']}. {text}\n"
         
         if (
             self.dict_current_filters['start_datetime'] != None 
             and self.dict_current_filters['end_datetime'] != None
         ):
             text_filters += (
-                f"De: `{self.dict_current_filters['start_datetime']}` a "
+                f"{get_text('from')}: `{self.dict_current_filters['start_datetime']}` {get_text('to')} "
                 f"`{self.dict_current_filters['end_datetime']}`\n"
             )
         
-        text_filters += f"Baja: {self.dict_current_filters['baja']}"
+        text_filters += f"{get_text('low')}: {self.dict_current_filters['baja']}"
             
         
 
@@ -303,16 +318,16 @@ class ActividadQueryForm(QtWidgets.QWidget):
         create, report_file = create_report(
             name = REPORT_NAME,
             ninety_degree_turn = True,
-            header="ACTIVIDAD DIARIA",
-            footer="Numero de pagina",
+            header=get_text("daily-activity"),
+            footer=get_text("page-number"),
             page_number=True,
             reportlab_paragraph_list = [
-                [ "Heading1", "Reporte de actividades" ],
-                [ "Heading3", "Filtrado por:" ],
+                [ "Heading1", get_text("activity-report") ],
+                [ "Heading3", f"{get_text('filtered-by')}:" ],
                 [ "Normal", text_filters ],
-                [ "Heading3", "Tabla"],
+                [ "Heading3", get_text("table") ],
                 paragraph_table,
-                [ "Heading3", f"Horas totales: {self.entry_total_hours.text()}" ]
+                [ "Heading3", f"{get_text('total-hours')}: {self.entry_total_hours.text()}" ]
             ]
         )
         

@@ -37,6 +37,7 @@ class StandardDatabase():
         # Tablas a generar
         self.dictionary_of_tables = {}
         self.additional_instructions_for_tables = []
+        self.instructions_after_creating_tables = []
         
     
     def instruction_to_create_tables(self) -> list[str]:
@@ -52,7 +53,7 @@ class StandardDatabase():
                 )
             )
         return list_instruction
-        
+
 
     def start_database(self) -> str | None:
         # Crear base de datos
@@ -83,9 +84,24 @@ class StandardDatabase():
                 sql_statement=sql_statement, commit=True, return_type="bool"
             )
             instruction_text += sql_statement + "\n"
+            
+        # Instrucciones despues de crear tabla
+        if (
+            isinstance(self.instructions_after_creating_tables, list) and
+            self.instructions_after_creating_tables != []
+        ):
+            additional_instruction_two = False
+
+            for sql_statement in self.instructions_after_creating_tables:
+                additional_instruction_two = self.execute_statement(
+                    sql_statement=sql_statement, commit=True, return_type="bool"
+                )        
+                instruction_text += sql_statement + "\n"
+        else:
+            additional_instruction_two = True
         
         # Deveolver o no instruccion
-        if create and additional_instruction and instruction:
+        if create and additional_instruction and instruction and additional_instruction_two:
             return instruction_text[:-1]
         else:
             return None

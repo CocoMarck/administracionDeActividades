@@ -17,19 +17,18 @@ class ResourceLoader():
         self.data_dir = self.base_dir.joinpath( 'data' )
         self.config_dir = self.base_dir.joinpath( 'config' )
         self.logs_dir = self.base_dir.joinpath( 'logs' )
+        
+        # Carpetas y subcarpetas de views
+        self.views_dir = self.base_dir.joinpath( 'views' )
+        self.ui_dir = self.views_dir.joinpath( 'ui' )
 
+        # Carpeta y subcapretas de resources
         self.resources_dir = self.base_dir.joinpath( 'resources' )
         self.images_dir = self.resources_dir.joinpath( 'images' )
         self.icons_dir = self.resources_dir.joinpath( 'icons' )
         
-        
-    def exists(self) -> bool:
-        '''
-        Determina si existe la ruta `resources`
-        '''
-        return self.resources_dir.is_dir()
-        
-        
+    
+    # Información necesaria
     def get_base_path( self, path: str ) -> pathlib.Path:
         '''
         Obtiene desde la ruta base del programa un archivo.
@@ -53,15 +52,25 @@ class ResourceLoader():
 
     def get_log( self, log: str) -> pathlib.Path:
         return self.logs_dir.joinpath( log )
-        
-
+    
+    
+    
+    
+    # Resources
+    def exists(self) -> bool:
+        '''
+        Determina si existe la ruta `resources`
+        '''
+        return self.resources_dir.is_dir()
+    
+    
     def get_file( self, path: str ) -> pathlib.Path:
         '''
         Obtiene archivo desde la ruta `base/resources`.
         '''
         return self.resources_dir.joinpath(path)
-
-
+    
+    
     def get_image( self, image: str ) -> pathlib.Path:
         '''
         Obtiene la ruta donde estan las imagenes.
@@ -76,6 +85,10 @@ class ResourceLoader():
         return self.icons_dir.joinpath( icon )
     
     
+    
+    
+    
+    # Arbol
     def get_recursive_tree(self, path: object | pathlib.Path ) -> dict:
         '''
         Obtener directorio y archivos de manera recursiva. Depende del parametro `path`

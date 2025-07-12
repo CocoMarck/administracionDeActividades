@@ -1,6 +1,6 @@
 import sqlite3, os, sys
-from .standard_database import StandardDatabase, struct_table_statement
-from .database_names import (
+from models.standard_database import StandardDatabase, struct_table_statement
+from models.model_names.ada_names import (
     TABLE_CONTROL_FIELDS, ADA_DATABASE_NAMES, TAREA_TABLE_NAMES, RECURSOHUMANO_TABLE_NAMES,
     ACTIVIDAD_TABLE_NAMES
 )

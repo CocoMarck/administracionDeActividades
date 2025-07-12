@@ -4,6 +4,15 @@
  
  <!-- Ventana con centralizado -->
  <widget class="QMainWindow" name="MyApp">
+  <!-- Menu -->
+  <widget class="QMenuBar" name="menubar">
+   <widget class="QMenu" name="menu_language"/>
+   <addaction name="menu_language"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  
+  
+  
   <widget class="QWidget" name="centralwidget">
   
    <layout class="QVBoxLayout" name="vbox_main">

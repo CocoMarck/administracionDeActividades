@@ -15,7 +15,8 @@ def get_list_text_widget( option='Qt' ) -> list:
             'HeaderView::section',
             'TabWidget',
             'TimeEdit',
-            'DateTimeEdit'
+            'DateTimeEdit',
+            'MenuBar'
         ]
         number = 0
     elif option == 'Gtk':

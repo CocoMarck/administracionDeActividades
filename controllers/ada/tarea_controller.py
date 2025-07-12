@@ -1,14 +1,13 @@
 import models
-from .table_controller import TableController, get_datetime
+from controllers.table_controller import TableController, get_datetime
 
 
 class TareaController( TableController ):
     def __init__(
-        self, verbose: bool=True, return_message: bool=False, log_level="warning", save_log: bool=True
+        self, verbose: bool=True, log_level="warning", save_log: bool=True
     ):
         super().__init__(
-            table=models.TareaTable(), verbose=verbose, return_message=return_message, 
-            log_level=log_level, save_log=save_log
+            table=models.TareaTable(), verbose=verbose, log_level=log_level, save_log=save_log
         )
     
     

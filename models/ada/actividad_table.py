@@ -1,8 +1,8 @@
-from .standard_table import StandardTable
+from models import StandardTable
 from .tarea_table import TareaTable
 from .recurso_table import RecursoHumanoTable
 from .administrador_actividad import AdministracionDeActividad
-from .database_names import RECURSOHUMANO_TABLE_NAMES, TAREA_TABLE_NAMES, ACTIVIDAD_TABLE_NAMES
+from models.model_names.ada_names import RECURSOHUMANO_TABLE_NAMES, TAREA_TABLE_NAMES, ACTIVIDAD_TABLE_NAMES
 
 
 

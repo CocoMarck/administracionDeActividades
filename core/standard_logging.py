@@ -102,7 +102,7 @@ class StandardLogging():
     
     
     
-    def log(self, message: str, log_type: str = "debug"):
+    def log(self, message: str, log_type: str = "debug") -> (str, str):
         if log_type == "info":
             self.logger.info( message )
 
@@ -119,7 +119,7 @@ class StandardLogging():
             log_type = "debug"
             self.logger.debug( message )
         
-        return f"{log_type.upper()}: {message}"
+        return log_type, message
     
 
     def debug(self, message: str):

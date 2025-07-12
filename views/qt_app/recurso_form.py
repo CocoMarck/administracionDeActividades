@@ -9,6 +9,8 @@ from utils import ResourceLoader
 import controllers
 import sys, os
 
+from utils.wrappers.language_wrapper import get_text
+
 
 # Directorio
 resource_loader = ResourceLoader()
@@ -20,7 +22,7 @@ file_ui = dir_ui.joinpath( 'recurso_form.ui' )
 # Ventana
 class RecursoForm(QtWidgets.QWidget):
     def __init__(
-        self, table_controller=controllers.RecursoHumanoController( verbose=True, return_message=False )
+        self, table_controller=controllers.RecursoHumanoController( verbose=True )
     ):
         super().__init__()
         self.resize( nums_win_main[0], nums_win_main[1])
@@ -48,14 +50,14 @@ class RecursoForm(QtWidgets.QWidget):
     
     
     def refresh_text(self):
-        self.label_id.setText( "RecursoHumanoId" )
-        self.label_name.setText( "Nombre" )
-        self.label_paternal_surname.setText( "Apellido paterno" )
-        self.label_maternal_surname.setText( "Apellido materno" )
-        self.label_position.setText( "Puesto" )
-        self.label_soft_delete.setText( "Baja" )
-        self.button_save.setText( "Guardar" )
-        self.button_cancel.setText( "Cancelar" )
+        self.label_id.setText( get_text("id") )
+        self.label_name.setText( get_text("name") )
+        self.label_paternal_surname.setText( get_text("paternal-surname") )
+        self.label_maternal_surname.setText( get_text("maternal-surname") )
+        self.label_position.setText( get_text("workstation") )
+        self.label_soft_delete.setText( get_text("low") )
+        self.button_save.setText( get_text("save") )
+        self.button_cancel.setText( get_text("cancel") )
 
 
     def refresh_table(self):

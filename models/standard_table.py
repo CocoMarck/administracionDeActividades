@@ -22,6 +22,19 @@ class StandardTable():
         }
         # Columnas relacionadas con la vista. Columnas para la vista.
         self.COLUMNS_FOR_THE_VIEW = {}
+        
+    
+    def execute_and_return_values(
+        self, sql_statement:str, commit=False, return_type="statement") -> (object, str, bool
+    ):
+        '''
+        Ejecutar un sql_statement
+        El resultado del ejecución, y devolver valores, como commit, y el statement.
+        '''
+        value = self.database.execute_statement( 
+            sql_statement=sql_statement, commit=commit, return_type=return_type 
+        )
+        return value, sql_statement, commit
     
 
     def get_alias(self, alias="table", point: bool=False) -> str:

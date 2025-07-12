@@ -1,6 +1,14 @@
+# StandardDatabase
 from .database_controller import DatabaseController
-from .administrador_actividad_controller import AdministracionDeActividadController
 from .table_controller import TableController
-from .tarea_controller import TareaController
-from .recurso_controller import RecursoHumanoController
-from .actividad_controller import ActividadController
+
+# ada
+from .ada.administrador_actividad_controller import AdministracionDeActividadController
+from .ada.tarea_controller import TareaController
+from .ada.recurso_controller import RecursoHumanoController
+from .ada.actividad_controller import ActividadController
+
+# Languages
+from .language.language_database_controller import LanguageDatabaseController
+from .language.language_table_controller import LanguageTableController
+from .language.language_config_table_controller import LanguageConfigTableController
